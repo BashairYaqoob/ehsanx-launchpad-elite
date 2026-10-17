@@ -97,6 +97,7 @@ export function Hero() {
   }, [paused, progress, go]);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const coverY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 180]);
+  const slide = SLIDES[index] ?? SLIDES[0];
   return (
     <section
       ref={ref}
