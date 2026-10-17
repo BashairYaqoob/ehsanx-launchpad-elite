@@ -112,7 +112,7 @@ export function WhyExists() {
               <div className="eh-portrait">
                 <motion.img
                   src={portrait.url}
-                  alt="An EhsanX leadership development workshop"
+                  alt="A bright waterfront walkway beside an EhsanX building"
                   width={928}
                   height={1152}
                   loading="lazy"
@@ -155,7 +155,7 @@ export function WhyExists() {
         <img
           className="eh-vision-image"
           src={vision.url}
-          alt="An EhsanX sailing ship at sea"
+          alt="A single gold paper boat on a calm sea"
           width={1920}
           height={1080}
           loading="lazy"
