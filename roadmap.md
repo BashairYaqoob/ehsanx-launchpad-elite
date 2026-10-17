@@ -1,6 +1,6 @@
-- [ ] Generate hero 2/3 and ten journey images; replace Why photo and prepare sharp responsive assets.
-- [ ] Rebuild E-Plus and Approach as accessible pinned GSAP journeys.
-- [ ] Update KFC/client logos, truthful accessible count-ups, and hide unattributed quote.
-- [ ] Remove founder from Home and add exact-copy industry marquee before final ship CTA.
-- [ ] Update footer contacts, smooth scrolling, magnetic buttons, grain, 404 and metadata.
-- [ ] Verify scroll journeys, interactions, links and eight requested screen widths.
+- [x] Generate hero 2/3 and ten journey images; replace Why photo and prepare sharp responsive assets.
+- [x] Rebuild E-Plus and Approach as accessible pinned GSAP journeys.
+- [x] Update KFC/client logos, truthful accessible count-ups, and hide unattributed quote.
+- [x] Remove founder from Home and add exact-copy industry marquee before final ship CTA.
+- [x] Update footer contacts, smooth scrolling, magnetic buttons, grain, 404 and metadata.
+- [x] Verify scroll journeys, interactions, links and eight requested screen widths.

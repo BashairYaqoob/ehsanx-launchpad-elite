@@ -19,8 +19,8 @@ export type SitePath =
 
 export const WHATSAPP_URL = "https://wa.me/923018226596";
 
-export function pageHead(title: string, description: string) {
-  const path = title.startsWith("Philosophy") ? "/philosophy" : title.startsWith("Solutions") ? "/solutions" : title.startsWith("Our Approach") ? "/our-approach" : title.startsWith("Client Impact") ? "/client-impact" : title.startsWith("Meet the Team") ? "/meet-the-team" : title.startsWith("Contact") ? "/contact" : "/";
+export function pageHead(title: string, description: string, path: SitePath = "/") {
+
   const url = `https://ehsanx-launchpad-elite.lovable.app${path}`;
   return {
     links: [{ rel: "canonical", href: url }],

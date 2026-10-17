@@ -407,3 +407,5 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;bac
 @media(max-width:1023px) and (min-width:768px){.journey-approach .journey-end{left:180px;width:30%}.journey-approach .journey-paragraph{font-size:17px}}
 @media(max-width:767px){.journey-approach .journey-end{left:0;width:100%;top:67%;max-width:none;padding:0 24px}.journey-approach .journey-paragraph{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.journey-approach .journey-end{position:relative;left:auto;top:auto;width:100%;max-width:900px;padding:24px}}
+
+@media(max-width:767px){.journey-eplus .journey-end{top:60%}}
