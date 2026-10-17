@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { motion, type Variants } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { EASE, type SitePath } from "@/lib/site";
@@ -23,11 +23,16 @@ export function BrandButton({
   children: ReactNode;
   className?: string;
 }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 200, damping: 20 });
+  const sy = useSpring(y, { stiffness: 200, damping: 20 });
+  const reduced = useReducedMotion();
   return (
-    <Link to={to} className={cn("btn-base", variantClass[variant], className)}>
+    <motion.span className="inline-flex" style={{ x: sx, y: sy }} onMouseMove={e => { if (variant !== "gold" || reduced || !window.matchMedia("(pointer:fine)").matches) return; const rect = e.currentTarget.getBoundingClientRect(); x.set((e.clientX - rect.left - rect.width / 2) * 0.12); y.set((e.clientY - rect.top - rect.height / 2) * 0.15); }} onMouseLeave={() => { x.set(0); y.set(0); }}><Link to={to} className={cn("btn-base", variantClass[variant], className)}>
       <span>{children}</span>
       <ArrowRight className="btn-arrow h-4 w-4" aria-hidden />
-    </Link>
+    </Link></motion.span>
   );
 }
 

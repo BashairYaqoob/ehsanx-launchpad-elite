@@ -15,7 +15,7 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
     const panels = Array.from(element.querySelectorAll<HTMLElement>(".journey-panel"));
     const nodes = Array.from(element.querySelectorAll<HTMLElement>(".journey-node"));
     const end = element.querySelector(".journey-end");
-    const text = element.querySelector(".journey-titles");
+    const text = element.querySelectorAll(".journey-titles");
     const progress = element.querySelector(".journey-fill");
     const arrow = element.querySelector(".journey-loop path");
     const small = window.matchMedia("(max-width: 767px)").matches;
@@ -60,10 +60,9 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
           </div>
         </article>)}
       </div>
-      <ol className="container-x journey-rail" aria-label={isEplus ? "E-Plus stages" : "Approach steps"}>
-        <span className="journey-line" aria-hidden="true"><span className="journey-fill" /></span>
+      <div className="container-x journey-rail-wrap"><span className="journey-line" aria-hidden="true"><span className="journey-fill" /></span><ol className="journey-rail" aria-label={isEplus ? "E-Plus stages" : "Approach steps"}>
         {stages.map((stage, i) => <li className="journey-node" data-active={i === 0 ? "true" : "false"} key={stage.name}><span className="journey-dot" aria-hidden="true" /><span>{stage.name}</span></li>)}
-      </ol>
+      </ol></div>
       {!isEplus && <svg className="journey-loop" viewBox="0 0 400 100" aria-hidden="true"><defs><marker id="approach-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" /></marker></defs><path pathLength="1" d="M370 10 C400 95 20 95 35 10" markerEnd="url(#approach-arrow)" /></svg>}
       <div className="container-x journey-end">
         {caption && <p className="journey-caption">{caption}</p>}
