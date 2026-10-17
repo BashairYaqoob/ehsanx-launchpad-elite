@@ -151,17 +151,17 @@ export function Hero() {
             <picture className="eh-kenburns block h-full w-full">
               <source
                 type="image/webp"
-                srcSet={SLIDES[index].srcSet}
+                srcSet={slide.srcSet}
                 sizes="100vw"
               />
               <img
-                src={SLIDES[index].img}
-                alt={SLIDES[index].alt}
+                src={slide.img}
+                alt={slide.alt}
                 width={1920}
                 height={1088}
                 fetchPriority={index === 0 ? "high" : "auto"}
                 className="h-full w-full object-cover"
-                style={{ objectPosition: SLIDES[index].pos }}
+                style={{ objectPosition: slide.pos }}
               />
             </picture>
           </motion.div>
