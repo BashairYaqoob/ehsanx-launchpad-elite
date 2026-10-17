@@ -22,11 +22,10 @@ function StackCard({ c, i, progress }: { c: CardDef; i: number; progress: Motion
   const combined = useTransform([scale, s2], (v: number[]) => Math.min(v[0] ?? 1, v[1] ?? 1));
 
   return (
-    <div className="flex h-[70vh] items-start md:h-[80vh]">
-      <motion.article
+    <motion.article
         style={{ scale: combined, opacity, ["--top-m" as string]: `${96 + i * 16}px`, ["--top-d" as string]: `${120 + i * 24}px` }}
         className={cn(
-          "sticky top-[var(--top-m)] flex min-h-[300px] w-full origin-top flex-col justify-between rounded-3xl p-8 shadow-lift md:top-[var(--top-d)] md:min-h-[340px] md:p-12",
+          "sticky top-[var(--top-m)] mb-[45vh] flex last:mb-[10vh] min-h-[300px] w-full origin-top flex-col justify-between rounded-3xl p-8 shadow-lift md:top-[var(--top-d)] md:min-h-[340px] md:p-12",
           c.card,
         )}
       >
@@ -38,7 +37,6 @@ function StackCard({ c, i, progress }: { c: CardDef; i: number; progress: Motion
         </div>
         <h3 className="h3-display mt-12 max-w-md">{c.text}</h3>
       </motion.article>
-    </div>
   );
 }
 
@@ -56,7 +54,7 @@ export function Struggle() {
             <p className="mt-6 text-lg text-ink/80">Many organizations struggle with challenges such as:</p>
           </div>
         </div>
-        <div ref={ref} className="md:col-span-7">
+        <div ref={ref} className="pb-[10vh] md:col-span-7">
           {CARDS.map((c, i) => (
             <StackCard key={c.n} c={c} i={i} progress={scrollYProgress} />
           ))}
