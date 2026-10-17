@@ -65,10 +65,11 @@ export function Struggle() {
           timeline
             .to(
               cards[i] ?? card,
-              { scale: 0.93, y: -20, opacity: 0.7, duration: 1, ease: "none" },
+              { scale: 0.93, y: -20, duration: 1, ease: "none" },
               i,
             )
-            .to(card, { y: 0, duration: 1, ease: "none" }, i);
+            .to(card, { y: 0, duration: 1, ease: "none" }, i)
+            .to((cards[i] ?? card).children, { opacity: 0.7, duration: 1, ease: "none" }, i);
         });
         timeline.to({}, { duration: 0.5 });
       });

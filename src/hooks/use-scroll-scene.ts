@@ -15,10 +15,8 @@ export function useScrollScene(
       ([{ gsap }, { ScrollTrigger }]) => {
         if (cancelled || !ref.current) return;
         gsap.registerPlugin(ScrollTrigger);
-        const context = gsap.context(
-          () => setup(gsap, ScrollTrigger, ref.current as HTMLElement),
-          ref.current,
-        );
+        const element = ref.current;
+        const context = gsap.context(() => setup(gsap, ScrollTrigger, element), element);
         dispose = () => context.revert();
         ScrollTrigger.refresh();
       },
