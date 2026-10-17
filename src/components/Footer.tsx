@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowUp, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -58,13 +58,14 @@ export function Footer({ embedded = false }: { embedded?: boolean }) {
 
 export function WhatsAppFab() {
   const [footerVisible, setFooterVisible] = useState(false);
+  const pathname = useLocation({ select: location => location.pathname });
   useEffect(() => {
     const footer = document.querySelector("footer");
     if (!footer) return;
     const observer = new IntersectionObserver(([entry]) => setFooterVisible(entry?.isIntersecting ?? false));
     observer.observe(footer);
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
   return (
     <a
       href={WHATSAPP_CONVERSATION_URL}

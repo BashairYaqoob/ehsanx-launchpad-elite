@@ -17,7 +17,7 @@ export function useScrollScene(
       refreshFrame = requestAnimationFrame(() => {
         import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
           if (cancelled) return;
-          ScrollTrigger.sort((a, b) => {
+          ScrollTrigger.sort((a: Trigger, b: Trigger) => {
             if (!a.trigger || !b.trigger) return 0;
             return a.trigger.compareDocumentPosition(b.trigger) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
           });
