@@ -1,68 +1,182 @@
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { useRef } from "react";
-import { GoldRule, Item, Reveal } from "@/components/ui-brand";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { Building2, Sprout, Users } from "lucide-react";
+import { useCallback, useRef } from "react";
+import { GoldRule } from "@/components/ui-brand";
+import { useScrollScene } from "@/hooks/use-scroll-scene";
+import portrait from "@/assets/why-exists-new-928.webp.asset.json";
+import vision from "@/assets/vision-bg-new-1920.webp.asset.json";
 
 const VISION =
   "To develop people of character and entrepreneurial mindset who strengthen institutions, create value, and contribute to a flourishing society through the pursuit of Ihsan.";
-
-function Word({ w, i, n, p }: { w: string; i: number; n: number; p: MotionValue<number> }) {
-  const opacity = useTransform(p, [i / n, (i + 1) / n], [0.25, 1]);
-  return <motion.span style={{ opacity }}>{w} </motion.span>;
-}
+const PILLARS = [
+  { label: "Develop entrepreneurial leaders", Icon: Users },
+  { label: "Strengthen institutions", Icon: Building2 },
+  { label: "Enable sustainable transformation", Icon: Sprout },
+];
+const CHIPS = ["Strengths", "People", "Relationships", "Resources", "Opportunities"];
 
 export function WhyExists() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "end 0.45"] });
-  const rule = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const words = VISION.split(" ");
-
+  const ref = useRef<HTMLElement>(null);
+  const visionRef = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -16, reduce ? 0 : 16]);
+  const drift = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 70, reduce ? 0 : -70]);
+  const setup = useCallback<Parameters<typeof useScrollScene>[1]>(
+    (gsap, ScrollTrigger, element) => {
+      const words = element.querySelectorAll(".eh-vision-word");
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 1024px) and (min-height: 600px)", () => {
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: element,
+            pin: true,
+            start: "top top",
+            end: "+=150%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
+        });
+        timeline
+          .fromTo(
+            words,
+            { opacity: 0.25 },
+            { opacity: 1, stagger: 0.065, duration: 0.1, ease: "none" },
+          )
+          .to(element.querySelector(".eh-ihsan"), { color: "var(--gold)", duration: 0.1 })
+          .fromTo(
+            element.querySelector(".eh-vision-rule"),
+            { scaleY: 0 },
+            { scaleY: 1, duration: 2.2, ease: "none" },
+            0,
+          )
+          .fromTo(
+            element.querySelector(".eh-vision-image"),
+            { yPercent: -3 },
+            { yPercent: 3, duration: 2.2, ease: "none" },
+            0,
+          );
+      });
+      mm.add("(max-width: 1023px), (max-height: 599px)", () => {
+        gsap.fromTo(
+          words,
+          { opacity: 0.25 },
+          {
+            opacity: 1,
+            stagger: 0.065,
+            scrollTrigger: { trigger: element, start: "top 65%", end: "bottom 85%", scrub: true },
+          },
+        );
+        ScrollTrigger.create({
+          trigger: element,
+          start: "bottom 90%",
+          onEnter: () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--gold)" }),
+          onLeaveBack: () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--paper)" }),
+        });
+      });
+    },
+    [],
+  );
+  useScrollScene(visionRef, setup, reduce);
   return (
     <>
-      <section className="section-y bg-paper">
-        <Reveal className="container-x grid gap-12 md:grid-cols-12 md:gap-16">
-          <Item className="md:col-span-5">
-            <GoldRule />
-            <h2 className="h2-display mt-6 text-navy">Why EhsanX Exists</h2>
-          </Item>
-          <div className="space-y-8 md:col-span-7">
-            <Item>
-              <p className="text-xl leading-relaxed text-navy">
-                EhsanX partners with organizations to develop entrepreneurial leaders, strengthen institutions, and
-                enable sustainable transformation. Through leadership development, capability-building, consulting,
-                and organizational transformation initiatives, we help organizations unlock growth by leveraging the
-                strengths, people, relationships, resources, and opportunities they already possess.
-              </p>
-            </Item>
-            <Item>
-              <p className="text-lg text-ink">
-                We believe that extraordinary results emerge when people discover purpose, cultivate an
-                entrepreneurial mindset, and learn to create value from what they already have.
-              </p>
-            </Item>
+      <section ref={ref} className="eh-why section-y bg-paper">
+        <div className="container-x">
+          <div className="eh-why-grid">
+            <div>
+              <GoldRule />
+              <h2 className="h2-display mt-6 text-navy">Why EhsanX Exists</h2>
+              <motion.div
+                className="eh-purpose-copy"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.35 }}
+              >
+                <p>
+                  EhsanX partners with organizations to develop{" "}
+                  <Highlight>entrepreneurial leaders</Highlight>,{" "}
+                  <Highlight>strengthen institutions</Highlight>, and enable{" "}
+                  <Highlight>sustainable transformation</Highlight>. Through leadership development,
+                  capability-building, consulting, and organizational transformation initiatives, we
+                  help organizations unlock growth by leveraging the strengths, people,
+                  relationships, resources, and opportunities they already possess.
+                </p>
+                <p className="text-ink">
+                  We believe that extraordinary results emerge when people discover purpose,
+                  cultivate an entrepreneurial mindset, and learn to create value from what they
+                  already have.
+                </p>
+              </motion.div>
+            </div>
+            <div className="eh-portrait-wrap">
+              <div className="eh-portrait">
+                <motion.img
+                  src={portrait.url}
+                  alt="An EhsanX leadership development workshop"
+                  width={928}
+                  height={1152}
+                  loading="lazy"
+                  style={{ y: imageY }}
+                />
+              </div>
+              <span className="eh-portrait-corner" aria-hidden />
+            </div>
           </div>
-        </Reveal>
+          <div className="eh-pillars">
+            {PILLARS.map(({ label, Icon }, i) => (
+              <motion.div key={label} className="eh-pillar" whileHover={reduce ? {} : { y: -5 }}>
+                <div className="flex items-center justify-between">
+                  <span className="font-display text-sm text-teal">0{i + 1}</span>
+                  <Icon className="h-7 w-7 text-navy" strokeWidth={1} aria-hidden />
+                </div>
+                <h3 className="mt-5 font-display text-lg font-semibold text-navy">{label}</h3>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        <div className="eh-marquee">
+          <div className="eh-marquee-track">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="eh-chip-group" aria-hidden={copy === 1}>
+                {CHIPS.map((chip) => (
+                  <span key={chip}>{chip}</span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="eh-purpose-strip">
+          <motion.p style={{ x: drift }}>
+            Developing People. Strengthening Institutions. Creating Meaningful Impact.
+          </motion.p>
+        </div>
       </section>
-
-      <section className="relative overflow-hidden bg-teal py-28 text-paper md:py-40">
-        <svg aria-hidden className="absolute -right-40 top-1/2 h-[900px] w-[900px] -translate-y-1/2 opacity-[0.08]" viewBox="0 0 400 400">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <circle key={i} cx="200" cy="200" r={16 + i * 16} fill="none" stroke={i % 3 === 0 ? "var(--gold)" : "#ffffff"} strokeWidth="0.8" />
-          ))}
-        </svg>
-        <div ref={ref} className="container-x relative flex gap-8 md:gap-12">
-          <div className="relative w-[2px] shrink-0 bg-paper/15">
-            <motion.span className="absolute inset-0 origin-top bg-gold" style={{ scaleY: rule }} />
+      <section ref={visionRef} className="eh-vision bg-teal text-paper" aria-label="Our Vision">
+        <img
+          className="eh-vision-image"
+          src={vision.url}
+          alt="An EhsanX sailing ship at sea"
+          width={1920}
+          height={1080}
+          loading="lazy"
+        />
+        <div className="eh-vision-overlay" />
+        <div className="container-x eh-vision-content">
+          <div className="eh-vision-rule-track">
+            <span className="eh-vision-rule" />
           </div>
           <div className="max-w-4xl">
             <p className="eyebrow-dark">Our Vision</p>
-            <span aria-hidden className="mt-4 block font-display text-7xl font-extrabold leading-none text-gold md:text-8xl">
+            <span aria-hidden className="eh-quote text-gold">
               “
             </span>
-            <blockquote className="font-display font-semibold leading-[1.3]" style={{ fontSize: "clamp(1.75rem, 3.4vw, 3rem)" }}>
+            <blockquote className="eh-vision-quote">
               <span className="sr-only">{VISION}</span>
               <span aria-hidden>
-                {words.map((w, i) => (
-                  <Word key={i} w={w} i={i} n={words.length} p={scrollYProgress} />
+                {VISION.split(" ").map((word, i) => (
+                  <span key={i} className={`eh-vision-word ${word === "Ihsan." ? "eh-ihsan" : ""}`}>
+                    {word}{" "}
+                  </span>
                 ))}
               </span>
             </blockquote>
@@ -70,5 +184,18 @@ export function WhyExists() {
         </div>
       </section>
     </>
+  );
+}
+function Highlight({ children }: { children: string }) {
+  return (
+    <motion.mark
+      className="eh-highlight"
+      variants={{
+        hidden: { backgroundSize: "0% 100%" },
+        show: { backgroundSize: "100% 100%", transition: { duration: 1.1, delay: 0.15 } },
+      }}
+    >
+      {children}
+    </motion.mark>
   );
 }

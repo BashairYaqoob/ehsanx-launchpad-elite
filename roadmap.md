@@ -1,0 +1,4 @@
+- [ ] Update hero imagery, fixed text/CTA layout, controls and responsive behavior.
+- [ ] Update navbar clearance and WhatsApp glyph/link/footer clearance.
+- [ ] Rebuild Why EhsanX Exists, Vision and Challenge with supplied copy and images.
+- [ ] Verify slide interaction, scroll sequences and requested viewport sizes.
