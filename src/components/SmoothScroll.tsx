@@ -11,10 +11,11 @@ export function SmoothScroll() {
       if (cancelled) return;
       gsap.registerPlugin(ScrollTrigger);
       const lenis = new Lenis({ duration: 1.05, smoothWheel: true, syncTouch: false });
+      window.__lenis = lenis;
       const tick = (time: number) => lenis.raf(time * 1000);
       lenis.on("scroll", ScrollTrigger.update);
       gsap.ticker.add(tick);
-      dispose = () => { gsap.ticker.remove(tick); lenis.destroy(); };
+      dispose = () => { gsap.ticker.remove(tick); lenis.destroy(); if (window.__lenis === lenis) delete window.__lenis; };
     });
     return () => { cancelled = true; dispose?.(); };
   }, [pathname]);
