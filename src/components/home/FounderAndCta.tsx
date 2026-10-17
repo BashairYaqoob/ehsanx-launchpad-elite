@@ -2,7 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
-import { images } from "@/lib/image-assets";
+import { refreshImages } from "@/lib/refresh-images";
+import { Footer } from "@/components/Footer";
 import { BrandButton, Item, Reveal } from "@/components/ui-brand";
 
 function MagneticButton() {
@@ -37,20 +38,20 @@ export function FinalCta() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   return (
-    <section ref={ref} className="relative overflow-hidden py-32 text-paper md:py-44">
+    <section ref={ref} className="closing-section text-paper">
       <motion.img
-        src={images.ship.src}
-        srcSet={images.ship.srcSet}
+        src={refreshImages.ship_final.src}
+        srcSet={refreshImages.ship_final.srcSet}
         sizes="100vw"
         alt=""
-        width={1920}
-        height={1080}
+        width={refreshImages.ship_final.width}
+        height={refreshImages.ship_final.height}
         loading="lazy"
         style={{ y }}
-        className="absolute inset-0 h-[124%] w-full -translate-y-[12%] object-cover"
+        className="closing-image"
       />
-      <div className="absolute inset-0 bg-navy-deep/85" />
-      <Reveal className="container-x relative flex flex-col items-center text-center">
+      <div className="closing-shade" />
+      <Reveal className="container-x closing-cta relative flex flex-col items-center text-center">
         <Item>
           <h2 className="h2-display max-w-3xl">Let’s Build the Future Together</h2>
         </Item>
@@ -64,6 +65,7 @@ export function FinalCta() {
           <MagneticButton />
         </Item>
       </Reveal>
+      <Footer embedded />
     </section>
   );
 }

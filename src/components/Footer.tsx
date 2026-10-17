@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ArrowUp, Mail, MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import logoWhite from "@/assets/logo-white.png";
 import { WHATSAPP_CONVERSATION_URL } from "@/lib/hero-controls";
 
@@ -15,18 +17,18 @@ const COL_B = [
   { to: "/contact", label: "Contact" },
 ] as const;
 
-export function Footer() {
+export function Footer({ embedded = false }: { embedded?: boolean }) {
   return (
-    <footer className="bg-navy-deep text-paper">
-      <div className="container-x pb-10 pt-20 md:pt-24">
-        <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-5">
+    <footer className={embedded ? "closing-footer text-paper" : "standalone-footer bg-navy-deep text-paper"}>
+      <div className="container-x footer-inner">
+        <div className="footer-columns">
+          <div className="footer-brand">
             <img src={logoWhite} alt="EhsanX" width={457} height={77} loading="lazy" className="h-8 w-auto" />
             <p className="mt-6 max-w-sm text-paper/75">
               Entrepreneurial Leadership. Innovation. Institutional Transformation.
             </p>
           </div>
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-8 md:col-span-4">
+          <nav aria-label="Footer" className="footer-links grid grid-cols-2 gap-8">
             {[COL_A, COL_B].map((col, i) => (
               <ul key={i} className="space-y-3">
                 {col.map((l) => (
@@ -39,17 +41,16 @@ export function Footer() {
               </ul>
             ))}
           </nav>
-          <div className="md:col-span-3">
+          <div className="footer-contact">
             <h2 className="font-display text-xl font-semibold">Get in Touch</h2>
-            <p className="mt-4 text-paper/80">Let's begin a conversation about developing your people and transforming your organization.</p>
+            <p className="mt-4 text-paper/80">Let’s begin a conversation about developing your people and transforming your organization.</p>
             <ul className="mt-4 space-y-3 text-paper/80">
-              <li><a className="inline-flex min-h-11 items-center link-underline" href="https://wa.me/923018226596" target="_blank" rel="noopener noreferrer">+92 301 822 6596</a></li>
-              <li><a className="inline-flex min-h-11 items-center break-all link-underline" href="mailto:ehsanx.transform@gmail.com">ehsanx.transform@gmail.com</a></li>
+              <li><a className="inline-flex min-h-11 items-center link-underline" href="https://wa.me/923018226596" target="_blank" rel="noopener noreferrer"><MessageCircle size={16} aria-hidden="true" />+92 301 822 6596</a></li>
+              <li><a className="inline-flex min-h-11 items-center break-all link-underline" href="mailto:ehsanx.transform@gmail.com"><Mail size={16} aria-hidden="true" />ehsanx.transform@gmail.com</a></li>
             </ul>
           </div>
         </div>
-        <div className="mt-16 h-px bg-gold/60" />
-        <p className="mt-6 text-sm text-paper/60">© 2026 EhsanX. All rights reserved.</p>
+        <div className="footer-bottom"><p className="text-sm text-paper/60">© 2026 EhsanX. All rights reserved.</p><Button variant="ghost" className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>Back to top<ArrowUp size={16} aria-hidden="true" /></Button></div>
       </div>
     </footer>
   );
