@@ -1,4 +1,4 @@
-import { useEffect, type RefObject } from "react";
+import { useEffect, useState, type RefObject } from "react";
 import type { gsap as Gsap } from "gsap";
 import type { ScrollTrigger as Trigger } from "gsap/ScrollTrigger";
 
@@ -7,8 +7,16 @@ export function useScrollScene(
   setup: (gsap: typeof Gsap, ScrollTrigger: typeof Trigger, element: HTMLElement) => void,
   reduced: boolean | null,
 ) {
+  const [motionDisabled, setMotionDisabled] = useState(false);
   useEffect(() => {
-    if (reduced || !ref.current) return;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setMotionDisabled(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    if (reduced || motionDisabled || !ref.current) return;
     let cancelled = false;
     let dispose: (() => void) | undefined;
     let refreshFrame = 0;
@@ -48,5 +56,5 @@ export function useScrollScene(
       imageCleanups.forEach(cleanup => cleanup());
       dispose?.();
     };
-  }, [ref, setup, reduced]);
+  }, [ref, setup, reduced, motionDisabled]);
 }
