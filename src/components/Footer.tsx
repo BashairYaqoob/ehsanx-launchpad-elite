@@ -23,7 +23,7 @@ export function Footer() {
           <div className="md:col-span-5">
             <img src={logoWhite} alt="EhsanX" width={457} height={77} loading="lazy" className="h-8 w-auto" />
             <p className="mt-6 max-w-sm text-paper/75">
-              Developing People. Strengthening Institutions. Creating Meaningful Impact.
+              Entrepreneurial Leadership. Innovation. Institutional Transformation.
             </p>
           </div>
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 md:col-span-4">
@@ -40,10 +40,11 @@ export function Footer() {
             ))}
           </nav>
           <div className="md:col-span-3">
-            <p className="eyebrow-dark">Contact</p>
+            <h2 className="font-display text-xl font-semibold">Get in Touch</h2>
+            <p className="mt-4 text-paper/80">Let's begin a conversation about developing your people and transforming your organization.</p>
             <ul className="mt-4 space-y-3 text-paper/80">
-              <li>[WhatsApp number]</li>
-              <li>[email address]</li>
+              <li><a className="inline-flex min-h-11 items-center link-underline" href="https://wa.me/923018226596" target="_blank" rel="noopener noreferrer">+92 301 822 6596</a></li>
+              <li><a className="inline-flex min-h-11 items-center break-all link-underline" href="mailto:ehsanx.transform@gmail.com">ehsanx.transform@gmail.com</a></li>
             </ul>
           </div>
         </div>
