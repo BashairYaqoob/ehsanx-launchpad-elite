@@ -19,13 +19,14 @@ export function Struggle() {
     mm.add("(min-width: 1024px) and (min-height: 600px)", () => {
       const cards = Array.from(element.querySelectorAll<HTMLElement>(".eh-challenge-card"));
       const rows = Array.from(element.querySelectorAll<HTMLElement>(".challenge-index-row"));
+      const stackOffset = () => Math.max(72, ...cards.map(card => (card.querySelector("header")?.getBoundingClientRect().height ?? 64) + 8));
       gsap.set(cards.slice(1), { y: () => window.innerHeight + 100 });
       const tl = gsap.timeline({ scrollTrigger: { trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 3.5}`, pin: true, pinSpacing: true, scrub: 0.7, invalidateOnRefresh: true,
         onUpdate: self => { const active = Math.min(3, Math.floor(self.progress * 3.5)); rows.forEach((row, i) => row.dataset['active'] = String(i === active)); },
       }});
       cards.slice(1).forEach((card, i) => {
         cards.slice(0, i + 1).forEach((previous, j) => {
-          tl.to(previous, { scale: 0.95, y: -(i + 1 - j) * 72, duration: 1, ease: "none" }, i);
+          tl.to(previous, { scale: 0.95, y: () => -(i + 1 - j) * stackOffset(), duration: 1, ease: "none" }, i);
           tl.to(previous.querySelector(".challenge-card-detail"), { opacity: 0.7, duration: 1, ease: "none" }, i);
         });
         tl.to(card, { y: 0, duration: 1, ease: "none" }, i);
