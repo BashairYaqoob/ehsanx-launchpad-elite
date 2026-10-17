@@ -27,9 +27,9 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
     gsap.set(loop, { autoAlpha: 0 });
     if (arrow) gsap.set(arrow, { strokeDasharray: 1, strokeDashoffset: 1 });
     const tl = gsap.timeline({ scrollTrigger: {
-      trigger: element, start: "top top", end: () => `+=${window.innerHeight * (small ? 3 : 5)}`,
-      pin: true, scrub: 0.6, invalidateOnRefresh: true,
-      onUpdate: self => { const active = Math.min(4, Math.floor(self.progress * 5.5)); nodes.forEach((node, i) => node.dataset['active'] = String(i <= active)); },
+      trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * (small ? 3 : 5)}`,
+      pin: true, pinSpacing: true, scrub: 0.6, invalidateOnRefresh: true,
+      onUpdate: self => { const active = Math.min(4, Math.floor(self.progress * 5.5)); nodes.forEach((node, i) => { node.dataset['active'] = String(i <= active); node.dataset['current'] = String(i === active); }); },
     }});
     tl.to(progress, { scaleX: 1, scaleY: 1, duration: 4.4, ease: "none" }, 0);
     stages.slice(1).forEach((_, i) => {
@@ -58,6 +58,7 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
           <ResponsiveImage asset={stage.image} alt={stage.alt} loading="lazy" sizes={isEplus ? "100vw" : "(min-width: 768px) 48vw, 100vw"} />
           {isEplus && <div className="journey-image-overlay" />}
           <div className="container-x journey-titles">
+            {!isEplus && <span className="journey-ghost" aria-hidden="true">0{i + 1}</span>}
             <span className="journey-numeral" aria-hidden="true">0{i + 1}</span>
             <div className="journey-title-mask"><div className="journey-title-inner"><h3>{stage.name}</h3>{stage.description && <p className="journey-description">{stage.description}</p>}</div></div>
           </div>

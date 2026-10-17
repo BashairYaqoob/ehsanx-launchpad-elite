@@ -185,7 +185,7 @@ export function Hero() {
             </motion.picture>
           </motion.div>
         </AnimatePresence>
-        <div className="bg-hero-overlay absolute inset-0" />
+        <div className={`bg-hero-overlay absolute inset-0 ${index === 0 ? "hero-first-overlay" : ""}`} />
         <div className="container-x eh-hero-content">
           <div className="eh-hero-copy" aria-live="polite" aria-atomic="true">
             <AnimatePresence mode="wait">
