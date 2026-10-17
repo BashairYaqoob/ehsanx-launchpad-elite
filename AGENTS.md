@@ -16,5 +16,6 @@
 - Keep image sizes and srcsets in the browser-safe image-assets registry; this centralizes natural-size limits and responsive image selection.
 - Mount Lenis after hydration and synchronize via GSAP ticker with route cleanup; this keeps scroll restoration and pin updates consistent.
 - Keep client-impact content in src/data/clientImpact.ts; the presentation hides empty figures and details so client updates need only data edits.
+- Compute Home impact totals from the client records, including deduplicated delivery cities, while retaining client detail off Home; future client updates must automatically propagate to the totals.
 - Home owns its combined closing CTA/footer, while the root renders the standalone footer only outside Home; this avoids duplicate footer landmarks.
 - Scroll scenes use opaque, isolated sections with explicit pin spacing and shared font/image/resize refresh cleanup; this preserves DOM-order pin geometry.

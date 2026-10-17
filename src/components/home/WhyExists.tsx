@@ -1,10 +1,8 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, Users, Building2, Sprout } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { refreshImages } from "@/lib/refresh-images";
-import { ResponsiveImage } from "@/components/ResponsiveImage";
-import { useCallback, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useCallback, useRef } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
 import { images } from "@/lib/image-assets";
@@ -12,9 +10,9 @@ import { images } from "@/lib/image-assets";
 const VISION =
   "To develop people of character and entrepreneurial mindset who strengthen institutions, create value, and contribute to a flourishing society through the pursuit of Ihsan.";
 const PILLARS = [
-  { label: "Develop entrepreneurial leaders", image: refreshImages.pillar_1 },
-  { label: "Strengthen institutions", image: refreshImages.pillar_2 },
-  { label: "Enable sustainable transformation", image: refreshImages.pillar_3 },
+  { label: "Develop entrepreneurial leaders", icon: Users },
+  { label: "Strengthen institutions", icon: Building2 },
+  { label: "Enable sustainable transformation", icon: Sprout },
 ];
 
 export function WhyExists() {
@@ -23,7 +21,6 @@ export function WhyExists() {
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const imageY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -16, reduce ? 0 : 16]);
-  const drift = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 70, reduce ? 0 : -70]);
   const setup = useCallback<Parameters<typeof useScrollScene>[1]>(
     (gsap, ScrollTrigger, element) => {
       const words = element.querySelectorAll(".eh-vision-word");
@@ -127,12 +124,30 @@ export function WhyExists() {
               <span className="eh-portrait-corner" aria-hidden />
             </div>
           </div>
-          <PillarCarousel reduced={!!reduce} />
-        </div>
-        <div className="eh-purpose-strip">
-          <motion.p style={{ x: drift }}>
-            Developing People. Strengthening Institutions. Creating Meaningful Impact.
-          </motion.p>
+          <div className="eh-pillars" aria-label="Three pillars">
+            {PILLARS.map(({ label, icon: Icon }, index) => (
+              <motion.div
+                key={label}
+                className="pillar-card-wrap"
+                initial={{ opacity: reduce ? 1 : 0, y: reduce ? 0 : 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: reduce ? 0 : 0.5, delay: reduce ? 0 : index * 0.1 }}
+              >
+                <Link to="/philosophy" className="pillar-card" aria-label={`${label} — read our philosophy`}>
+                  <div className="pillar-card-top">
+                    <span className="pillar-number">0{index + 1}</span>
+                    <span className="pillar-icon"><Icon size={24} strokeWidth={1.5} aria-hidden="true" /></span>
+                  </div>
+                  <div className="pillar-card-bottom">
+                    <span className="pillar-rule" aria-hidden="true" />
+                    <h3>{label}</h3>
+                  </div>
+                  <ArrowUpRight className="pillar-arrow" size={18} strokeWidth={1.5} aria-hidden="true" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
       <section ref={visionRef} className="eh-vision bg-teal text-paper" aria-label="Our Vision">
@@ -186,57 +201,3 @@ function Highlight({ children }: { children: string }) {
   );
 }
 
-function PillarCard({ label, image, index, reduced }: { label: string; image: typeof refreshImages.pillar_1; index: number; reduced: boolean }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [-12 - index * 5, 12 + index * 5]);
-  return <motion.div initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 48 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.8, delay: index * 0.12 }} className="pillar-card-wrap">
-    <Link ref={ref} to="/philosophy" className="pillar-card" aria-label={`${label} — read our philosophy`}>
-      <motion.div className="pillar-image-drift" style={{ y }}><ResponsiveImage asset={image} alt={label} loading="lazy" sizes="(min-width: 1024px) 30vw, 75vw" /></motion.div>
-      <div className="pillar-shade" />
-      <span className="pillar-number">0{index + 1}</span>
-      <h3>{label}<ArrowUpRight className="pillar-arrow" aria-hidden="true" /></h3>
-    </Link>
-  </motion.div>;
-}
-
-function PillarCarousel({ reduced }: { reduced: boolean }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  const scrollToCard = (i: number) => {
-    const track = trackRef.current;
-    const card = track?.children[i] as HTMLElement | undefined;
-    if (track && card) track.scrollTo({ left: card.offsetLeft - 24, behavior: reduced ? "instant" : "smooth" });
-  };
-  const onScroll = () => {
-    const track = trackRef.current;
-    if (!track) return;
-    let best = 0;
-    let bestDist = Infinity;
-    Array.from(track.children).forEach((child, i) => {
-      const dist = Math.abs((child as HTMLElement).offsetLeft - 24 - track.scrollLeft);
-      if (dist < bestDist) { bestDist = dist; best = i; }
-    });
-    setActive(best);
-  };
-  return (
-    <div className="eh-pillars-carousel">
-      <div className="eh-pillars" aria-label="Three pillars" ref={trackRef} onScroll={onScroll}>
-        {PILLARS.map(({ label, image }, i) => <PillarCard key={label} label={label} image={image} index={i} reduced={reduced} />)}
-      </div>
-      <div className="pillar-carousel-controls">
-        <Button variant="ghost" size="icon" className="pillar-carousel-btn" aria-label="Previous pillar" onClick={() => scrollToCard(Math.max(0, active - 1))} disabled={active === 0}>
-          <ChevronLeft className="h-5 w-5" />
-        </Button>
-        <div className="pillar-carousel-dots" role="tablist" aria-label="Pillar position">
-          {PILLARS.map((p, i) => (
-            <button key={p.label} type="button" className="pillar-dot" data-active={i === active} aria-label={`Go to pillar ${i + 1}: ${p.label}`} onClick={() => scrollToCard(i)} />
-          ))}
-        </div>
-        <Button variant="ghost" size="icon" className="pillar-carousel-btn" aria-label="Next pillar" onClick={() => scrollToCard(Math.min(PILLARS.length - 1, active + 1))} disabled={active === PILLARS.length - 1}>
-          <ChevronRight className="h-5 w-5" />
-        </Button>
-      </div>
-    </div>
-  );
-}

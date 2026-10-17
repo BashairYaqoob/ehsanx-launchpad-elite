@@ -12,3 +12,6 @@
 - [x] Replace pinned Our Approach with static five-card grid.
 - [x] Replace Client Impact with logo row and combined computed totals.
 - [x] Fix challenge/hero/vision geometry, scroll distances, GSAP cleanup and shared refresh; verify nine widths.
+- [x] Replace pillar imagery/carousel with linked text cards and remove tagline.
+- [x] Expand Client Impact logos, computed city totals, supplied client details and footnote.
+- [x] Verify both sections at all requested widths and run impact tests.

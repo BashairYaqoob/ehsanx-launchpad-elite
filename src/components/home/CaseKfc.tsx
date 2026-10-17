@@ -26,7 +26,7 @@ function CombinedFigure({ value, display, label }: { value: number; display: str
         <span className={visual === null ? "" : "count-final"}>{display}</span>
         {visual !== null && (
           <span className="count-visual" aria-hidden="true">
-            {prefix}{formatted}
+            {prefix}{formatted}{display.endsWith("+") ? "+" : ""}
           </span>
         )}
       </span>
@@ -38,14 +38,16 @@ function CombinedFigure({ value, display, label }: { value: number; display: str
 export function CaseKfc() {
   const totals = combinedImpact();
   return (
-    <section className="impact-section section-y" aria-labelledby="impact-title">
+    <section className="impact-section" aria-labelledby="impact-title">
       <div className="container-x relative">
-        <GoldRule />
-        <h2 id="impact-title" className="impact-title">Client Impact</h2>
+        <div className="impact-heading-row">
+          <div><GoldRule /><h2 id="impact-title" className="impact-title">Client Impact</h2></div>
+          <div className="impact-desktop-cta"><BrandButton to="/client-impact">See All Client Impact</BrandButton></div>
+        </div>
         <ul className="impact-logos">
           {clientImpact.map((client) => (
             <li key={client.name}>
-              <Link to="/client-impact" className="impact-logo-tile" aria-label={`${client.name} client impact`}>
+              <Link to="/client-impact" className="impact-logo-tile" aria-label={client.name}>
                 <img
                   src={client.logo}
                   alt={client.name}
@@ -60,7 +62,9 @@ export function CaseKfc() {
         <div className="impact-totals">
           <CombinedFigure value={totals.leaders.value} display={totals.leaders.display} label={totals.leaders.label} />
           <CombinedFigure value={totals.employees.value} display={totals.employees.display} label={totals.employees.label} />
+          <CombinedFigure value={totals.cities.value} display={totals.cities.display} label={totals.cities.label} />
         </div>
+        <p className="impact-footnote">Figures reflect the KFC Pakistan and PCI programmes.</p>
         <div className="impact-all">
           <BrandButton to="/client-impact">See All Client Impact</BrandButton>
         </div>
