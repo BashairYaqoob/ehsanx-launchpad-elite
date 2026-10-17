@@ -397,3 +397,13 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;bac
 @media(prefers-reduced-motion:reduce){
 .journey-stage{height:auto;max-height:none;min-height:0;padding-block:64px}.journey-header{position:relative;top:auto}.journey-panels{position:relative}.journey-panel,.journey-panel:not(:first-child){position:relative;visibility:visible!important;opacity:1!important;padding-block:32px}.journey-panel img,.journey-approach .journey-panel img{position:relative;left:auto;top:auto;width:100%;height:auto;max-width:900px;margin-inline:auto;max-height:440px;object-fit:cover}.journey-image-overlay{display:none}.journey-titles,.journey-approach .journey-titles{position:relative;top:auto;padding:24px;width:100%;display:flex;gap:24px}.journey-numeral{font-size:56px!important;margin:0!important}.journey-end,.journey-approach .journey-end{position:relative;top:auto;visibility:visible!important;opacity:1!important;padding:24px;transform:none!important}.journey-rail-wrap,.journey-loop{display:none}.industry-track{animation:none;width:100%;display:block}.industry-list{flex-wrap:wrap;justify-content:center;padding:16px 24px;gap:32px}.industry-list[aria-hidden=true]{display:none}.industry-separator{display:none}.industry-strip{mask-image:none}
 }
+
+/* Final spacing and end-state refinements */
+.journey-stage{max-height:none}
+.journey-approach .journey-end{left:max(180px,calc((100% - 1280px) / 2 + 190px));right:auto;width:34%;max-width:500px;top:33%;padding:0;background:transparent}
+.journey-approach .journey-paragraph{font-size:20px}
+.industry-toggle,.industry-toggle:hover,.industry-toggle[aria-pressed=true]{background:transparent;color:var(--navy)}
+.eh-whatsapp-footer{visibility:hidden;pointer-events:none}
+@media(max-width:1023px) and (min-width:768px){.journey-approach .journey-end{left:180px;width:30%}.journey-approach .journey-paragraph{font-size:17px}}
+@media(max-width:767px){.journey-approach .journey-end{left:0;width:100%;top:67%;max-width:none;padding:0 24px}.journey-approach .journey-paragraph{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.journey-approach .journey-end{position:relative;left:auto;top:auto;width:100%;max-width:900px;padding:24px}}
