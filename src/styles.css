@@ -531,7 +531,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;bac
 .impact-total{min-width:0;padding:24px 12px}
 .impact-total+.impact-total{border-top:1px solid var(--impact-divider)}
 .impact-total .count-up{font-family:var(--font-display);font-size:clamp(3rem,6vw,5.5rem);line-height:1.15;font-weight:800;color:var(--gold);white-space:nowrap;font-variant-numeric:tabular-nums;min-width:3ch}
-.impact-total:nth-child(2) .count-up{min-width:7ch}
+.impact-total:nth-child(2) .count-up{min-width:6ch}
 .impact-total p{font-size:1.0625rem;font-weight:500;line-height:1.5;color:var(--paper);margin-top:12px}
 .impact-footnote{font-size:.8125rem;color:var(--impact-footnote);text-align:center;margin-top:16px}
 .impact-all{display:flex;justify-content:center;margin-top:32px}
