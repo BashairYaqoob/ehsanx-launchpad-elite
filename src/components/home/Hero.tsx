@@ -8,14 +8,7 @@ import {
 } from "framer-motion";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import blocks from "@/assets/hero-blocks-new.webp";
-import blocksSmall from "@/assets/hero-blocks-new-1280.webp";
-import cliff from "@/assets/hero-cliff-new-1920.webp.asset.json";
-import cliffSmall from "@/assets/hero-cliff-new-1280.webp.asset.json";
-import ripple from "@/assets/hero-ripple-new-1920.webp.asset.json";
-import rippleSmall from "@/assets/hero-ripple-new-1280.webp.asset.json";
-import ship from "@/assets/hero-ship-new-1920.webp.asset.json";
-import shipSmall from "@/assets/hero-ship-new-1280.webp.asset.json";
+import { images } from "@/lib/image-assets";
 import { BrandButton } from "@/components/ui-brand";
 import { Button } from "@/components/ui/button";
 import { HERO_DURATION, nextSlide, slideshowPaused } from "@/lib/hero-controls";
@@ -26,36 +19,36 @@ const SLIDES = [
   {
     title: "Building Leaders. Transforming Organizations.",
     sub: "We help organizations develop leaders who can navigate complexity, strengthen teams, and create lasting impact.",
-    img: blocks,
-    small: blocksSmall,
-    height: 1088,
+    img: images.hero_blocks.src,
+    srcSet: images.hero_blocks.srcSet,
+    height: images.hero_blocks.height,
     pos: "70% center",
     alt: "Navy, teal and gold EX sculpture in a sunlit atrium",
   },
   {
     title: "Leadership That Creates Real Change.",
     sub: "Equip your people with the clarity, capability, and confidence to turn leadership potential into measurable performance.",
-    img: cliff.url,
-    small: cliffSmall.url,
-    height: 1080,
+    img: images.hero_2_generated.src,
+    srcSet: images.hero_2_generated.srcSet,
+    height: images.hero_2_generated.height,
     pos: "65% center",
     alt: "Origami boats climbing toward a gold boat on a cliff",
   },
   {
     title: "From Individual Growth to Organizational Impact.",
     sub: "Align leadership, strengthen organizational culture, and turn development initiatives into meaningful business outcomes.",
-    img: ripple.url,
-    small: rippleSmall.url,
-    height: 1080,
+    img: images.hero_3_generated.src,
+    srcSet: images.hero_3_generated.srcSet,
+    height: images.hero_3_generated.height,
     pos: "60% center",
     alt: "Origami boats forming ripples around a gold boat",
   },
   {
     title: "Every Organization Has the Potential to Go Further.",
     sub: "We partner with organizations to uncover potential, navigate challenges, and build the capabilities needed for what comes next.",
-    img: ship.url,
-    small: shipSmall.url,
-    height: 1080,
+    img: images.ship.src,
+    srcSet: images.ship.srcSet,
+    height: images.ship.height,
     pos: "70% center",
     alt: "An EhsanX sailing ship crossing the sea",
   },
@@ -177,7 +170,7 @@ export function Hero() {
             >
               <source
                 type="image/webp"
-                srcSet={`${slide.small} 1280w, ${slide.img} 1920w`}
+                srcSet={slide.srcSet}
                 sizes="100vw"
               />
               <img

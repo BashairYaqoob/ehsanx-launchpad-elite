@@ -12,3 +12,6 @@
 - Keep homepage scroll scenes scoped and load GSAP/ScrollTrigger after hydration; this prevents server evaluation and cleans up pins on navigation.
 - Store imported photo variants as asset pointers and never generate derivatives wider than the source; generated artwork can remain bundled WebP imports.
 - Keep hero text separate from persistent CTAs and controls, with interaction rules in a browser-safe module so playback behavior is testable.
+- Use the shared Journey for five-stage scroll presentations with reduced-motion static fallbacks; keeping pin lifecycles scoped prevents navigation leaks.
+- Keep image sizes and srcsets in the browser-safe image-assets registry; this centralizes natural-size limits and responsive image selection.
+- Mount Lenis after hydration and synchronize via GSAP ticker with route cleanup; this keeps scroll restoration and pin updates consistent.

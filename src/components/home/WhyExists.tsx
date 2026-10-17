@@ -3,8 +3,7 @@ import { Building2, Sprout, Users } from "lucide-react";
 import { useCallback, useRef } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
-import portrait from "@/assets/why-exists-new-928.webp.asset.json";
-import vision from "@/assets/vision-bg-new-1920.webp.asset.json";
+import { images } from "@/lib/image-assets";
 
 const VISION =
   "To develop people of character and entrepreneurial mindset who strengthen institutions, create value, and contribute to a flourishing society through the pursuit of Ihsan.";
@@ -111,10 +110,12 @@ export function WhyExists() {
             <div className="eh-portrait-wrap">
               <div className="eh-portrait">
                 <motion.img
-                  src={portrait.url}
+                  src={images.portrait.src}
+                  srcSet={images.portrait.srcSet}
+                  sizes="(min-width: 768px) 45vw, 100vw"
                   alt="A bright waterfront walkway beside an EhsanX building"
                   width={928}
-                  height={1152}
+                  height={691}
                   loading="lazy"
                   style={{ y: imageY }}
                 />
@@ -154,7 +155,9 @@ export function WhyExists() {
       <section ref={visionRef} className="eh-vision bg-teal text-paper" aria-label="Our Vision">
         <img
           className="eh-vision-image"
-          src={vision.url}
+          src={images.vision.src}
+          srcSet={images.vision.srcSet}
+          sizes="100vw"
           alt="A single gold paper boat on a calm sea"
           width={1920}
           height={1080}

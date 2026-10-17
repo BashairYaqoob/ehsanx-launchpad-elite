@@ -1,4 +1,6 @@
-- [x] Update hero imagery, fixed text/CTA layout, controls and responsive behavior.
-- [x] Update navbar clearance and WhatsApp glyph/link/footer clearance.
-- [x] Rebuild Why EhsanX Exists, Vision and Challenge with supplied copy and images.
-- [x] Verify slide interaction, scroll sequences and requested viewport sizes.
+- [x] Generate hero 2/3 and ten journey images; replace Why photo and prepare sharp responsive assets.
+- [x] Rebuild E-Plus and Approach as accessible pinned GSAP journeys.
+- [x] Update KFC/client logos, truthful accessible count-ups, and hide unattributed quote.
+- [x] Remove founder from Home and add exact-copy industry marquee before final ship CTA.
+- [x] Update footer contacts, smooth scrolling, magnetic buttons, grain, 404 and metadata.
+- [x] Verify scroll journeys, interactions, links and eight requested screen widths.

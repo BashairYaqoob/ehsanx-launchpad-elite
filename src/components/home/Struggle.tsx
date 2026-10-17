@@ -3,18 +3,14 @@ import { useCallback, useRef } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
 import { cn } from "@/lib/utils";
-import image1 from "@/assets/challenge-1-new-1600.webp.asset.json";
-import image2 from "@/assets/challenge-2-new-1600.webp.asset.json";
-import image3 from "@/assets/challenge-3-new.webp";
-import image4 from "@/assets/challenge-4-new.webp";
-
+import { images } from "@/lib/image-assets";
 const CARDS = [
   {
     n: "01",
     text: "Limited ownership, initiative, and entrepreneurial thinking",
     card: "bg-navy text-paper",
     num: "text-gold",
-    image: image1.url,
+    image: images.challenge_1,
     alt: "Tethered navy paper boats beside a gold boat sailing freely",
   },
   {
@@ -22,7 +18,7 @@ const CARDS = [
     text: "Short-term leadership and limited future readiness",
     card: "bg-teal text-paper",
     num: "text-gold",
-    image: image2.url,
+    image: images.challenge_2,
     alt: "A teal paper boat tethered to shore",
   },
   {
@@ -30,7 +26,7 @@ const CARDS = [
     text: "Siloed teams and weak collaboration",
     card: "bg-paper text-navy border border-navy/10",
     num: "text-teal",
-    image: image3,
+    image: images.challenge_3,
     alt: "Separate groups of paper boats divided by stone barriers",
   },
   {
@@ -38,7 +34,7 @@ const CARDS = [
     text: "Difficulty adapting to technological and AI-driven change",
     card: "bg-gold text-navy",
     num: "text-navy",
-    image: image4,
+    image: images.challenge_4,
     alt: "Paper boats navigating a complex geometric network",
   },
 ];
@@ -103,10 +99,12 @@ export function Struggle() {
               </div>
               <div className="eh-challenge-image">
                 <motion.img
-                  src={card.image}
+                  src={card.image.src}
+                  srcSet={card.image.srcSet}
+                  sizes="(min-width: 1024px) 35vw, 100vw"
                   alt={card.alt}
-                  width={1600}
-                  height={1200}
+                  width={card.image.width}
+                  height={card.image.height}
                   loading="lazy"
                   whileHover={reduce ? {} : { x: -6, y: -4, scale: 1.02 }}
                   transition={{ duration: 0.7 }}

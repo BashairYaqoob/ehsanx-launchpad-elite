@@ -1,34 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, User } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
-import heroShip from "@/assets/hero-ship.webp";
+import { images } from "@/lib/image-assets";
 import { BrandButton, Item, Reveal } from "@/components/ui-brand";
-
-/** Founder strip — self-contained; delete this component and its usage to remove it. */
-export function FounderStrip() {
-  return (
-    <section className="bg-paper py-20 md:py-24">
-      <Reveal className="container-x grid items-center gap-10 md:grid-cols-12">
-        <Item className="md:col-span-3">
-          <div className="flex aspect-square w-40 items-center justify-center rounded-full bg-wash ring-1 ring-navy/10 md:w-48">
-            <User className="h-12 w-12 text-navy/30" aria-hidden />
-            <span className="sr-only">[Founder portrait]</span>
-          </div>
-        </Item>
-        <Item className="md:col-span-9">
-          <p className="eyebrow">Meet the Team</p>
-          <h2 className="h3-display mt-3 text-navy">[Founder name]</h2>
-          <p className="mt-1 font-display font-semibold text-teal">[Title]</p>
-          <p className="mt-4 max-w-2xl text-lg text-ink/80">[One-line credibility statement]</p>
-          <BrandButton to="/meet-the-team" variant="outline-navy" className="mt-8">
-            Meet the Team
-          </BrandButton>
-        </Item>
-      </Reveal>
-    </section>
-  );
-}
 
 function MagneticButton() {
   const x = useMotionValue(0);
@@ -64,10 +39,12 @@ export function FinalCta() {
   return (
     <section ref={ref} className="relative overflow-hidden py-32 text-paper md:py-44">
       <motion.img
-        src={heroShip}
+        src={images.ship.src}
+        srcSet={images.ship.srcSet}
+        sizes="100vw"
         alt=""
-        width={1264}
-        height={848}
+        width={1920}
+        height={1080}
         loading="lazy"
         style={{ y }}
         className="absolute inset-0 h-[124%] w-full -translate-y-[12%] object-cover"
