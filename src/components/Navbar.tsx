@@ -7,6 +7,7 @@ import logoWhite from "@/assets/logo-white.png";
 import { useIntroReady } from "@/lib/intro";
 import { EASE, NAV_LINKS } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const ready = useIntroReady();
@@ -23,6 +24,7 @@ export function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [open]);
 
   return (
@@ -36,7 +38,7 @@ export function Navbar() {
         <nav
           aria-label="Main"
           className={cn(
-            "mx-auto flex max-w-[1200px] items-center justify-between rounded-full border px-5 transition-all duration-[400ms] ease-out md:px-7",
+             "eh-navbar mx-auto flex max-w-[1280px] items-center justify-between rounded-full border px-5 transition-all duration-[400ms] ease-out md:px-7",
             solid
               ? "h-16 border-navy/10 bg-paper/80 shadow-soft backdrop-blur-xl"
               : "h-20 border-transparent bg-transparent",
@@ -51,7 +53,7 @@ export function Navbar() {
               className="h-6 w-auto md:h-7"
             />
           </Link>
-          <ul className="hidden items-center gap-8 lg:flex">
+           <ul className="hidden items-center gap-6 xl:flex">
             {NAV_LINKS.map((l) => (
               <li key={l.to}>
                 <Link
@@ -71,14 +73,14 @@ export function Navbar() {
               Contact
               <ArrowRight className="btn-arrow h-4 w-4" aria-hidden />
             </Link>
-            <button
+             <Button variant="ghost" size="icon"
               type="button"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
-              className={cn("flex h-11 w-11 items-center justify-center rounded-full lg:hidden", solid ? "text-navy" : "text-paper")}
+               className={cn("flex h-11 w-11 items-center justify-center rounded-full xl:hidden hover:bg-transparent hover:text-inherit", solid ? "text-navy" : "text-paper")}
             >
               <Menu className="h-6 w-6" />
-            </button>
+             </Button>
           </div>
         </nav>
       </motion.header>
@@ -99,14 +101,14 @@ export function Navbar() {
               <Link to="/" onClick={() => setOpen(false)} aria-label="EhsanX home">
                 <img src={logoWhite} alt="EhsanX" width={457} height={77} className="h-7 w-auto" />
               </Link>
-              <button
+               <Button variant="ghost" size="icon"
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Close menu"
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-paper/20"
               >
                 <X className="h-6 w-6" />
-              </button>
+               </Button>
             </div>
             <motion.ul
               className="mt-16 flex flex-1 flex-col gap-6"
