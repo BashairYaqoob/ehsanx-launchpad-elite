@@ -19,4 +19,3 @@ export function slideshowPaused(state: {
     state.reduced
   );
 }
-export const WHATSAPP_CONVERSATION_URL = `https://wa.me/923018226596?text=${encodeURIComponent("Hello EhsanX, I'd like to start a conversation.")}`;
