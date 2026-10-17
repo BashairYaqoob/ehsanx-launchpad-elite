@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ClientImpactRouteImport } from './routes/client-impact'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MeetTheTeamRouteImport } from './routes/meet-the-team'
+import { Route as OurApproachRouteImport } from './routes/our-approach'
+import { Route as PhilosophyRouteImport } from './routes/philosophy'
+import { Route as SolutionsRouteImport } from './routes/solutions'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClientImpactRoute = ClientImpactRouteImport.update({
+  id: '/client-impact',
+  path: '/client-impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeetTheTeamRoute = MeetTheTeamRouteImport.update({
+  id: '/meet-the-team',
+  path: '/meet-the-team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurApproachRoute = OurApproachRouteImport.update({
+  id: '/our-approach',
+  path: '/our-approach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PhilosophyRoute = PhilosophyRouteImport.update({
+  id: '/philosophy',
+  path: '/philosophy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/client-impact': typeof ClientImpactRoute
+  '/contact': typeof ContactRoute
+  '/meet-the-team': typeof MeetTheTeamRoute
+  '/our-approach': typeof OurApproachRoute
+  '/philosophy': typeof PhilosophyRoute
+  '/solutions': typeof SolutionsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/client-impact': typeof ClientImpactRoute
+  '/contact': typeof ContactRoute
+  '/meet-the-team': typeof MeetTheTeamRoute
+  '/our-approach': typeof OurApproachRoute
+  '/philosophy': typeof PhilosophyRoute
+  '/solutions': typeof SolutionsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/client-impact': typeof ClientImpactRoute
+  '/contact': typeof ContactRoute
+  '/meet-the-team': typeof MeetTheTeamRoute
+  '/our-approach': typeof OurApproachRoute
+  '/philosophy': typeof PhilosophyRoute
+  '/solutions': typeof SolutionsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/client-impact'
+    | '/contact'
+    | '/meet-the-team'
+    | '/our-approach'
+    | '/philosophy'
+    | '/solutions'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/client-impact'
+    | '/contact'
+    | '/meet-the-team'
+    | '/our-approach'
+    | '/philosophy'
+    | '/solutions'
+  id:
+    | '__root__'
+    | '/'
+    | '/client-impact'
+    | '/contact'
+    | '/meet-the-team'
+    | '/our-approach'
+    | '/philosophy'
+    | '/solutions'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClientImpactRoute: typeof ClientImpactRoute
+  ContactRoute: typeof ContactRoute
+  MeetTheTeamRoute: typeof MeetTheTeamRoute
+  OurApproachRoute: typeof OurApproachRoute
+  PhilosophyRoute: typeof PhilosophyRoute
+  SolutionsRoute: typeof SolutionsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/client-impact': {
+      id: '/client-impact'
+      path: '/client-impact'
+      fullPath: '/client-impact'
+      preLoaderRoute: typeof ClientImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meet-the-team': {
+      id: '/meet-the-team'
+      path: '/meet-the-team'
+      fullPath: '/meet-the-team'
+      preLoaderRoute: typeof MeetTheTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/our-approach': {
+      id: '/our-approach'
+      path: '/our-approach'
+      fullPath: '/our-approach'
+      preLoaderRoute: typeof OurApproachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/philosophy': {
+      id: '/philosophy'
+      path: '/philosophy'
+      fullPath: '/philosophy'
+      preLoaderRoute: typeof PhilosophyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClientImpactRoute: ClientImpactRoute,
+  ContactRoute: ContactRoute,
+  MeetTheTeamRoute: MeetTheTeamRoute,
+  OurApproachRoute: OurApproachRoute,
+  PhilosophyRoute: PhilosophyRoute,
+  SolutionsRoute: SolutionsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
