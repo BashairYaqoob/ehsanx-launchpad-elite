@@ -19,10 +19,12 @@ export function useScrollScene(
     if (reduced || motionDisabled || !ref.current) return;
     let cancelled = false;
     let dispose: (() => void) | undefined;
-    let refreshFrame = 0;
+    let refreshTimer = 0;
+    // One shared, debounced refresh for fonts, window load and resize.
     const refresh = () => {
-      cancelAnimationFrame(refreshFrame);
-      refreshFrame = requestAnimationFrame(() => {
+      window.clearTimeout(refreshTimer);
+      refreshTimer = window.setTimeout(() => {
+        if (cancelled) return;
         import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
           if (cancelled) return;
           ScrollTrigger.sort((a: Trigger, b: Trigger) => {
@@ -31,14 +33,11 @@ export function useScrollScene(
           });
           ScrollTrigger.refresh();
         });
-      });
+      }, 150);
     };
     window.addEventListener("resize", refresh);
+    window.addEventListener("load", refresh);
     document.fonts.ready.then(refresh);
-    const imageCleanups = Array.from(document.images).map(image => {
-      image.addEventListener("load", refresh);
-      return () => image.removeEventListener("load", refresh);
-    });
     Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(
       ([{ gsap }, { ScrollTrigger }]) => {
         if (cancelled || !ref.current) return;
@@ -51,9 +50,9 @@ export function useScrollScene(
     );
     return () => {
       cancelled = true;
-      cancelAnimationFrame(refreshFrame);
+      window.clearTimeout(refreshTimer);
       window.removeEventListener("resize", refresh);
-      imageCleanups.forEach(cleanup => cleanup());
+      window.removeEventListener("load", refresh);
       dispose?.();
     };
   }, [ref, setup, reduced, motionDisabled]);
