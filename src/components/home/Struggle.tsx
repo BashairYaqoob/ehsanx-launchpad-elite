@@ -21,7 +21,7 @@ export function Struggle() {
       const rows = Array.from(element.querySelectorAll<HTMLElement>(".challenge-index-row"));
       const stackOffset = () => Math.max(72, ...cards.map(card => (card.querySelector("header")?.getBoundingClientRect().height ?? 64) + 8));
       gsap.set(cards.slice(1), { y: () => window.innerHeight + 100 });
-      const tl = gsap.timeline({ scrollTrigger: { trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 3.5}`, pin: true, pinSpacing: true, scrub: 0.7, invalidateOnRefresh: true,
+      const tl = gsap.timeline({ scrollTrigger: { trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 2.5}`, pin: true, pinSpacing: true, scrub: 0.7, invalidateOnRefresh: true,
         onUpdate: self => { const active = Math.min(3, Math.floor(self.progress * 3.5)); rows.forEach((row, i) => row.dataset['active'] = String(i === active)); },
       }});
       cards.slice(1).forEach((card, i) => {
