@@ -4,3 +4,7 @@
 - [x] Remove founder from Home and add exact-copy industry marquee before final ship CTA.
 - [x] Update footer contacts, smooth scrolling, magnetic buttons, grain, 404 and metadata.
 - [x] Verify scroll journeys, interactions, links and eight requested screen widths.
+- [x] Fix persistent navigation, pin ordering, overlap and spacing.
+- [x] Rebuild pillars, Vision and Challenge with supplied imagery.
+- [x] Refine Approach, replace Client Impact and combine Home CTA/footer.
+- [x] Verify scroll flows and responsive layouts; report source-size limits.

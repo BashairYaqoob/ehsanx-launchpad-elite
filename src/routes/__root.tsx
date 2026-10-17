@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -121,6 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const isHome = useLocation({ select: location => location.pathname === "/" });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -133,7 +135,7 @@ function RootComponent() {
           <main>
             <Outlet />
           </main>
-          <Footer />
+          {!isHome && <Footer />}
           <WhatsAppFab />
         </IntroProvider>
       </MotionConfig>

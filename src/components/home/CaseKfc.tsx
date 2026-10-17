@@ -1,115 +1,42 @@
-import { animate, motion, useInView, useReducedMotion } from "framer-motion";
+import { animate, useInView, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { images } from "@/lib/image-assets";
-import kfc from "@/assets/kfc-logo.asset.json";
-import pci from "@/assets/pci-logo.asset.json";
-import aj from "@/assets/aj-logo.asset.json";
 import { Link } from "@tanstack/react-router";
-import { BrandButton, Item, Reveal } from "@/components/ui-brand";
-import { EASE } from "@/lib/site";
-import { KFC_IMPACT, impactValue } from "@/lib/client-impact";
+import { ArrowUpRight } from "lucide-react";
+import { clientImpact, type ImpactFigure } from "@/data/clientImpact";
+import { refreshImages } from "@/lib/refresh-images";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
+import { BrandButton, GoldRule } from "@/components/ui-brand";
+import { impactValue } from "@/lib/client-impact";
 
-function CountUp({ to, prefix = "", className }: { to: number; prefix?: string; className?: string }) {
+function ImpactNumber({ figure }: { figure: ImpactFigure }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true });
   const reduce = useReducedMotion();
-  const [v, setV] = useState<number | null>(null);
+  const [visual, setVisual] = useState<number | null>(null);
   useEffect(() => {
-    if (!inView) return;
-    if (reduce) return setV(to);
-    const c = animate(0, to, { duration: 2, ease: EASE, onUpdate: (x) => setV(Math.round(x)) });
-    return () => c.stop();
-  }, [inView, to, reduce]);
-  return (
-    <span ref={ref} className={`count-up ${className ?? ""}`} aria-label={impactValue(to, prefix)}>
-      <span className={v === null ? "" : "count-final"}>{impactValue(to, prefix)}</span>
-      {v !== null && <span className="count-visual" aria-hidden="true">{prefix}{v.toLocaleString("en-US")}</span>}
-    </span>
-  );
+    if (!inView || reduce) return;
+    const controls = animate(0, figure.value, { duration: 2, onUpdate: n => setVisual(Math.round(n)), onComplete: () => setVisual(null) });
+    return () => controls.stop();
+  }, [inView, reduce, figure.value]);
+  const final = impactValue(figure.value, figure.prefix);
+  return <div className="impact-figure"><span ref={ref} className="count-up" aria-label={final}><span className={visual === null ? "" : "count-final"}>{final}</span>{visual !== null && <span className="count-visual" aria-hidden="true">{impactValue(visual, figure.prefix)}</span>}</span><p>{figure.label}</p></div>;
 }
-
 export function CaseKfc() {
-  const showQuote = KFC_IMPACT.showQuote;
-  return (
-    <section className="section-y bg-wash">
-      <div className="container-x">
-        <p className="eyebrow">Client Impact</p>
-        <div className="mt-10 grid items-center gap-14 md:grid-cols-2 md:gap-20">
-          <div className="relative">
-            <motion.div
-              className="overflow-hidden rounded-3xl shadow-lift"
-              initial={{ clipPath: "inset(0 100% 0 0)" }}
-              whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.2, ease: EASE }}
-            >
-              <img
-                src={images.workshop.src}
-                srcSet={images.workshop.srcSet}
-                sizes="(min-width: 768px) 45vw, 100vw"
-                alt="EhsanX facilitator leading a leadership workshop with professionals around a meeting table"
-                width={550}
-                height={212}
-                loading="lazy"
-                className="aspect-[4/3] w-full object-cover"
-              />
-            </motion.div>
-            <div className="absolute left-5 top-5 rounded-full bg-paper px-5 py-2 shadow-soft"><img src={kfc.url} alt="KFC" className="h-12 w-12 object-contain" width={1920} height={1920} loading="lazy" /></div>
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: EASE, delay: 0.8 }}
-              className="absolute -bottom-6 -right-2 rounded-2xl border-l-4 border-gold bg-paper px-6 py-4 shadow-soft md:-right-6"
-            >
-              <span className="font-display font-bold text-navy">KFC Pakistan</span>
-            </motion.div>
-          </div>
-
-          <Reveal>
-            <Item>
-              <div className="kfc-figure"><img src={kfc.url} alt="KFC" width={1920} height={1920} loading="lazy" /><CountUp to={KFC_IMPACT.employees} prefix="~" className="font-display font-extrabold leading-none text-teal" /></div>
-              <p className="mt-3 font-display font-semibold text-navy">employees influenced</p>
-            </Item>
-            <Item className="mt-8">
-              <p className="text-lg text-ink/85">
-                KFC Pakistan sought to strengthen the entrepreneurial mindset, leadership capability, and innovation
-                capacity of its Restaurant General Managers. A national Entrepreneurial Leadership & Innovation
-                programme reached 180 RGMs across three regional cohorts over a 4-month journey.
-              </p>
-            </Item>
-            <Item className="mt-8 flex flex-wrap gap-3">
-              {[
-                { n: KFC_IMPACT.rgms, l: "RGMs" },
-                { n: KFC_IMPACT.cohorts, l: "regional cohorts" },
-                { n: KFC_IMPACT.months, l: "months" },
-              ].map((s) => (
-                <span key={s.l} className="rounded-full border border-navy/10 bg-paper px-5 py-2.5 font-display text-sm font-semibold text-navy shadow-soft">
-                  <CountUp to={s.n} className="text-teal" /> {s.l}
-                </span>
-              ))}
-            </Item>
-          </Reveal>
-        </div>
-
-        <Reveal className="mt-24 max-w-4xl">
-          <Item>
-            {showQuote && <figure className="border-l-2 border-gold pl-8">
-              <span aria-hidden className="block font-display text-6xl font-extrabold leading-none text-teal">“</span>
-              <blockquote className="font-display text-2xl font-semibold leading-snug text-navy md:text-3xl">
-                Every Restaurant General Manager became more than an operational manager — they became a coach, an
-                innovator, and a developer of people.
-              </blockquote>
-            </figure>}
-          </Item>
-          <Item className="mt-12">
-            <BrandButton to="/client-impact">See All Client Impact</BrandButton>
-          </Item>
-        </Reveal>
-        <div className="mt-14 grid gap-6 sm:grid-cols-2">
-          {[{ asset: pci, name: "PCI" }, { asset: aj, name: "Ahmad Jamal" }].map(({ asset, name }) => <Link to="/client-impact" key={name} aria-label={`${name} client impact`} className="client-logo flex min-h-40 items-center justify-center rounded-lg border border-border bg-paper p-8 transition-transform duration-300 hover:-translate-y-1"><img src={asset.url} alt={name} loading="lazy" className="max-h-20 max-w-full object-contain" /></Link>)}
-        </div>
-      </div>
-    </section>
-  );
+  return <section className="impact-section section-y" aria-labelledby="impact-title">
+    <ResponsiveImage asset={refreshImages.impact} alt="" loading="lazy" className="impact-background" />
+    <div className="impact-shade" />
+    <div className="container-x relative">
+      <GoldRule /><h2 id="impact-title" className="impact-title">Client Impact</h2>
+      <div className="impact-grid">{clientImpact.map(client => {
+        const empty = !client.primary && !client.secondary && !client.details?.length;
+        return <Link to="/client-impact" className={`impact-card ${empty ? "impact-logo-only" : ""}`} key={client.name} aria-label={`${client.name} client impact`}>
+          <div className="impact-logo-tile"><img src={client.logo} alt={client.name} loading="lazy" className={client.multiply ? "impact-logo-multiply" : ""} /></div>
+          {!empty && <><div className="impact-figures">{client.primary && <ImpactNumber figure={client.primary} />}{client.secondary && <ImpactNumber figure={client.secondary} />}</div>
+          {!!client.details?.length && <dl className="impact-details">{client.details.map(row => (row.value || row.chips?.length) && <div key={row.label}><dt>{row.label}</dt><dd>{row.value}{row.chips?.length ? <ul className="impact-chips">{row.chips.map(chip => <li key={chip}>{chip}</li>)}</ul> : null}</dd></div>)}</dl>}</>}
+          <ArrowUpRight className="impact-arrow" aria-hidden="true" />
+        </Link>;
+      })}</div>
+      <div className="impact-all"><BrandButton to="/client-impact">See All Client Impact</BrandButton></div>
+    </div>
+  </section>;
 }

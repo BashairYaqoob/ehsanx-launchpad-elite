@@ -4,22 +4,17 @@ import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import logoColor from "@/assets/logo-color.png";
 import logoWhite from "@/assets/logo-white.png";
-import { useIntroReady } from "@/lib/intro";
 import { EASE, NAV_LINKS } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
-  const ready = useIntroReady();
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (y) => {
-    const prev = scrollY.getPrevious() ?? 0;
     setSolid(y > 40);
-    setHidden(y > 120 && y > prev);
   });
 
   useEffect(() => {
@@ -30,9 +25,9 @@ export function Navbar() {
   return (
     <>
       <motion.header
-        className="fixed inset-x-0 top-4 z-50 px-4"
-        initial={{ y: -120, opacity: 0 }}
-        animate={ready ? { y: hidden && !open ? -120 : 0, opacity: 1 } : { y: -120, opacity: 0 }}
+        className="eh-navbar-header fixed inset-x-0 top-4 px-4"
+        initial={false}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 140, damping: 22 }}
       >
         <nav
@@ -40,7 +35,7 @@ export function Navbar() {
           className={cn(
              "eh-navbar mx-auto flex max-w-[1280px] items-center justify-between rounded-full border px-5 transition-all duration-[400ms] ease-out md:px-7",
             solid
-              ? "h-16 border-navy/10 bg-paper/80 shadow-soft backdrop-blur-xl"
+              ? "h-[72px] border-navy/10 bg-paper/85 shadow-soft backdrop-blur-xl"
               : "h-20 border-transparent bg-transparent",
           )}
         >
@@ -88,7 +83,7 @@ export function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-[60] flex flex-col bg-navy-deep px-6 pb-10 pt-8 text-paper"
+            className="eh-nav-menu fixed inset-0 flex flex-col bg-navy-deep px-6 pb-10 pt-8 text-paper"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -1,5 +1,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { Building2, Sprout, Users } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { refreshImages } from "@/lib/refresh-images";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { useCallback, useRef } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
@@ -8,11 +10,10 @@ import { images } from "@/lib/image-assets";
 const VISION =
   "To develop people of character and entrepreneurial mindset who strengthen institutions, create value, and contribute to a flourishing society through the pursuit of Ihsan.";
 const PILLARS = [
-  { label: "Develop entrepreneurial leaders", Icon: Users },
-  { label: "Strengthen institutions", Icon: Building2 },
-  { label: "Enable sustainable transformation", Icon: Sprout },
+  { label: "Develop entrepreneurial leaders", image: refreshImages.pillar_1 },
+  { label: "Strengthen institutions", image: refreshImages.pillar_2 },
+  { label: "Enable sustainable transformation", image: refreshImages.pillar_3 },
 ];
-const CHIPS = ["Strengths", "People", "Relationships", "Resources", "Opportunities"];
 
 export function WhyExists() {
   const ref = useRef<HTMLElement>(null);
@@ -30,7 +31,8 @@ export function WhyExists() {
           scrollTrigger: {
             trigger: element,
             pin: true,
-            start: "top top",
+            start: "top 104px",
+            pinSpacing: true,
             end: "+=150%",
             scrub: 0.6,
             invalidateOnRefresh: true,
@@ -51,8 +53,8 @@ export function WhyExists() {
           )
           .fromTo(
             element.querySelector(".eh-vision-image"),
-            { yPercent: -3 },
-            { yPercent: 3, duration: 2.2, ease: "none" },
+            { scale: 1 },
+            { scale: 1.06, duration: 2.2, ease: "none" },
             0,
           );
       });
@@ -123,27 +125,8 @@ export function WhyExists() {
               <span className="eh-portrait-corner" aria-hidden />
             </div>
           </div>
-          <div className="eh-pillars">
-            {PILLARS.map(({ label, Icon }, i) => (
-              <motion.div key={label} className="eh-pillar" whileHover={reduce ? {} : { y: -5 }}>
-                <div className="flex items-center justify-between">
-                  <span className="font-display text-sm text-teal">0{i + 1}</span>
-                  <Icon className="h-7 w-7 text-navy" strokeWidth={1} aria-hidden />
-                </div>
-                <h3 className="mt-5 font-display text-lg font-semibold text-navy">{label}</h3>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        <div className="eh-marquee">
-          <div className="eh-marquee-track">
-            {[0, 1].map((copy) => (
-              <div key={copy} className="eh-chip-group" aria-hidden={copy === 1}>
-                {CHIPS.map((chip) => (
-                  <span key={chip}>{chip}</span>
-                ))}
-              </div>
-            ))}
+          <div className="eh-pillars" aria-label="Three pillars">
+            {PILLARS.map(({ label, image }, i) => <PillarCard key={label} label={label} image={image} index={i} reduced={!!reduce} />)}
           </div>
         </div>
         <div className="eh-purpose-strip">
@@ -155,10 +138,10 @@ export function WhyExists() {
       <section ref={visionRef} className="eh-vision bg-teal text-paper" aria-label="Our Vision">
         <img
           className="eh-vision-image"
-          src={images.vision.src}
-          srcSet={images.vision.srcSet}
+          src={refreshImages.vision_v2.src}
+          srcSet={refreshImages.vision_v2.srcSet}
           sizes="100vw"
-          alt="A single gold paper boat on a calm sea"
+          alt="EhsanX vision across a calm horizon"
           width={1920}
           height={1080}
           loading="lazy"
@@ -169,11 +152,11 @@ export function WhyExists() {
             <span className="eh-vision-rule" />
           </div>
           <div className="max-w-4xl">
-            <p className="eyebrow-dark">Our Vision</p>
+            <p className="eyebrow-dark text-paper">Our Vision</p>
             <span aria-hidden className="eh-quote text-gold">
               “
             </span>
-            <blockquote className="eh-vision-quote">
+            <blockquote className="eh-vision-quote text-paper">
               <span className="sr-only">{VISION}</span>
               <span aria-hidden>
                 {VISION.split(" ").map((word, i) => (
@@ -186,6 +169,7 @@ export function WhyExists() {
           </div>
         </div>
       </section>
+      <div className="vision-challenge-gap" aria-hidden="true" />
     </>
   );
 }
@@ -201,4 +185,16 @@ function Highlight({ children }: { children: string }) {
       {children}
     </motion.mark>
   );
+}
+
+function PillarCard({ label, image, index, reduced }: { label: string; image: typeof refreshImages.pillar_1; index: number; reduced: boolean }) {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], reduced ? [0, 0] : [-12 - index * 5, 12 + index * 5]);
+  return <motion.article ref={ref} className="pillar-card" initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 48 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.15 }} transition={{ duration: 0.8, delay: index * 0.12 }}>
+    <motion.div className="pillar-image-drift" style={{ y }}><ResponsiveImage asset={image} alt={label} loading="lazy" sizes="(min-width: 1024px) 30vw, 75vw" /></motion.div>
+    <div className="pillar-shade" />
+    <span className="pillar-number">0{index + 1}</span>
+    <h3>{label}<ArrowUpRight className="pillar-arrow" aria-hidden="true" /></h3>
+  </motion.article>;
 }
