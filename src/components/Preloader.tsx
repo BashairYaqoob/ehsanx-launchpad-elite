@@ -34,6 +34,12 @@ export function Preloader() {
       return;
     }
     document.body.style.overflow = "hidden";
+    fetch(PRELOADER_VIDEO_SRC, { method: "HEAD" })
+      .then((r) => {
+        const type = r.headers.get("content-type") ?? "";
+        if (!r.ok || !type.startsWith("video")) setPlaceholder(true);
+      })
+      .catch(() => setPlaceholder(true));
     const t = window.setTimeout(exit, PRELOADER_MAX_MS);
     return () => {
       window.clearTimeout(t);

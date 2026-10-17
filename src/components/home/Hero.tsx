@@ -236,7 +236,7 @@ export function Hero() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pr-16 md:pr-14">
           <button
             type="button"
             onClick={() => setUserPaused((p) => !p)}
