@@ -19,7 +19,7 @@ function StackCard({ c, i, progress }: { c: CardDef; i: number; progress: Motion
   const scale = useTransform(progress, [i / n, 1], [1, 1 - depth * 0.02 - (depth > 0 ? 0.0 : 0)]);
   const s2 = useTransform(progress, [start - 0.05, Math.min(start + 0.2, 1)], [1, depth > 0 ? 0.94 : 1]);
   const opacity = useTransform(progress, [start - 0.05, Math.min(start + 0.2, 1)], [1, depth > 0 ? 0.6 : 1]);
-  const combined = useTransform([scale, s2], ([a, b]: number[]) => Math.min(a, b));
+  const combined = useTransform([scale, s2], (v: number[]) => Math.min(v[0] ?? 1, v[1] ?? 1));
 
   return (
     <div className="flex h-[70vh] items-start md:h-[80vh]">
