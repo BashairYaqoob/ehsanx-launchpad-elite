@@ -21,34 +21,30 @@ const SLIDES = [
     sub: "We help organizations develop leaders who can navigate complexity, strengthen teams, and create lasting impact.",
     img: images.hero_blocks.src,
     srcSet: images.hero_blocks.srcSet,
-    height: images.hero_blocks.height,
     pos: "70% center",
     alt: "Navy, teal and gold EX sculpture in a sunlit atrium",
   },
   {
     title: "Leadership That Creates Real Change.",
     sub: "Equip your people with the clarity, capability, and confidence to turn leadership potential into measurable performance.",
-    img: images.hero_2_generated.src,
-    srcSet: images.hero_2_generated.srcSet,
-    height: images.hero_2_generated.height,
+    img: images.hero_2.src,
+    srcSet: images.hero_2.srcSet,
     pos: "65% center",
-    alt: "Origami boats climbing toward a gold boat on a cliff",
+    alt: "A senior leader presenting a plan to five colleagues in a bright boardroom at golden hour",
   },
   {
     title: "From Individual Growth to Organizational Impact.",
     sub: "Align leadership, strengthen organizational culture, and turn development initiatives into meaningful business outcomes.",
-    img: images.hero_3_generated.src,
-    srcSet: images.hero_3_generated.srcSet,
-    height: images.hero_3_generated.height,
+    img: images.hero_3.src,
+    srcSet: images.hero_3.srcSet,
     pos: "60% center",
-    alt: "Origami boats forming ripples around a gold boat",
+    alt: "A professional on a mezzanine overlooking teams collaborating across an open-plan atrium office",
   },
   {
     title: "Every Organization Has the Potential to Go Further.",
     sub: "We partner with organizations to uncover potential, navigate challenges, and build the capabilities needed for what comes next.",
     img: images.ship.src,
     srcSet: images.ship.srcSet,
-    height: images.ship.height,
     pos: "70% center",
     alt: "An EhsanX sailing ship crossing the sea",
   },
@@ -62,7 +58,6 @@ export function Hero() {
   const [focused, setFocused] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
   const [hidden, setHidden] = useState(false);
-  const [zoom, setZoom] = useState(1);
   const ref = useRef<HTMLElement>(null);
   const touch = useRef<{ x: number; y: number } | null>(null);
   const progress = useMotionValue(0);
@@ -81,21 +76,11 @@ export function Hero() {
     },
     [progress],
   );
-  const slide = SLIDES[index] ?? SLIDES[0];
   useEffect(() => {
     const onVisibility = () => setHidden(document.hidden);
     document.addEventListener("visibilitychange", onVisibility);
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
-  useEffect(() => {
-    const measure = () => {
-      const rect = ref.current?.getBoundingClientRect();
-      if (rect) setZoom(Math.max(1, Math.min(1.05, 1920 / rect.width, slide.height / rect.height)));
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [slide.height]);
   useEffect(() => {
     if (paused) return;
     let frame = 0;
@@ -112,6 +97,7 @@ export function Hero() {
   }, [paused, progress, go]);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const coverY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 180]);
+  const slide = SLIDES[index] ?? SLIDES[0];
   return (
     <section
       ref={ref}
@@ -162,12 +148,7 @@ export function Hero() {
             exit={{ opacity: 0 }}
             transition={{ duration: reduce ? 0 : 1, ease: "easeInOut" }}
           >
-            <motion.picture
-              className="block h-full w-full"
-              initial={{ scale: 1 }}
-              animate={{ scale: reduce ? 1 : zoom }}
-              transition={{ duration: HERO_DURATION / 1000, ease: "linear" }}
-            >
+            <picture className="eh-kenburns block h-full w-full">
               <source
                 type="image/webp"
                 srcSet={slide.srcSet}
@@ -177,66 +158,62 @@ export function Hero() {
                 src={slide.img}
                 alt={slide.alt}
                 width={1920}
-                height={slide.height}
+                height={1088}
                 fetchPriority={index === 0 ? "high" : "auto"}
                 className="h-full w-full object-cover"
                 style={{ objectPosition: slide.pos }}
               />
-            </motion.picture>
+            </picture>
           </motion.div>
         </AnimatePresence>
         <div className={`bg-hero-overlay absolute inset-0 ${index === 0 ? "hero-first-overlay" : ""}`} />
         <div className="container-x eh-hero-content">
           <div className="eh-hero-copy" aria-live="polite" aria-atomic="true">
-            <AnimatePresence mode="wait">
-              {ready && (
-                <motion.div
-                  key={index}
-                  initial="hidden"
-                  animate="show"
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+            {SLIDES.map((s, i) => {
+              const Heading = i === 0 ? "h1" : "h2";
+              const active = i === index;
+              return (
+                <div
+                  key={s.title}
+                  className="eh-hero-slide-text"
+                  data-active={active}
+                  aria-hidden={!active}
                 >
-                  <motion.p
-                    className="eh-hero-eyebrow"
-                    variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
-                  >
-                    {String(index + 1).padStart(2, "0")} / 04
-                  </motion.p>
-                  <h1 className="eh-hero-title">
-                    {slide.title.split(" ").map((word, i) => (
-                      <span key={i} className="eh-word-mask">
+                  <p className="eh-hero-eyebrow">
+                    {String(i + 1).padStart(2, "0")} / 04
+                  </p>
+                  <Heading className="eh-hero-title">
+                    {s.title.split(" ").map((word, w) => (
+                      <span key={w} className="eh-word-mask">
                         <motion.span
-                          variants={{
-                            hidden: { y: reduce ? 0 : "110%", opacity: 0 },
-                            show: {
-                              y: 0,
-                              opacity: 1,
-                              transition: {
-                                duration: reduce ? 0 : 0.65,
-                                ease: EASE,
-                                delay: i * 0.035,
-                              },
-                            },
+                          initial={false}
+                          animate={
+                            active && ready
+                              ? { y: 0, opacity: 1 }
+                              : { y: reduce ? 0 : "110%", opacity: 0 }
+                          }
+                          transition={{
+                            duration: reduce ? 0 : 0.5,
+                            ease: EASE,
+                            delay: active ? w * 0.035 : 0,
                           }}
                         >
                           {word}
                         </motion.span>{" "}
                       </span>
                     ))}
-                  </h1>
+                  </Heading>
                   <motion.p
                     className="eh-hero-subtitle"
-                    variants={{
-                      hidden: { opacity: 0, y: 12 },
-                      show: { opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.5 } },
-                    }}
+                    initial={false}
+                    animate={active && ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                    transition={{ delay: active ? 0.2 : 0, duration: reduce ? 0 : 0.5 }}
                   >
-                    {slide.sub}
+                    {s.sub}
                   </motion.p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
           <div className="eh-hero-ctas" aria-hidden={!ready}>
             <BrandButton to="/contact">Start a Conversation</BrandButton>

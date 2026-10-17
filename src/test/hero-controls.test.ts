@@ -3,8 +3,8 @@ import {
   HERO_DURATION,
   nextSlide,
   slideshowPaused,
-  WHATSAPP_CONVERSATION_URL,
 } from "@/lib/hero-controls";
+import { WHATSAPP_CONVERSATION_URL } from "@/lib/contact";
 
 const playing = {
   ready: true,

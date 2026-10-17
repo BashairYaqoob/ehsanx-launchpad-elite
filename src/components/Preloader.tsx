@@ -16,6 +16,7 @@ export function Preloader() {
   const exit = () => {
     if (exited.current) return;
     exited.current = true;
+    document.body.style.overflow = "";
     setPhase("exiting");
   };
 
@@ -59,7 +60,12 @@ export function Preloader() {
   const curtain = { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const };
 
   return (
-    <div className="fixed inset-0 z-[100]" aria-hidden>
+    <div className="fixed inset-0 z-[100]">
+      {phase === "playing" && (
+        <button type="button" className="preloader-skip" onClick={exit}>
+          Skip
+        </button>
+      )}
       <AnimatePresence>
         {phase === "playing" && (
           <motion.div

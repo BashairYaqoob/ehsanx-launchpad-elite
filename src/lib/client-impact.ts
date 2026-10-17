@@ -6,6 +6,8 @@ export const KFC_IMPACT = {
   showQuote: false,
 } as const;
 
+const formatter = new Intl.NumberFormat("en-US");
+
 export function impactValue(value: number, prefix = "") {
-  return `${prefix}${value.toLocaleString("en-US")}`;
+  return `${prefix}${formatter.format(value)}`;
 }
