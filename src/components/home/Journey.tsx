@@ -17,16 +17,19 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
     const end = element.querySelector(".journey-end");
     const text = element.querySelectorAll(".journey-titles");
     const progress = element.querySelector(".journey-fill");
-    const arrow = element.querySelector(".journey-loop path");
+    const arrow = element.querySelector(".journey-loop > path");
+    const loop = element.querySelector(".journey-loop");
     const small = window.matchMedia("(max-width: 767px)").matches;
     gsap.set(panels.slice(1), { autoAlpha: 0 });
     gsap.set(end, { autoAlpha: 0, y: 24 });
-    gsap.set(progress, { scaleX: kind === "eplus" && small ? 1 : 0, scaleY: kind === "eplus" && small ? 0 : 1 });
+    const vertical = kind === "eplus" ? small : !small;
+    gsap.set(progress, { scaleX: vertical ? 1 : 0, scaleY: vertical ? 0 : 1 });
+    gsap.set(loop, { autoAlpha: 0 });
     if (arrow) gsap.set(arrow, { strokeDasharray: 1, strokeDashoffset: 1 });
     const tl = gsap.timeline({ scrollTrigger: {
       trigger: element, start: "top top", end: () => `+=${window.innerHeight * (small ? 3 : 5)}`,
       pin: true, scrub: 0.6, invalidateOnRefresh: true,
-      onUpdate: self => { const active = Math.min(4, Math.floor(self.progress * 5.5)); nodes.forEach((node, i) => node.dataset.active = String(i <= active)); },
+      onUpdate: self => { const active = Math.min(4, Math.floor(self.progress * 5.5)); nodes.forEach((node, i) => node.dataset['active'] = String(i <= active)); },
     }});
     tl.to(progress, { scaleX: 1, scaleY: 1, duration: 4.4, ease: "none" }, 0);
     stages.slice(1).forEach((_, i) => {
@@ -37,7 +40,7 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
         .fromTo(next.querySelector(".journey-title-inner"), { yPercent: 110 }, { yPercent: 0, duration: 0.7 }, i + 0.65);
       if (kind === "approach") tl.fromTo(next.querySelector("img"), { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.8 }, i + 0.65);
     });
-    if (arrow) tl.to(arrow, { strokeDashoffset: 0, duration: 0.5, ease: "none" }, 4.35);
+    if (arrow) tl.to(loop, { autoAlpha: 1, duration: 0.1 }, 4.3).to(arrow, { strokeDashoffset: 0, duration: 0.5, ease: "none" }, 4.35);
     tl.to(text, { autoAlpha: 0, duration: 0.3 }, 4.7)
       .to(end, { autoAlpha: 1, y: 0, duration: 0.5 }, 4.85)
       .to({}, { duration: 0.65 });

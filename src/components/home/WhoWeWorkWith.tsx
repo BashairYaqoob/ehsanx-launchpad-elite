@@ -23,7 +23,7 @@ export function WhoWeWorkWith() {
   return <section className="industries bg-paper" aria-labelledby="industries-title">
     <Reveal className="container-x industries-heading">
       <Item><span className="block h-[2px] w-[60px] bg-gold" aria-hidden="true" /><h2 id="industries-title" className="h2-display mt-6 text-navy">Who we work with</h2><p className="mt-6 max-w-[620px] text-lg text-ink/80">We partner with organizations across industries to develop people, create value, and transform institutions</p></Item>
-      <Item><Button variant="ghost" size="icon" className="min-h-11 min-w-11 text-navy" onClick={() => setPaused(p => !p)} aria-label={paused ? "Play industry strip" : "Pause industry strip"} aria-pressed={paused} title={paused ? "Play industry strip" : "Pause industry strip"}>{paused ? <Play size={16} /> : <Pause size={16} />}</Button></Item>
+      <Item><Button variant="ghost" size="icon" className="industry-toggle min-h-11 min-w-11 text-navy" onClick={() => setPaused(p => !p)} aria-label={paused ? "Play industry strip" : "Pause industry strip"} aria-pressed={paused} title={paused ? "Play industry strip" : "Pause industry strip"}>{paused ? <Play size={16} /> : <Pause size={16} />}</Button></Item>
     </Reveal>
     <div className="industry-strip" data-paused={paused} tabIndex={0} aria-label="Industries">
       <div className="industry-track">

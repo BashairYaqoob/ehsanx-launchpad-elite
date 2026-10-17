@@ -7,6 +7,7 @@ import aj from "@/assets/aj-logo.asset.json";
 import { Link } from "@tanstack/react-router";
 import { BrandButton, Item, Reveal } from "@/components/ui-brand";
 import { EASE } from "@/lib/site";
+import { KFC_IMPACT, impactValue } from "@/lib/client-impact";
 
 function CountUp({ to, prefix = "", className }: { to: number; prefix?: string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -20,15 +21,15 @@ function CountUp({ to, prefix = "", className }: { to: number; prefix?: string; 
     return () => c.stop();
   }, [inView, to, reduce]);
   return (
-    <span ref={ref} className={`count-up ${className ?? ""}`} aria-label={`${prefix}${to.toLocaleString("en-US")}`}>
-      <span className={v === null ? "" : "count-final"}>{prefix}{to.toLocaleString("en-US")}</span>
+    <span ref={ref} className={`count-up ${className ?? ""}`} aria-label={impactValue(to, prefix)}>
+      <span className={v === null ? "" : "count-final"}>{impactValue(to, prefix)}</span>
       {v !== null && <span className="count-visual" aria-hidden="true">{prefix}{v.toLocaleString("en-US")}</span>}
     </span>
   );
 }
 
 export function CaseKfc() {
-  const showQuote = false;
+  const showQuote = KFC_IMPACT.showQuote;
   return (
     <section className="section-y bg-wash">
       <div className="container-x">
@@ -67,7 +68,7 @@ export function CaseKfc() {
 
           <Reveal>
             <Item>
-              <div className="kfc-figure"><img src={kfc.url} alt="KFC" width={1920} height={1920} loading="lazy" /><CountUp to={12000} prefix="~" className="font-display font-extrabold leading-none text-teal" /></div>
+              <div className="kfc-figure"><img src={kfc.url} alt="KFC" width={1920} height={1920} loading="lazy" /><CountUp to={KFC_IMPACT.employees} prefix="~" className="font-display font-extrabold leading-none text-teal" /></div>
               <p className="mt-3 font-display font-semibold text-navy">employees influenced</p>
             </Item>
             <Item className="mt-8">
@@ -79,9 +80,9 @@ export function CaseKfc() {
             </Item>
             <Item className="mt-8 flex flex-wrap gap-3">
               {[
-                { n: 180, l: "RGMs" },
-                { n: 3, l: "regional cohorts" },
-                { n: 4, l: "months" },
+                { n: KFC_IMPACT.rgms, l: "RGMs" },
+                { n: KFC_IMPACT.cohorts, l: "regional cohorts" },
+                { n: KFC_IMPACT.months, l: "months" },
               ].map((s) => (
                 <span key={s.l} className="rounded-full border border-navy/10 bg-paper px-5 py-2.5 font-display text-sm font-semibold text-navy shadow-soft">
                   <CountUp to={s.n} className="text-teal" /> {s.l}
