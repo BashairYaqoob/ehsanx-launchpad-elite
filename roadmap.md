@@ -7,4 +7,8 @@
 - [x] Fix persistent navigation, pin ordering, overlap and spacing.
 - [x] Rebuild pillars, Vision and Challenge with supplied imagery.
 - [x] Refine Approach, replace Client Impact and combine Home CTA/footer.
-- [x] Verify scroll flows and responsive layouts; report source-size limits.
+- [x] Verify scroll flows and responsive layouts; report source-size limits.- [x] Centralize contacts, accessible count-ups, persistent WhatsApp FAB, pillar links/carousel, nav active state, preloader skip, all-slide hero text.
+- [x] Generate new hero slides 2/3 (boardroom, atrium) and remove origami images.
+- [x] Replace pinned Our Approach with static five-card grid.
+- [x] Replace Client Impact with logo row and combined computed totals.
+- [x] Fix challenge/hero/vision geometry, scroll distances, GSAP cleanup and shared refresh; verify nine widths.
