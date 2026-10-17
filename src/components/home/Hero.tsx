@@ -98,7 +98,7 @@ export function Hero() {
   const textY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
-  const slide = SLIDES[index];
+  const slide = SLIDES[index]!;
   const Heading = index === 0 ? "h1" : "h2";
 
   return (
@@ -113,10 +113,10 @@ export function Hero() {
         if (e.key === "ArrowRight") go(1);
         if (e.key === "ArrowLeft") go(-1);
       }}
-      onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+      onTouchStart={(e) => (touchX.current = e.touches[0]!.clientX)}
       onTouchEnd={(e) => {
         if (touchX.current == null) return;
-        const dx = e.changedTouches[0].clientX - touchX.current;
+        const dx = e.changedTouches[0]!.clientX - touchX.current;
         if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
         touchX.current = null;
       }}
@@ -236,7 +236,7 @@ export function Hero() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pr-16 md:pr-14">
           <button
             type="button"
             onClick={() => setUserPaused((p) => !p)}
