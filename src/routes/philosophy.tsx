@@ -1,12 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/PagePlaceholder";
-import { pageHead } from "@/lib/site";
-
-export const Route = createFileRoute("/philosophy")({
-  head: () => pageHead("Philosophy | EhsanX", "The E-Plus Model and what EhsanX believes about leadership, character and value creation.", "/philosophy"),
-  component: PhilosophyPage,
-});
-
-function PhilosophyPage() {
-  return <PagePlaceholder name="Philosophy" />;
-}
+import { createFileRoute } from '@tanstack/react-router';
+import { FinalCta } from '@/components/home/FounderAndCta';
+import { philosophy } from '@/data/philosophy';
+import { PhilosophyModel } from '@/components/advisory/PhilosophyModel';
+import { PhilosophyJourney } from '@/components/advisory/PhilosophyJourney';
+import { Eyebrow, PageCTA, PageHero, PageImage, PageReveal, SectionHeader } from '@/components/advisory/PagePrimitives';
+import '@/components/advisory/advisory.css';
+export const Route=createFileRoute('/philosophy')({head:()=>({meta:[{title:philosophy.meta.title},{name:'description',content:philosophy.meta.description},{property:'og:title',content:philosophy.meta.title},{property:'og:description',content:philosophy.meta.description},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'},{property:'og:url',content:'https://ehsanx-homepage.lovable.app/philosophy'}],links:[{rel:'canonical',href:'https://ehsanx-homepage.lovable.app/philosophy'}]}),component:PhilosophyPage});
+function PhilosophyPage(){return <div className="advisory-page"><PageHero {...philosophy.hero} line={philosophy.heroLine} image={philosophy.images.hero}/><section className="ad-section ad-light" id="idea"><PageReveal className="container-x"><SectionHeader {...philosophy.intro}/><div className="ad-two-col"><p className="ad-pull">{philosophy.intro.pullSentence}</p><div className="ad-prose ad-bordered-prose">{philosophy.intro.paragraphs.map(p=><p key={p}>{p}</p>)}</div></div></PageReveal></section><PhilosophyModel/><PhilosophyJourney/><section className="ad-section ad-dark" id="beliefs"><PageReveal className="container-x"><header className="ad-header"><Eyebrow>{philosophy.beliefsHeader.eyebrow}</Eyebrow><h2 className="ad-belief-heading">{philosophy.beliefsHeader.title}</h2></header><div className="ad-beliefs">{philosophy.beliefs.map((b,i)=><article key={b.title} className="ad-belief"><span className="ad-index" aria-hidden="true">{String(i+1).padStart(2,'0')}</span><h3>{b.title}</h3><p>{b.sentence}</p></article>)}</div></PageReveal></section><section className="ad-section ad-light ad-quote"><PageReveal className="container-x"><Eyebrow>{philosophy.closing.eyebrow}</Eyebrow><span className="ad-quote-mark" aria-hidden="true">“</span><blockquote><p className="ad-quote-first">{philosophy.closing.first}</p><p className="ad-quote-second">{philosophy.closing.second}</p></blockquote><cite>{philosophy.closing.attribution}</cite><PageImage image={philosophy.images.closing} className="ad-closing-image"/></PageReveal></section><PageCTA data={philosophy.cta}/><FinalCta/></div>;}
