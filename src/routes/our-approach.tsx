@@ -1,12 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/PagePlaceholder";
-import { pageHead } from "@/lib/site";
-
-export const Route = createFileRoute("/our-approach")({
-  head: () => pageHead("Our Approach | EhsanX", "The EhsanX five-step method: Listen, Diagnose, Design, Implement, Reflect & Improve.", "/our-approach"),
-  component: OurApproachPage,
-});
-
-function OurApproachPage() {
-  return <PagePlaceholder name="Our Approach" />;
-}
+import { createFileRoute } from '@tanstack/react-router';
+import { FinalCta } from '@/components/home/FounderAndCta';
+import { approach } from '@/data/approach';
+import { ApproachMethod } from '@/components/advisory/ApproachMethod';
+import { Eyebrow, PageCTA, PageHero, PageReveal } from '@/components/advisory/PagePrimitives';
+import '@/components/advisory/advisory.css';
+export const Route=createFileRoute('/our-approach')({head:()=>({meta:[{title:approach.meta.title},{name:'description',content:approach.meta.description},{property:'og:title',content:approach.meta.title},{property:'og:description',content:approach.meta.description},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'},{property:'og:url',content:'https://ehsanx-homepage.lovable.app/our-approach'}],links:[{rel:'stylesheet',href:'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap'},{rel:'canonical',href:'https://ehsanx-homepage.lovable.app/our-approach'}]}),component:OurApproachPage});
+function OurApproachPage(){return <div className="advisory-page"><PageHero {...approach.hero} image={approach.images.hero}/><section className="ad-section ad-light"><PageReveal className="container-x"><div className="ad-intro"><Eyebrow>{approach.introEyebrow}</Eyebrow><p>{approach.intro}</p></div></PageReveal></section><ApproachMethod/><section className="ad-section ad-light"><PageReveal className="container-x"><Eyebrow>{approach.principle.eyebrow}</Eyebrow><div className="ad-two-col"><p className="ad-pull">{approach.principle.title}</p><div className="ad-prose"><p>{approach.principle.copy}</p><div className="ad-chips">{approach.principle.chips.map(c=><span className="ad-chip" key={c}>{c}</span>)}</div></div></div></PageReveal></section><PageCTA data={approach.cta}/><FinalCta/></div>;}
