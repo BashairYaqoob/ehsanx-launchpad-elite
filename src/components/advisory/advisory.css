@@ -8,8 +8,8 @@ body:has(.advisory-page) .standalone-footer{display:none}
 .advisory-page .ad-eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--font-sans);font-weight:600;color:var(--teal);font-size:12px;letter-spacing:.18em;line-height:1.6;margin-bottom:24px;text-transform:uppercase}
 .advisory-page .ad-eyebrow::before{content:'';height:2px;width:32px;flex-shrink:0;background:var(--gold)}
 .advisory-page .ad-dark .ad-eyebrow{color:color-mix(in srgb,var(--teal) 25%,var(--paper))}
-.advisory-page h1{font-size:40px;font-weight:600;line-height:1.12;text-wrap:balance;color:var(--paper);letter-spacing:0}
-.advisory-page h2{font-size:30px;line-height:1.22;font-weight:600;text-wrap:balance;letter-spacing:0}
+.advisory-page .ad-hero h1{font-size:40px;font-weight:600;line-height:1.12;text-wrap:balance;color:var(--paper);letter-spacing:0}
+.advisory-page .ad-section h2{font-size:30px;line-height:1.22;font-weight:600;text-wrap:balance;letter-spacing:0}
 .advisory-page .ad-light h2{color:var(--navy)}
 .advisory-page .ad-header{margin-bottom:48px;max-width:900px}
 .advisory-page .ad-header p{margin-top:24px;max-width:68ch}
@@ -144,7 +144,7 @@ body:has(.advisory-page) [data-vaul-overlay]{z-index:1100;background:color-mix(i
  .advisory-page .ad-step-row img{width:96px;height:96px}
 }
 @media(min-width:1024px){
- .advisory-page h1{font-size:64px}.advisory-page h2{font-size:44px}
+ .advisory-page .ad-hero h1{font-size:64px}.advisory-page .ad-section h2{font-size:44px}
  .advisory-page .ad-hero-grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:64px}.advisory-page .ad-hero-image{order:0}.advisory-page .ad-hero-image img{aspect-ratio:4/5;max-height:560px}
  .advisory-page .ad-model-grid{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,1fr);gap:24px 40px}
  .advisory-page .ad-model-card:nth-of-type(1){grid-column:1;grid-row:1}.advisory-page .ad-model-card:nth-of-type(2){grid-column:1;grid-row:2}.advisory-page .ad-model-card:nth-of-type(3){grid-column:2;grid-row:1}.advisory-page .ad-model-card:nth-of-type(4){grid-column:2;grid-row:2}.advisory-page .ad-model-card:nth-of-type(5){grid-column:3;grid-row:1/span 2;justify-content:center}
