@@ -15,5 +15,5 @@
 - [x] Replace pillar imagery/carousel with linked text cards and remove tagline.
 - [x] Expand Client Impact logos, computed city totals, supplied client details and footnote.
 - [x] Verify both sections at all requested widths and run impact tests.
-- [ ] Build Philosophy and Our Approach from exact editable copy with new editorial imagery.
-- [ ] Verify diagrams, keyboard interaction, mobile drawer, reduced motion and page boundaries.
+- [x] Build Philosophy and Our Approach from exact editable copy with new editorial imagery.
+- [x] Verify diagrams, keyboard interaction, mobile drawer, reduced motion and page boundaries.

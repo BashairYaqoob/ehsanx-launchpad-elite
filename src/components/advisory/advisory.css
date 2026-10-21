@@ -157,3 +157,6 @@ body:has(.advisory-page) [data-vaul-overlay]{z-index:1100;background:color-mix(i
 }
 @media(max-width:767px){.advisory-page .ad-step-row{padding:20px 16px;gap:16px}.advisory-page .ad-step-heading{font-size:18px;display:block}.advisory-page .ad-step-number{display:block;margin-bottom:4px}.advisory-page .ad-step-row p{font-size:15px}.advisory-page .ad-cta-buttons{flex-direction:column}.advisory-page .ad-panel-shell{display:none}}
 @media(prefers-reduced-motion:reduce){.advisory-page .ad-model-card:hover,.advisory-page .ad-belief:hover,.advisory-page .ad-link:hover{transform:none}.advisory-page .ad-link .btn-arrow{transform:none}.advisory-page .ad-panel-shell,.advisory-page .ad-model-card,.advisory-page .ad-plus{transition:none}.ad-detail-drawer{animation:none!important;transition:none!important}}
+.advisory-page .ad-hero-copy .ad-eyebrow{font-size:12px;line-height:1.6;color:color-mix(in srgb,var(--teal) 25%,var(--paper))}
+.advisory-page .ad-ring-label{white-space:normal;overflow-wrap:normal}
+@media(max-width:767px){.advisory-page .ad-hero-copy>p:not(.ad-eyebrow){padding-right:52px}}
