@@ -1,11 +1,9 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Users, Building2, Sprout } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { refreshImages } from "@/lib/refresh-images";
-import { useCallback, useRef } from "react";
-import { GoldRule } from "@/components/ui-brand";
-import { useScrollScene } from "@/hooks/use-scroll-scene";
+import { GoldRule, Item, Reveal } from "@/components/ui-brand";
 import { images } from "@/lib/image-assets";
+import { refreshImages } from "@/lib/refresh-images";
 
 const VISION =
   "To develop people of character and entrepreneurial mindset who strengthen institutions, create value, and contribute to a flourishing society through the pursuit of Ihsan.";
@@ -16,101 +14,38 @@ const PILLARS = [
 ];
 
 export function WhyExists() {
-  const ref = useRef<HTMLElement>(null);
-  const visionRef = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const imageY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -16, reduce ? 0 : 16]);
-  const setup = useCallback<Parameters<typeof useScrollScene>[1]>(
-    (gsap, ScrollTrigger, element) => {
-      const words = element.querySelectorAll(".eh-vision-word");
-      const mm = gsap.matchMedia();
-      mm.add("(min-width: 1024px) and (min-height: 600px)", () => {
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: element,
-            pin: true,
-            start: "top 104px",
-            pinSpacing: true,
-            end: "+=150%",
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
-        });
-        timeline
-          .fromTo(
-            words,
-            { opacity: 0.25 },
-            { opacity: 1, stagger: 0.065, duration: 0.1, ease: "none" },
-          )
-          .to(element.querySelector(".eh-ihsan"), { color: "var(--gold)", duration: 0.1 })
-          .fromTo(
-            element.querySelector(".eh-vision-rule"),
-            { scaleY: 0 },
-            { scaleY: 1, duration: 2.2, ease: "none" },
-            0,
-          )
-          .fromTo(
-            element.querySelector(".eh-vision-image"),
-            { scale: 1 },
-            { scale: 1.06, duration: 2.2, ease: "none" },
-            0,
-          );
-      });
-      mm.add("(max-width: 1023px), (max-height: 599px)", () => {
-        gsap.fromTo(
-          words,
-          { opacity: 0.25 },
-          {
-            opacity: 1,
-            stagger: 0.065,
-            scrollTrigger: { trigger: element, start: "top 65%", end: "bottom 85%", scrub: true },
-          },
-        );
-        ScrollTrigger.create({
-          trigger: element,
-          start: "bottom 90%",
-          onEnter: () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--gold)" }),
-          onLeaveBack: () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--paper)" }),
-        });
-      });
-    },
-    [],
-  );
-  useScrollScene(visionRef, setup, reduce);
   return (
     <>
-      <section ref={ref} className="eh-why section-y bg-paper">
+      <section className="eh-why section-y bg-paper">
         <div className="container-x">
-          <div className="eh-why-grid">
+          <Reveal className="eh-why-grid">
             <div>
-              <GoldRule />
-              <h2 className="h2-display mt-6 text-navy">Why EhsanX Exists</h2>
-              <motion.div
-                className="eh-purpose-copy"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.35 }}
-              >
+              <Item>
+                <GoldRule />
+                <h2 className="h2-display mt-6 text-navy">Why EhsanX Exists</h2>
+              </Item>
+              <Item className="eh-purpose-copy">
                 <p>
                   EhsanX partners with organizations to develop{" "}
-                  <Highlight>entrepreneurial leaders</Highlight>,{" "}
-                  <Highlight>strengthen institutions</Highlight>, and enable{" "}
-                  <Highlight>sustainable transformation</Highlight>. Through leadership development,
-                  capability-building, consulting, and organizational transformation initiatives, we
-                  help organizations unlock growth by leveraging the strengths, people,
-                  relationships, resources, and opportunities they already possess.
+                  <mark className="eh-highlight">entrepreneurial leaders</mark>,{" "}
+                  <mark className="eh-highlight">strengthen institutions</mark>, and enable{" "}
+                  <mark className="eh-highlight">sustainable transformation</mark>. Through
+                  leadership development, capability-building, consulting, and organizational
+                  transformation initiatives, we help organizations unlock growth by leveraging the
+                  strengths, people, relationships, resources, and opportunities they already
+                  possess.
                 </p>
                 <p className="text-ink">
                   We believe that extraordinary results emerge when people discover purpose,
                   cultivate an entrepreneurial mindset, and learn to create value from what they
                   already have.
                 </p>
-              </motion.div>
+              </Item>
             </div>
-            <div className="eh-portrait-wrap">
+            <Item className="eh-portrait-wrap">
               <div className="eh-portrait">
-                <motion.img
+                <img
                   src={images.portrait.src}
                   srcSet={images.portrait.srcSet}
                   sizes="(min-width: 768px) 45vw, 100vw"
@@ -118,21 +53,20 @@ export function WhyExists() {
                   width={928}
                   height={691}
                   loading="lazy"
-                  style={{ y: imageY }}
                 />
               </div>
               <span className="eh-portrait-corner" aria-hidden />
-            </div>
-          </div>
+            </Item>
+          </Reveal>
           <div className="eh-pillars" aria-label="Three pillars">
             {PILLARS.map(({ label, icon: Icon }, index) => (
               <motion.div
                 key={label}
                 className="pillar-card-wrap"
-                initial={{ opacity: reduce ? 1 : 0, y: reduce ? 0 : 24 }}
+                initial={{ opacity: reduce ? 1 : 0, y: reduce ? 0 : 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: reduce ? 0 : 0.5, delay: reduce ? 0 : index * 0.1 }}
+                transition={{ duration: reduce ? 0 : 0.45, delay: reduce ? 0 : index * 0.06 }}
               >
                 <Link to="/philosophy" className="pillar-card" aria-label={`${label} — read our philosophy`}>
                   <div className="pillar-card-top">
@@ -150,54 +84,32 @@ export function WhyExists() {
           </div>
         </div>
       </section>
-      <section ref={visionRef} className="eh-vision bg-teal text-paper" aria-label="Our Vision">
-        <img
-          className="eh-vision-image"
-          src={refreshImages.vision_v2.src}
-          srcSet={refreshImages.vision_v2.srcSet}
-          sizes="100vw"
-          alt="EhsanX vision across a calm horizon"
-          width={1920}
-          height={1080}
-          loading="lazy"
-        />
-        <div className="eh-vision-overlay" />
-        <div className="container-x eh-vision-content">
-          <div className="eh-vision-rule-track">
-            <span className="eh-vision-rule" />
-          </div>
-          <div className="max-w-4xl">
-            <p className="eyebrow-dark text-paper">Our Vision</p>
-            <span aria-hidden className="eh-quote text-gold">
-              “
-            </span>
-            <blockquote className="eh-vision-quote text-paper">
-              <span className="sr-only">{VISION}</span>
-              <span aria-hidden>
-                {VISION.split(" ").map((word, i) => (
-                  <span key={i} className={`eh-vision-word ${word === "Ihsan." ? "eh-ihsan" : ""}`}>
-                    {word}{" "}
-                  </span>
-                ))}
-              </span>
-            </blockquote>
-          </div>
+      <section className="eh-vision section-y" aria-label="Our Vision">
+        <div className="container-x eh-vision-grid">
+          <Reveal className="eh-vision-copy">
+            <Item>
+              <GoldRule />
+              <p className="eyebrow mt-6">Our Vision</p>
+            </Item>
+            <Item>
+              <blockquote className="eh-vision-quote">{VISION}</blockquote>
+            </Item>
+          </Reveal>
+          <Reveal className="eh-vision-media">
+            <Item>
+              <img
+                src={refreshImages.vision_v2.src}
+                srcSet={refreshImages.vision_v2.srcSet}
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                alt="EhsanX vision across a calm horizon"
+                width={1920}
+                height={1080}
+                loading="lazy"
+              />
+            </Item>
+          </Reveal>
         </div>
       </section>
     </>
   );
 }
-function Highlight({ children }: { children: string }) {
-  return (
-    <motion.mark
-      className="eh-highlight"
-      variants={{
-        hidden: { backgroundSize: "0% 100%" },
-        show: { backgroundSize: "100% 100%", transition: { duration: 1.1, delay: 0.15 } },
-      }}
-    >
-      {children}
-    </motion.mark>
-  );
-}
-

@@ -17,3 +17,4 @@
 - [x] Verify both sections at all requested widths and run impact tests.
 - [x] Build Philosophy and Our Approach from exact editable copy with new editorial imagery.
 - [x] Verify diagrams, keyboard interaction, mobile drawer, reduced motion and page boundaries.
+- [x] Home calm/fast rebuild: new preloader video, remove Lenis/GSAP, static hero, light sections, static Vision/Challenge, sticky E-Plus, cleanup.

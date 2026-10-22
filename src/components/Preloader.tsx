@@ -1,27 +1,29 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import logoColor from "@/assets/logo-color.png";
-import { PRELOADER_MAX_MS, PRELOADER_PLACEHOLDER_MS, PRELOADER_VIDEO_SRC } from "@/config/preloader";
+import { PRELOADER_CANPLAY_MS, PRELOADER_MAX_MS, PRELOADER_VIDEO_SRC } from "@/config/preloader";
 import { useSetIntroReady } from "@/lib/intro";
 
 const KEY = "ehsanx-preloader-seen";
 type Phase = "playing" | "exiting" | "done";
+type PreloaderWindow = Window & { __preloaderExited?: boolean; __preloaderReact?: boolean };
 
 export function Preloader() {
   const setReady = useSetIntroReady();
   const [phase, setPhase] = useState<Phase>("playing");
-  const [placeholder, setPlaceholder] = useState(false);
   const exited = useRef(false);
 
   const exit = () => {
     if (exited.current) return;
     exited.current = true;
-    document.body.style.overflow = "";
+    (window as PreloaderWindow).__preloaderExited = true;
+    document.documentElement.style.overflow = "";
     setPhase("exiting");
   };
 
   useEffect(() => {
-    let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const w = window as PreloaderWindow;
+    w.__preloaderReact = true;
+    let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches || !!w.__preloaderExited;
     try {
       if (sessionStorage.getItem(KEY)) skip = true;
       sessionStorage.setItem(KEY, "1");
@@ -30,98 +32,71 @@ export function Preloader() {
     }
     if (skip) {
       exited.current = true;
+      w.__preloaderExited = true;
+      document.documentElement.style.overflow = "";
       setPhase("done");
       setReady(true);
       return;
     }
-    document.body.style.overflow = "hidden";
-    fetch(PRELOADER_VIDEO_SRC, { method: "HEAD" })
-      .then((r) => {
-        const type = r.headers.get("content-type") ?? "";
-        if (!r.ok || !type.startsWith("video")) setPlaceholder(true);
-      })
-      .catch(() => setPlaceholder(true));
-    const t = window.setTimeout(exit, PRELOADER_MAX_MS);
+    // Lock on <html>: the navbar effect resets document.body.overflow on mount.
+    document.documentElement.style.overflow = "hidden";
+    const safety = window.setTimeout(exit, PRELOADER_MAX_MS);
+    const canplay = window.setTimeout(exit, PRELOADER_CANPLAY_MS);
+    const clearCanplay = () => window.clearTimeout(canplay);
+    window.addEventListener("ehsanx-preloader-canplay", clearCanplay);
+    // The inline script in __root dispatches this for pre-hydration Skip/Escape.
+    window.addEventListener("ehsanx-preloader-exit", exit);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") exit();
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
-      window.clearTimeout(t);
-      document.body.style.overflow = "";
+      window.clearTimeout(safety);
+      window.clearTimeout(canplay);
+      window.removeEventListener("ehsanx-preloader-canplay", clearCanplay);
+      window.removeEventListener("ehsanx-preloader-exit", exit);
+      window.removeEventListener("keydown", onKey);
+      document.documentElement.style.overflow = "";
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (!placeholder) return;
-    const t = window.setTimeout(exit, PRELOADER_PLACEHOLDER_MS + 200);
-    return () => window.clearTimeout(t);
-  }, [placeholder]);
-
   if (phase === "done") return null;
 
-  const curtain = { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const };
-
   return (
-    <div className="fixed inset-0 z-[100]">
+    <div className="fixed inset-0 z-[1100]" data-preloader>
       {phase === "playing" && (
         <button type="button" className="preloader-skip" onClick={exit}>
           Skip
         </button>
       )}
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={() => setPhase("done")}>
         {phase === "playing" && (
           <motion.div
             key="stage"
             className="absolute inset-0 flex items-center justify-center"
             style={{ background: "var(--preloader-bg)" }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            exit={{ opacity: 0, transition: { duration: 0.3, ease: "easeOut" } }}
+            onAnimationStart={(definition) => {
+              if (definition !== "exit") return;
+              document.documentElement.style.overflow = "";
+              window.setTimeout(() => setReady(true), 150);
+            }}
           >
-            {!placeholder ? (
-              <video
-                className="h-full w-full object-contain"
-                src={PRELOADER_VIDEO_SRC}
-                muted
-                playsInline
-                autoPlay
-                preload="auto"
-                onEnded={exit}
-                onError={() => setPlaceholder(true)}
-              />
-            ) : (
-              <div className="flex flex-col items-center gap-6">
-                <img src={logoColor} alt="" width={457} height={77} className="w-56 md:w-72" />
-                <div className="h-[2px] w-56 overflow-hidden bg-navy/10 md:w-72">
-                  <motion.div
-                    className="h-full origin-left bg-gold"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: PRELOADER_PLACEHOLDER_MS / 1000, ease: "easeInOut" }}
-                  />
-                </div>
-              </div>
-            )}
+            <video
+              className="h-full w-full object-contain"
+              src={PRELOADER_VIDEO_SRC}
+              muted
+              playsInline
+              autoPlay
+              preload="auto"
+              onCanPlay={() => window.dispatchEvent(new Event("ehsanx-preloader-canplay"))}
+              onEnded={exit}
+              onError={exit}
+            />
           </motion.div>
         )}
       </AnimatePresence>
-      {phase === "exiting" && (
-        <>
-          <motion.div
-            className="absolute inset-x-0 top-0 h-1/2 bg-navy"
-            initial={{ y: 0 }}
-            animate={{ y: "-100%" }}
-            transition={{ ...curtain, delay: 0.15 }}
-          />
-          <motion.div
-            className="absolute inset-x-0 bottom-0 h-1/2 bg-teal"
-            initial={{ y: 0 }}
-            animate={{ y: "100%" }}
-            transition={{ ...curtain, delay: 0.15 }}
-            onAnimationStart={() => {
-              document.body.style.overflow = "";
-              window.setTimeout(() => setReady(true), 450);
-            }}
-            onAnimationComplete={() => setPhase("done")}
-          />
-        </>
-      )}
     </div>
   );
 }

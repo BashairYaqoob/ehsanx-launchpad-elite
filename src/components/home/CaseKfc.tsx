@@ -12,7 +12,7 @@ function CombinedFigure({ value, display, label }: { value: number; display: str
   useEffect(() => {
     if (!inView || reduce) return;
     const controls = animate(0, value, {
-      duration: 2,
+      duration: 1,
       onUpdate: (n) => setVisual(Math.round(n)),
       onComplete: () => setVisual(null),
     });
