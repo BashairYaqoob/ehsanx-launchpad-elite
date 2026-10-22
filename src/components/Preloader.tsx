@@ -19,6 +19,7 @@ export function Preloader() {
   };
 
   useEffect(() => {
+    (window as unknown as Record<string, number>).__preloaderEffect = ((window as unknown as Record<string, number>).__preloaderEffect ?? 0) + 1;
     let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     try {
       if (sessionStorage.getItem(KEY)) skip = true;
