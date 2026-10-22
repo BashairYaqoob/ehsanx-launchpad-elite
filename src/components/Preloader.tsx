@@ -5,6 +5,7 @@ import { useSetIntroReady } from "@/lib/intro";
 
 const KEY = "ehsanx-preloader-seen";
 type Phase = "playing" | "exiting" | "done";
+type PreloaderWindow = Window & { __preloaderExited?: boolean; __preloaderReact?: boolean };
 
 export function Preloader() {
   const setReady = useSetIntroReady();
@@ -14,22 +15,25 @@ export function Preloader() {
   const exit = () => {
     if (exited.current) return;
     exited.current = true;
+    (window as PreloaderWindow).__preloaderExited = true;
     document.documentElement.style.overflow = "";
     setPhase("exiting");
   };
 
   useEffect(() => {
-    const probe = (window as unknown as Record<string, unknown>).__preloaderProbe = { ran: true };
-    let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const w = window as PreloaderWindow;
+    w.__preloaderReact = true;
+    let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches || !!w.__preloaderExited;
     try {
       if (sessionStorage.getItem(KEY)) skip = true;
       sessionStorage.setItem(KEY, "1");
     } catch {
       /* storage unavailable */
     }
-    probe.skip = skip;
     if (skip) {
       exited.current = true;
+      w.__preloaderExited = true;
+      document.documentElement.style.overflow = "";
       setPhase("done");
       setReady(true);
       return;
@@ -40,6 +44,8 @@ export function Preloader() {
     const canplay = window.setTimeout(exit, PRELOADER_CANPLAY_MS);
     const clearCanplay = () => window.clearTimeout(canplay);
     window.addEventListener("ehsanx-preloader-canplay", clearCanplay);
+    // The inline script in __root dispatches this for pre-hydration Skip/Escape.
+    window.addEventListener("ehsanx-preloader-exit", exit);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") exit();
     };
@@ -48,6 +54,7 @@ export function Preloader() {
       window.clearTimeout(safety);
       window.clearTimeout(canplay);
       window.removeEventListener("ehsanx-preloader-canplay", clearCanplay);
+      window.removeEventListener("ehsanx-preloader-exit", exit);
       window.removeEventListener("keydown", onKey);
       document.documentElement.style.overflow = "";
     };
@@ -57,7 +64,7 @@ export function Preloader() {
   if (phase === "done") return null;
 
   return (
-    <div className="fixed inset-0 z-[1100]">
+    <div className="fixed inset-0 z-[1100]" data-preloader>
       {phase === "playing" && (
         <button type="button" className="preloader-skip" onClick={exit}>
           Skip

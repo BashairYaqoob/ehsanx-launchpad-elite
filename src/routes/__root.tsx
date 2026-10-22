@@ -113,6 +113,11 @@ function RootShell({ children }: { children: ReactNode }) {
       </head>
       <body>
         {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var w=window;try{w.__preloaderExited=w.matchMedia("(prefers-reduced-motion: reduce)").matches||!!sessionStorage.getItem("ehsanx-preloader-seen")}catch(e){w.__preloaderExited=w.matchMedia("(prefers-reduced-motion: reduce)").matches}if(w.__preloaderExited)return;document.documentElement.style.overflow="hidden";function exit(){if(w.__preloaderExited)return;w.__preloaderExited=true;if(w.__preloaderReact){w.dispatchEvent(new Event("ehsanx-preloader-exit"));return}document.documentElement.style.overflow="";var el=document.querySelector("[data-preloader]");if(el)el.classList.add("preloader-hidden")}document.addEventListener("click",function(e){if(e.target&&e.target.closest&&e.target.closest(".preloader-skip"))exit()},true);document.addEventListener("keydown",function(e){if(e.key==="Escape")exit()},true)})();`,
+          }}
+        />
         <Scripts />
       </body>
     </html>
