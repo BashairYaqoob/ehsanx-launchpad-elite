@@ -18,7 +18,6 @@ import { Footer, WhatsAppFab } from "@/components/Footer";
 import { Navbar, ScrollProgress } from "@/components/Navbar";
 import { Preloader } from "@/components/Preloader";
 import { IntroProvider } from "@/lib/intro";
-import { SmoothScroll } from "@/components/SmoothScroll";
 import { BrandButton } from "@/components/ui-brand";
 import { Button } from "@/components/ui/button";
 
@@ -129,7 +128,6 @@ function RootComponent() {
       <MotionConfig reducedMotion="user">
         <IntroProvider>
           <Preloader />
-          <SmoothScroll />
           <ScrollProgress />
           <Navbar />
           <main>
