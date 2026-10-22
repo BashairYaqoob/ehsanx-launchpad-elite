@@ -19,6 +19,7 @@ export function Preloader() {
   };
 
   useEffect(() => {
+    const probe = (window as unknown as Record<string, unknown>).__preloaderProbe = { ran: true };
     let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     try {
       if (sessionStorage.getItem(KEY)) skip = true;
@@ -26,6 +27,7 @@ export function Preloader() {
     } catch {
       /* storage unavailable */
     }
+    probe.skip = skip;
     if (skip) {
       exited.current = true;
       setPhase("done");
