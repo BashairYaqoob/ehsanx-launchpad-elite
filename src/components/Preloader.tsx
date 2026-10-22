@@ -14,12 +14,11 @@ export function Preloader() {
   const exit = () => {
     if (exited.current) return;
     exited.current = true;
-    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
     setPhase("exiting");
   };
 
   useEffect(() => {
-    (window as unknown as Record<string, number>).__preloaderEffect = ((window as unknown as Record<string, number>).__preloaderEffect ?? 0) + 1;
     let skip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     try {
       if (sessionStorage.getItem(KEY)) skip = true;
@@ -33,7 +32,8 @@ export function Preloader() {
       setReady(true);
       return;
     }
-    document.body.style.overflow = "hidden";
+    // Lock on <html>: the navbar effect resets document.body.overflow on mount.
+    document.documentElement.style.overflow = "hidden";
     const safety = window.setTimeout(exit, PRELOADER_MAX_MS);
     const canplay = window.setTimeout(exit, PRELOADER_CANPLAY_MS);
     const clearCanplay = () => window.clearTimeout(canplay);
@@ -47,7 +47,7 @@ export function Preloader() {
       window.clearTimeout(canplay);
       window.removeEventListener("ehsanx-preloader-canplay", clearCanplay);
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -70,7 +70,7 @@ export function Preloader() {
             exit={{ opacity: 0, transition: { duration: 0.3, ease: "easeOut" } }}
             onAnimationStart={(definition) => {
               if (definition !== "exit") return;
-              document.body.style.overflow = "";
+              document.documentElement.style.overflow = "";
               window.setTimeout(() => setReady(true), 150);
             }}
           >

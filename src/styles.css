@@ -264,6 +264,7 @@
 
 /* Scoped EhsanX home refresh: light, static, native scrolling */
 :root{color-scheme:light}
+.eh-navbar-header{z-index:1000}.eh-nav-menu{z-index:1010}.eh-navbar-header .eh-navbar{transition:height .3s,background .3s,box-shadow .3s}
 @media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
 section[id]{scroll-margin-top:96px}
 
