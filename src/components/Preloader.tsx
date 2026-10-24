@@ -85,6 +85,12 @@ export function Preloader() {
           >
             <video
               className="h-full w-full object-contain"
+              style={{
+                WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%)",
+                WebkitMaskComposite: "source-in",
+                maskImage: "linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%)",
+                maskComposite: "intersect",
+              }}
               src={PRELOADER_VIDEO_SRC}
               muted
               playsInline
