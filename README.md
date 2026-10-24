@@ -112,7 +112,7 @@ Attached assets, in order: (1) stacked EX blocks atrium, (2) origami boats climb
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://ehsanx-launchpad-elite.lovable.app
+**Live app**: https://ehsanx-homepage.lovable.app
 
 ## Build with Lovable
 

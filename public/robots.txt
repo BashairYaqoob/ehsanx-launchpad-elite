@@ -12,4 +12,4 @@ Allow: /
 
 User-agent: *
 Allow: /
-Sitemap: https://ehsanx-launchpad-elite.lovable.app/sitemap.xml
+Sitemap: https://ehsanx-homepage.lovable.app/sitemap.xml

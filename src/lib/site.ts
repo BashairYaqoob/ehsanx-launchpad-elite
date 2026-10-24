@@ -21,7 +21,7 @@ export const WHATSAPP_URL = "https://wa.me/923018226596";
 
 export function pageHead(title: string, description: string, path: SitePath = "/") {
 
-  const url = `https://ehsanx-launchpad-elite.lovable.app${path}`;
+  const url = `https://ehsanx-homepage.lovable.app${path}`;
   return {
     links: [{ rel: "canonical", href: url }],
     meta: [
@@ -31,8 +31,8 @@ export function pageHead(title: string, description: string, path: SitePath = "/
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { property: "og:url", content: url },
-      { property: "og:image", content: "https://ehsanx-launchpad-elite.lovable.app/og-image.png" },
-      { name: "twitter:image", content: "https://ehsanx-launchpad-elite.lovable.app/og-image.png" },
+      { property: "og:image", content: "https://ehsanx-homepage.lovable.app/og-image.png" },
+      { name: "twitter:image", content: "https://ehsanx-homepage.lovable.app/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
