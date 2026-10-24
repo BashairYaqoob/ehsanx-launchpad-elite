@@ -18,6 +18,7 @@ export function Preloader() {
     (window as PreloaderWindow).__preloaderExited = true;
     document.documentElement.style.overflow = "";
     setPhase("exiting");
+    window.setTimeout(() => setReady(true), 150);
   };
 
   useEffect(() => {
@@ -70,7 +71,12 @@ export function Preloader() {
           Skip
         </button>
       )}
-      <AnimatePresence onExitComplete={() => setPhase("done")}>
+      <AnimatePresence
+        onExitComplete={() => {
+          setReady(true);
+          setPhase("done");
+        }}
+      >
         {phase === "playing" && (
           <motion.div
             key="stage"
