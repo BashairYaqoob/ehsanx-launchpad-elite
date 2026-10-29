@@ -101,7 +101,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="eh-hero relative bg-navy-deep text-paper"
+      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] [@media(max-width:767.98px)]:[height:100dvh] max-md:!min-h-[840px] relative bg-navy-deep text-paper"
       aria-roledescription="carousel"
       aria-label="Highlights"
       tabIndex={0}
@@ -138,7 +138,7 @@ export function Hero() {
         touch.current = null;
       }}
     >
-      <motion.div className="eh-hero-surface" style={{ y: coverY }}>
+      <motion.div className="eh-hero-surface [position:absolute] [inset:0] [overflow:hidden]" style={{ y: coverY }}>
         <AnimatePresence initial={false}>
           <motion.div
             key={index}
@@ -148,7 +148,7 @@ export function Hero() {
             exit={{ opacity: 0 }}
             transition={{ duration: reduce ? 0 : 1, ease: "easeInOut" }}
           >
-            <picture className="eh-kenburns block h-full w-full">
+            <picture className="eh-kenburns [&_img]:[animation:eh-kenburns_6.5s_linear_forwards] block h-full w-full">
               <source
                 type="image/webp"
                 srcSet={slide.srcSet}
@@ -160,31 +160,30 @@ export function Hero() {
                 width={1920}
                 height={1088}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                className="h-full w-full object-cover"
-                style={{ objectPosition: slide.pos }}
+                className={`h-full w-full object-cover ${slide.pos === "65% center" ? "object-[65%_center]" : slide.pos === "60% center" ? "object-[60%_center]" : "object-[70%_center]"}`}
               />
             </picture>
           </motion.div>
         </AnimatePresence>
-        <div className={`bg-hero-overlay absolute inset-0 ${index === 0 ? "hero-first-overlay" : ""}`} />
-        <div className="container-x eh-hero-content">
-          <div className="eh-hero-copy" aria-live="polite" aria-atomic="true">
+        <div className={`bg-hero-overlay [background:var(--hero-overlay)] absolute inset-0 ${index === 0 ? "hero-first-overlay [background:var(--hero-first-shade)]" : ""}`} />
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content [position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
+          <div className="eh-hero-copy [max-width:820px] [text-shadow:var(--hero-copy-shadow)] [display:grid] [@media(max-width:767.98px)]:[max-width:100%] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:720px]" aria-live="polite" aria-atomic="true">
             {SLIDES.map((s, i) => {
               const Heading = i === 0 ? "h1" : "h2";
               const active = i === index;
               return (
                 <div
                   key={s.title}
-                  className="eh-hero-slide-text"
+                  className="eh-hero-slide-text [grid-area:1/1] [&[data-active=false]]:[visibility:hidden] [&[data-active=false]]:[pointer-events:none]"
                   data-active={active}
                   aria-hidden={!active}
                 >
-                  <p className="eh-hero-eyebrow">
+                  <p className="eh-hero-eyebrow [font-family:var(--font-display)] [font-size:12px] [margin-bottom:18px] [color:var(--paper)] [letter-spacing:0] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[margin-bottom:8px] [@media(max-width:767.98px)_and_(min-height:701px)]:[margin-bottom:12px]">
                     {String(i + 1).padStart(2, "0")} / 04
                   </p>
-                  <Heading className="eh-hero-title">
+                  <Heading className="eh-hero-title [font-family:var(--font-display)] [font-size:clamp(2rem,4.2vw,4rem)]! [font-weight:700] [line-height:1.08] [min-height:3.24em] [letter-spacing:0] [text-shadow:var(--hero-headline-shadow)] [color:var(--paper)] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[font-size:28px] [@media(max-width:767.98px)_and_(min-height:701px)]:[font-size:32px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[font-size:48px] [@media(max-width:767.98px)]:[line-height:1.12] [@media(max-width:767.98px)]:[min-height:4.48em] max-md:!text-3xl">
                     {s.title.split(" ").map((word, w) => (
-                      <span key={w} className="eh-word-mask">
+                      <span key={w} className="eh-word-mask [display:inline-block] [overflow:hidden] [vertical-align:bottom] [padding-bottom:.08em] [margin-bottom:-.08em] [margin-right:.22em] [&>span]:[display:inline-block]">
                         <motion.span
                           initial={false}
                           animate={
@@ -204,7 +203,7 @@ export function Hero() {
                     ))}
                   </Heading>
                   <motion.p
-                    className="eh-hero-subtitle"
+                    className="eh-hero-subtitle [max-width:650px] [min-height:3.4em] [margin-top:20px] [font-size:18px] [line-height:1.7] [color:var(--paper)] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:620px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[min-height:6.2em] [@media(max-width:767.98px)_and_(min-height:701px)]:[min-height:6.6em] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[margin-top:12px] [@media(max-width:767.98px)_and_(min-height:701px)]:[margin-top:16px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[font-size:14px] [@media(max-width:767.98px)_and_(min-height:701px)]:[font-size:15px] [@media(max-width:767.98px)]:[line-height:1.65] max-md:!text-base max-md:!min-h-[6.6em]"
                     initial={false}
                     animate={active && ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
                     transition={{ delay: active ? 0.2 : 0, duration: reduce ? 0 : 0.5 }}
@@ -215,32 +214,32 @@ export function Hero() {
               );
             })}
           </div>
-          <div className="eh-hero-ctas" aria-hidden={!ready}>
+          <div className="eh-hero-ctas [display:flex] [gap:16px] [margin-top:28px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[gap:8px] [@media(max-width:767.98px)_and_(min-height:701px)]:[gap:12px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[margin-top:16px] [@media(max-width:767.98px)_and_(min-height:701px)]:[margin-top:20px] [@media(max-width:767.98px)]:[flex-direction:column] [@media(max-width:767.98px)]:[&_a]:[width:100%] [@media(max-width:767.98px)]:[&_a]:[justify-content:space-between] [@media(max-width:767.98px)]:[&_a]:[min-height:48px] [@media(max-width:767.98px)]:[&_a]:[font-size:13px] [@media(max-width:767.98px)]:[&_a]:[padding-inline:20px] [@media(max-width:767.98px)]:[&>span]:[width:100%] [@media(max-width:767.98px)]:[&>span_a]:[width:100%]" aria-hidden={!ready}>
             <BrandButton to="/contact">Start a Conversation</BrandButton>
             <BrandButton to="/our-approach" variant="outline-light">
               Explore Our Approach
             </BrandButton>
           </div>
         </div>
-        <div className="container-x eh-hero-controls">
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-controls [position:absolute] [inset-inline:0] [bottom:52px] [display:flex] [align-items:center] [justify-content:space-between] [z-index:3] [@media(max-width:767.98px)]:[bottom:44px] [@media(max-width:767.98px)]:[padding-right:92px]">
           <div className="flex items-center gap-6">
-            <p className="eh-counter">
+            <p className="eh-counter [font-family:var(--font-display)] [font-weight:600] [font-size:13px] [white-space:nowrap]">
               <span className="text-gold">{String(index + 1).padStart(2, "0")}</span>
               <span className="text-paper/60"> / 04</span>
             </p>
-            <div className="eh-progress" aria-hidden>
+            <div className="eh-progress [display:flex] [gap:10px] [@media(max-width:767.98px)]:[display:none]" aria-hidden>
               {SLIDES.map((_, i) => (
-                <span key={i} className="eh-progress-segment">
+                <span key={i} className="eh-progress-segment [width:56px] [height:2px] [background:var(--eh-progress-segment-background-3)] [position:relative] [&>span]:[position:absolute] [&>span]:[inset:0] [&>span]:[transform-origin:left] [&>span]:[background:var(--gold)]">
                   {i === index && <motion.span style={{ scaleX: progress }} />}
                 </span>
               ))}
             </div>
           </div>
-          <div className="eh-control-cluster">
+          <div className="eh-control-cluster [display:flex] [gap:8px] [@media(max-width:767.98px)]:[gap:4px]">
             <Button
               variant="ghost"
               size="icon"
-              className="eh-control"
+              className="eh-control [width:44px] [height:44px] [border-radius:50%] [color:var(--paper)] [background:transparent] [&:hover]:[background:transparent] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:1.3]"
               aria-label="Previous slide"
               title="Previous slide"
               onClick={() => go(-1)}
@@ -250,7 +249,7 @@ export function Hero() {
             <Button
               variant="ghost"
               size="icon"
-              className="eh-control"
+              className="eh-control [width:44px] [height:44px] [border-radius:50%] [color:var(--paper)] [background:transparent] [&:hover]:[background:transparent] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:1.3]"
               aria-label="Next slide"
               title="Next slide"
               onClick={() => go(1)}
@@ -260,7 +259,7 @@ export function Hero() {
             <Button
               variant="ghost"
               size="icon"
-              className="eh-control eh-pause"
+              className="eh-control [width:44px] [height:44px] [border-radius:50%] [color:var(--paper)] [background:transparent] [&:hover]:[background:transparent] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:1.3] eh-pause [&_svg]:[width:14px] [&_svg]:[height:14px] [@media(max-width:767.98px)]:[display:none]"
               aria-label={userPaused ? "Play slideshow" : "Pause slideshow"}
               title={userPaused ? "Play slideshow" : "Pause slideshow"}
               onClick={() => setUserPaused((p) => !p)}

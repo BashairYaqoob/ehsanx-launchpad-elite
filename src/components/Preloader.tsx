@@ -65,9 +65,9 @@ export function Preloader() {
   if (phase === "done") return null;
 
   return (
-    <div className="fixed inset-0 z-[1100]" data-preloader>
+    <div className="fixed inset-0 z-[1100] h-dvh" data-preloader>
       {phase === "playing" && (
-        <button type="button" className="preloader-skip" onClick={exit}>
+        <button type="button" className="preloader-skip [position:absolute] [top:24px] [right:24px] [z-index:5] [font-family:var(--font-display)] [font-size:13px] [font-weight:600] [letter-spacing:.08em] [text-transform:uppercase] [color:var(--navy)] [background:transparent] [border:var(--preloader-skip-border-13)] [border-radius:9999px] [padding:10px_22px] [min-height:44px] [cursor:pointer] [transition:border-color_.3s,color_.3s] [&:hover]:[border-color:var(--navy)]" onClick={exit}>
           Skip
         </button>
       )}
@@ -80,8 +80,7 @@ export function Preloader() {
         {phase === "playing" && (
           <motion.div
             key="stage"
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ background: "var(--preloader-bg)" }}
+            className="absolute inset-0 flex h-dvh items-center justify-center bg-[var(--preloader-bg)]"
             exit={{ opacity: 0, transition: { duration: 0.3, ease: "easeOut" } }}
             onAnimationStart={(definition) => {
               if (definition !== "exit") return;
@@ -90,13 +89,7 @@ export function Preloader() {
             }}
           >
             <video
-              className="h-full w-full object-contain"
-              style={{
-                WebkitMaskImage: "linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%)",
-                WebkitMaskComposite: "source-in",
-                maskImage: "linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%)",
-                maskComposite: "intersect",
-              }}
+              className="h-auto max-h-full w-full object-contain [-webkit-mask-image:var(--preloader-mask)] [-webkit-mask-composite:source-in] [mask-image:var(--preloader-mask)] [mask-composite:intersect]"
               src={PRELOADER_VIDEO_SRC}
               muted
               playsInline
