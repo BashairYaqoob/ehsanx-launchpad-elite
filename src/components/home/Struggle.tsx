@@ -12,7 +12,7 @@ const CARDS = [
   { n: "04", text: "Difficulty adapting to technological and AI-driven change", card: "bg-gold text-navy", num: "text-navy", image: images.challenge_4, Icon: Sparkles, alt: "Paper boats navigating a complex geometric network" },
 ];
 export function Struggle() {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const setup = useCallback<Parameters<typeof useScrollScene>[1]>((gsap, _ScrollTrigger, element) => {
     const mm = gsap.matchMedia();
@@ -33,9 +33,11 @@ export function Struggle() {
       });
       tl.to({}, { duration: 0.5 });
     });
+    return () => mm.revert();
   }, []);
   useScrollScene(ref, setup, reduced);
-  return <section ref={ref} className="eh-challenge bg-wash" aria-labelledby="challenge-title">
+  return <section aria-labelledby="challenge-title">
+    <div ref={ref} className="eh-challenge bg-wash">
     <div className="container-x eh-challenge-layout">
       <div className="eh-challenge-heading"><GoldRule /><p className="eyebrow mt-6">The Challenge</p><h2 id="challenge-title" className="h2-display mt-4 text-navy">Why Organizations Struggle</h2><p className="mt-6 text-lg text-ink/80">Many organizations struggle with challenges such as:</p>
         <ol className="challenge-index">{CARDS.map((card, i) => <li key={card.n} className="challenge-index-row" data-active={i === 0 ? "true" : "false"}><span>{card.n}</span><span>{card.text}</span></li>)}</ol>
@@ -44,6 +46,7 @@ export function Struggle() {
         <div className="challenge-card-text"><header className="eh-challenge-title"><span className={`font-display font-semibold ${card.num}`}>{card.n}</span><h3>{card.text}</h3></header><div className="challenge-card-detail"><card.Icon size={32} strokeWidth={1.5} aria-hidden="true" /><span>{card.n} / 04</span></div></div>
         <div className="eh-challenge-image"><ResponsiveImage asset={card.image} alt={card.alt} loading="lazy" sizes="(min-width: 1024px) 35vw, 100vw" /></div>
       </article>)}</div>
+    </div>
     </div>
   </section>;
 }

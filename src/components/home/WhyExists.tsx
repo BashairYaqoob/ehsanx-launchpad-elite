@@ -17,7 +17,7 @@ const PILLARS = [
 
 export function WhyExists() {
   const ref = useRef<HTMLElement>(null);
-  const visionRef = useRef<HTMLElement>(null);
+  const visionRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const imageY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -16, reduce ? 0 : 16]);
@@ -57,7 +57,7 @@ export function WhyExists() {
             0,
           );
       });
-      mm.add("(max-width: 1023px), (max-height: 599px)", () => {
+      mm.add("(max-width: 1023px), (max-height: 599px)", (context) => {
         gsap.fromTo(
           words,
           { opacity: 0.25 },
@@ -67,13 +67,16 @@ export function WhyExists() {
             scrollTrigger: { trigger: element, start: "top 65%", end: "bottom 85%", scrub: true },
           },
         );
+        context.add("highlightIhsan", () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--gold)" }));
+        context.add("restoreIhsan", () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--paper)" }));
         ScrollTrigger.create({
           trigger: element,
           start: "bottom 90%",
-          onEnter: () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--gold)" }),
-          onLeaveBack: () => gsap.to(element.querySelector(".eh-ihsan"), { color: "var(--paper)" }),
+          onEnter: () => context['highlightIhsan'](),
+          onLeaveBack: () => context['restoreIhsan'](),
         });
       });
+      return () => mm.revert();
     },
     [],
   );
@@ -150,7 +153,8 @@ export function WhyExists() {
           </div>
         </div>
       </section>
-      <section ref={visionRef} className="eh-vision bg-teal text-paper" aria-label="Our Vision">
+      <section aria-label="Our Vision">
+        <div ref={visionRef} className="eh-vision bg-teal text-paper">
         <img
           className="eh-vision-image"
           src={refreshImages.vision_v2.src}
@@ -182,6 +186,7 @@ export function WhyExists() {
               </span>
             </blockquote>
           </div>
+        </div>
         </div>
       </section>
     </>
