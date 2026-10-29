@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 
 type Variant = "gold" | "outline-light" | "outline-navy";
 const variantClass: Record<Variant, string> = {
-  gold: "btn-gold",
-  "outline-light": "btn-outline-light [&:hover]:[background:var(--btn-outline-light-background-1)]",
-  "outline-navy": "btn-outline-navy [&:hover]:[background:var(--btn-outline-navy-background-2)]",
+  gold: "btn-gold [background:var(--gold)] [color:var(--navy)] [box-shadow:0_14px_34px_-14px_rgba(250,_183,_76,_0.7)]",
+  "outline-light": "btn-outline-light [&:hover]:[background:var(--btn-outline-light-background-1)] [border:1.5px_solid_#ffffff] [color:#ffffff]",
+  "outline-navy": "btn-outline-navy [&:hover]:[background:var(--btn-outline-navy-background-2)] [border:1.5px_solid_var(--navy)] [color:var(--navy)]",
 };
 
 export function BrandButton({
@@ -29,7 +29,7 @@ export function BrandButton({
   const sy = useSpring(y, { stiffness: 200, damping: 20 });
   const reduced = useReducedMotion();
   return (
-    <motion.span className="inline-flex" style={{ x: sx, y: sy }} onMouseMove={e => { if (variant !== "gold" || reduced || !window.matchMedia("(pointer:fine)").matches) return; const rect = e.currentTarget.getBoundingClientRect(); x.set((e.clientX - rect.left - rect.width / 2) * 0.12); y.set((e.clientY - rect.top - rect.height / 2) * 0.15); }} onMouseLeave={() => { x.set(0); y.set(0); }}><Link to={to} className={cn("btn-base [&:hover]:[transform:translateY(-2px)]", variantClass[variant], className)}>
+    <motion.span className="inline-flex max-sm:w-full" style={{ x: sx, y: sy }} onMouseMove={e => { if (variant !== "gold" || reduced || !window.matchMedia("(pointer:fine)").matches) return; const rect = e.currentTarget.getBoundingClientRect(); x.set((e.clientX - rect.left - rect.width / 2) * 0.12); y.set((e.clientY - rect.top - rect.height / 2) * 0.15); }} onMouseLeave={() => { x.set(0); y.set(0); }}><Link to={to} className={cn("btn-base [&:hover]:[transform:translateY(-2px)] [display:inline-flex] [align-items:center] [gap:0.625rem] [min-height:48px] [padding:0.75rem_1.75rem] [border-radius:9999px] [font-family:var(--font-display)] [font-weight:600] [font-size:0.95rem] [transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1),_box-shadow_0.4s,_background-color_0.3s,_color_0.3s] max-sm:w-full max-sm:justify-center max-sm:whitespace-normal max-sm:text-center max-w-full", variantClass[variant], className)}>
       <span>{children}</span>
       <ArrowRight className="btn-arrow [.btn-base_&]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [.btn-base:hover_&]:[transform:translateX(4px)] h-4 w-4" aria-hidden />
     </Link></motion.span>

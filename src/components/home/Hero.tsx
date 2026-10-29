@@ -101,7 +101,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] [@media(max-width:767.98px)]:[height:100dvh] relative bg-navy-deep text-paper"
+      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] [@media(max-width:767.98px)]:[height:100dvh] max-md:!min-h-[840px] relative bg-navy-deep text-paper"
       aria-roledescription="carousel"
       aria-label="Highlights"
       tabIndex={0}
@@ -160,14 +160,13 @@ export function Hero() {
                 width={1920}
                 height={1088}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                className="h-full w-full object-cover"
-                style={{ objectPosition: slide.pos }}
+                className={`h-full w-full object-cover ${slide.pos === "65% center" ? "object-[65%_center]" : slide.pos === "60% center" ? "object-[60%_center]" : "object-[70%_center]"}`}
               />
             </picture>
           </motion.div>
         </AnimatePresence>
-        <div className={`bg-hero-overlay absolute inset-0 ${index === 0 ? "hero-first-overlay [background:var(--hero-first-shade)]" : ""}`} />
-        <div className="container-x eh-hero-content [position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
+        <div className={`bg-hero-overlay [background:var(--hero-overlay)] absolute inset-0 ${index === 0 ? "hero-first-overlay [background:var(--hero-first-shade)]" : ""}`} />
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content [position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
           <div className="eh-hero-copy [max-width:820px] [text-shadow:var(--hero-copy-shadow)] [display:grid] [@media(max-width:767.98px)]:[max-width:100%] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:720px]" aria-live="polite" aria-atomic="true">
             {SLIDES.map((s, i) => {
               const Heading = i === 0 ? "h1" : "h2";
@@ -182,7 +181,7 @@ export function Hero() {
                   <p className="eh-hero-eyebrow [font-family:var(--font-display)] [font-size:12px] [margin-bottom:18px] [color:var(--paper)] [letter-spacing:0] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[margin-bottom:8px] [@media(max-width:767.98px)_and_(min-height:701px)]:[margin-bottom:12px]">
                     {String(i + 1).padStart(2, "0")} / 04
                   </p>
-                  <Heading className="eh-hero-title [font-family:var(--font-display)] [font-size:clamp(2rem,4.2vw,4rem)] [font-weight:700] [line-height:1.08] [min-height:3.24em] [letter-spacing:0] [text-shadow:var(--hero-headline-shadow)] [color:var(--paper)] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[font-size:28px] [@media(max-width:767.98px)_and_(min-height:701px)]:[font-size:32px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[font-size:48px] [@media(max-width:767.98px)]:[line-height:1.12] [@media(max-width:767.98px)]:[min-height:4.48em]">
+                  <Heading className="eh-hero-title [font-family:var(--font-display)] [font-size:clamp(2rem,4.2vw,4rem)] [font-weight:700] [line-height:1.08] [min-height:3.24em] [letter-spacing:0] [text-shadow:var(--hero-headline-shadow)] [color:var(--paper)] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[font-size:28px] [@media(max-width:767.98px)_and_(min-height:701px)]:[font-size:32px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[font-size:48px] [@media(max-width:767.98px)]:[line-height:1.12] [@media(max-width:767.98px)]:[min-height:4.48em] max-md:!text-3xl">
                     {s.title.split(" ").map((word, w) => (
                       <span key={w} className="eh-word-mask [display:inline-block] [overflow:hidden] [vertical-align:bottom] [padding-bottom:.08em] [margin-bottom:-.08em] [margin-right:.22em] [&>span]:[display:inline-block]">
                         <motion.span
@@ -204,7 +203,7 @@ export function Hero() {
                     ))}
                   </Heading>
                   <motion.p
-                    className="eh-hero-subtitle [max-width:650px] [min-height:3.4em] [margin-top:20px] [font-size:18px] [line-height:1.7] [color:var(--paper)] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:620px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[min-height:6.2em] [@media(max-width:767.98px)_and_(min-height:701px)]:[min-height:6.6em] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[margin-top:12px] [@media(max-width:767.98px)_and_(min-height:701px)]:[margin-top:16px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[font-size:14px] [@media(max-width:767.98px)_and_(min-height:701px)]:[font-size:15px] [@media(max-width:767.98px)]:[line-height:1.65]"
+                    className="eh-hero-subtitle [max-width:650px] [min-height:3.4em] [margin-top:20px] [font-size:18px] [line-height:1.7] [color:var(--paper)] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:620px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[min-height:6.2em] [@media(max-width:767.98px)_and_(min-height:701px)]:[min-height:6.6em] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[margin-top:12px] [@media(max-width:767.98px)_and_(min-height:701px)]:[margin-top:16px] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[font-size:14px] [@media(max-width:767.98px)_and_(min-height:701px)]:[font-size:15px] [@media(max-width:767.98px)]:[line-height:1.65] max-md:!text-base max-md:!min-h-[6.6em]"
                     initial={false}
                     animate={active && ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
                     transition={{ delay: active ? 0.2 : 0, duration: reduce ? 0 : 0.5 }}
@@ -222,7 +221,7 @@ export function Hero() {
             </BrandButton>
           </div>
         </div>
-        <div className="container-x eh-hero-controls [position:absolute] [inset-inline:0] [bottom:52px] [display:flex] [align-items:center] [justify-content:space-between] [z-index:3] [@media(max-width:767.98px)]:[bottom:44px] [@media(max-width:767.98px)]:[padding-right:92px]">
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-controls [position:absolute] [inset-inline:0] [bottom:52px] [display:flex] [align-items:center] [justify-content:space-between] [z-index:3] [@media(max-width:767.98px)]:[bottom:44px] [@media(max-width:767.98px)]:[padding-right:92px]">
           <div className="flex items-center gap-6">
             <p className="eh-counter [font-family:var(--font-display)] [font-weight:600] [font-size:13px] [white-space:nowrap]">
               <span className="text-gold">{String(index + 1).padStart(2, "0")}</span>

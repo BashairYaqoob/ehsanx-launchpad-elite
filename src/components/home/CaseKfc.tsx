@@ -21,7 +21,7 @@ function CombinedFigure({ value, display, label }: { value: number; display: str
   const prefix = display.startsWith("~") ? "~" : "";
   const formatted = new Intl.NumberFormat("en-US").format(visual ?? 0);
   return (
-    <div className="impact-total [min-width:0] [padding:24px_0] [.impact-total+&]:[border-top:1px_solid_var(--impact-divider)] [@media(min-width:768px)]:[.impact-total+&]:[border-top:0] [@media(min-width:768px)]:[.impact-total+&]:[border-left:1px_solid_var(--impact-divider)] [&_p]:[font-size:1.0625rem] [&_p]:[font-weight:500] [&_p]:[line-height:1.5] [&_p]:[color:var(--paper)] [&_p]:[margin-top:12px] [&_p]:[padding-inline:12px]">
+    <div className="impact-total [min-width:0] [padding:24px_0] [.impact-total+&]:[border-top:1px_solid_var(--impact-divider)] [@media(min-width:768px)]:[.impact-total+&]:[border-top:0] [@media(min-width:768px)]:[.impact-total+&]:[border-left:1px_solid_var(--impact-divider)] [&_p]:[font-size:1.0625rem] [&_p]:[font-weight:500] [&_p]:[line-height:1.5] [&_p]:[color:var(--paper)] [&_p]:[margin-top:12px] [&_p]:[padding-inline:12px] max-xl:[&_.count-up]:!text-5xl max-xl:[&_.count-up]:!min-w-0">
       <span ref={ref} className="count-up [position:relative] [display:inline-block] [font-variant-numeric:tabular-nums] [.kfc-figure_&]:[font-size:64px] [.kfc-figure_&]:[white-space:nowrap] [@media(max-width:1023.98px)]:[.kfc-figure_&]:[font-size:48px] [.impact-total_&]:[font-family:var(--font-display)] [.impact-total_&]:[font-size:clamp(3rem,6vw,5.5rem)] [.impact-total_&]:[line-height:1.15] [.impact-total_&]:[font-weight:800] [.impact-total_&]:[color:var(--gold)] [.impact-total_&]:[white-space:nowrap] [.impact-total_&]:[font-variant-numeric:tabular-nums] [.impact-total_&]:[min-width:3ch] [.impact-total:nth-child(2)_&]:[min-width:6ch]" aria-label={display}>
         <span className={visual === null ? "" : "count-final [visibility:hidden]"}>{display}</span>
         {visual !== null && (
@@ -39,9 +39,9 @@ export function CaseKfc() {
   const totals = combinedImpact();
   return (
     <section className="impact-section [&::after]:[content:''] [&::after]:[position:absolute] [&::after]:[inset:0] [&::after]:[background-image:var(--grain-image)] [&::after]:[opacity:.03] [&::after]:[pointer-events:none] [position:relative] [isolation:isolate] [background:var(--impact-section-background-16)] [color:var(--paper)] [padding-block:48px] [overflow:hidden] [@media(min-width:768px)]:[padding-block:64px]" aria-labelledby="impact-title">
-      <div className="container-x relative">
-        <div className="impact-heading-row [display:flex] [align-items:baseline] [justify-content:space-between] [gap:24px]">
-          <div><GoldRule /><h2 id="impact-title" className="impact-title [font-size:clamp(2.5rem,5vw,4.5rem)] [line-height:1.1] [font-weight:800] [color:var(--paper)] [margin-top:24px] [letter-spacing:0.02em]">Client Impact</h2></div>
+      <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 relative">
+        <div className="impact-heading-row [display:flex] [align-items:baseline] [justify-content:space-between] [gap:24px] max-lg:!grid max-lg:!grid-cols-[minmax(0,1fr)_auto] [&>*]:min-w-0">
+          <div><GoldRule /><h2 id="impact-title" className="impact-title [font-size:clamp(2.5rem,5vw,4.5rem)] [line-height:1.1] [font-weight:800] [color:var(--paper)] [margin-top:24px] [letter-spacing:0.02em] max-md:!text-4xl">Client Impact</h2></div>
           <div className="impact-desktop-cta [display:none] [flex-shrink:0] [@media(min-width:1024px)]:[display:block]"><BrandButton to="/client-impact">See All Client Impact</BrandButton></div>
         </div>
         <ul className="impact-logos [display:grid] [grid-template-columns:1fr] [gap:24px] [margin-top:40px] [list-style:none] [padding:0] [@media(min-width:768px)]:[grid-template-columns:repeat(3,minmax(0,1fr))] [&>li]:[min-width:0]">
