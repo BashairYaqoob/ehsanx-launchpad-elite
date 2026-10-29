@@ -18,6 +18,7 @@
 - [x] Build Philosophy and Our Approach from exact editable copy with new editorial imagery.
 - [x] Verify diagrams, keyboard interaction, mobile drawer, reduced motion and page boundaries.
 - [x] Adjust preloader sizing with Tailwind while preserving video fit, colour and timing.
-- [ ] Move stylesheet presentation rules to element utilities without changing desktop values.
-- [ ] Add smaller-screen layout overrides without changing animation or navigation logic.
-- [ ] Review automatic compilation; viewport and interaction checks are excluded by request.
+- [x] Move page stylesheet presentation rules to element utilities; preserve original desktop declaration values.
+- [x] Add smaller-screen layout overrides without changing animation or navigation logic.
+- [x] Review automatic compilation; viewport, desktop visual parity and interaction checks are unverified because tests and probes are excluded by request.
+- [ ] Runtime chart/sidebar/progress styles and server error-page style block retained: conversion would require dynamic behaviour changes or affect the excluded error fallback.
