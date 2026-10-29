@@ -25,7 +25,7 @@ export function Navbar() {
   return (
     <>
       <motion.header
-        className="eh-navbar-header fixed inset-x-0 top-4 px-4"
+        className="eh-navbar-header [z-index:1000] fixed inset-x-0 top-4 px-4"
         initial={false}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 140, damping: 22 }}
@@ -33,7 +33,7 @@ export function Navbar() {
         <nav
           aria-label="Main"
           className={cn(
-             "eh-navbar mx-auto flex max-w-[1280px] items-center justify-between rounded-full border px-5 transition-all duration-[400ms] ease-out md:px-7",
+             "eh-navbar [.eh-navbar-header_&]:[transition:height_.3s,background_.3s,box-shadow_.3s] mx-auto flex max-w-[1280px] items-center justify-between rounded-full border px-5 transition-all duration-[400ms] ease-out md:px-7",
             solid
               ? "h-[72px] border-navy/10 bg-paper/85 shadow-soft backdrop-blur-xl"
               : "h-20 border-transparent bg-transparent",
@@ -54,7 +54,7 @@ export function Navbar() {
                 <Link
                   to={l.to}
                   className={cn(
-                    "link-underline font-display text-sm font-semibold transition-colors",
+                    "link-underline [&::after]:[content:''] [&::after]:[position:absolute] [&::after]:[left:0] [&::after]:[right:0] [&::after]:[bottom:-6px] [&::after]:[height:2px] [&::after]:[background:var(--gold)] [&::after]:[transform:scaleX(0)] [&::after]:[transform-origin:left] [&::after]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [&:hover::after]:[transform:scaleX(1)] [&[data-status='active']::after]:[transform:scaleX(1)] font-display text-sm font-semibold transition-colors",
                     solid ? "text-navy" : "text-paper",
                   )}
                 >
@@ -64,9 +64,9 @@ export function Navbar() {
             ))}
           </ul>
           <div className="flex items-center gap-2">
-            <Link to="/contact" className="btn-base btn-gold hidden !min-h-[44px] !px-6 !py-2 sm:inline-flex">
+            <Link to="/contact" className="btn-base [&:hover]:[transform:translateY(-2px)] btn-gold hidden !min-h-[44px] !px-6 !py-2 sm:inline-flex">
               Contact
-              <ArrowRight className="btn-arrow h-4 w-4" aria-hidden />
+              <ArrowRight className="btn-arrow [.btn-base_&]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [.btn-base:hover_&]:[transform:translateX(4px)] h-4 w-4" aria-hidden />
             </Link>
              <Button variant="ghost" size="icon"
               type="button"
@@ -83,7 +83,7 @@ export function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="eh-nav-menu fixed inset-0 flex flex-col bg-navy-deep px-6 pb-10 pt-8 text-paper"
+            className="eh-nav-menu [z-index:1010] fixed inset-0 flex flex-col bg-navy-deep px-6 pb-10 pt-8 text-paper"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -119,16 +119,16 @@ export function Navbar() {
                   <Link
                     to={l.to}
                     onClick={() => setOpen(false)}
-                    className="link-underline font-display text-3xl font-bold sm:text-4xl"
+                    className="link-underline [&::after]:[content:''] [&::after]:[position:absolute] [&::after]:[left:0] [&::after]:[right:0] [&::after]:[bottom:-6px] [&::after]:[height:2px] [&::after]:[background:var(--gold)] [&::after]:[transform:scaleX(0)] [&::after]:[transform-origin:left] [&::after]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [&:hover::after]:[transform:scaleX(1)] [&[data-status='active']::after]:[transform:scaleX(1)] font-display text-3xl font-bold sm:text-4xl"
                   >
                     {l.label}
                   </Link>
                 </motion.li>
               ))}
             </motion.ul>
-            <Link to="/contact" onClick={() => setOpen(false)} className="btn-base btn-gold justify-center">
+            <Link to="/contact" onClick={() => setOpen(false)} className="btn-base [&:hover]:[transform:translateY(-2px)] btn-gold justify-center">
               Contact
-              <ArrowRight className="btn-arrow h-4 w-4" aria-hidden />
+              <ArrowRight className="btn-arrow [.btn-base_&]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [.btn-base:hover_&]:[transform:translateX(4px)] h-4 w-4" aria-hidden />
             </Link>
           </motion.div>
         )}

@@ -25,9 +25,9 @@ function MagneticButton() {
       }}
       className="inline-block p-3"
     >
-      <Link to="/contact" className="btn-base btn-gold !px-10 !py-5 text-lg">
+      <Link to="/contact" className="btn-base [&:hover]:[transform:translateY(-2px)] btn-gold !px-10 !py-5 text-lg">
         Start a Conversation
-        <ArrowRight className="btn-arrow h-5 w-5" aria-hidden />
+        <ArrowRight className="btn-arrow [.btn-base_&]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [.btn-base:hover_&]:[transform:translateX(4px)] h-5 w-5" aria-hidden />
       </Link>
     </motion.div>
   );
@@ -38,7 +38,7 @@ export function FinalCta() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   return (
-    <section ref={ref} className="closing-section text-paper">
+    <section ref={ref} className="closing-section [position:relative] [isolation:isolate] [overflow:hidden] [background:var(--navy-deep)] [min-height:100dvh] [display:flex] [flex-direction:column] text-paper">
       <motion.img
         src={refreshImages.ship_final.src}
         srcSet={refreshImages.ship_final.srcSet}
@@ -48,12 +48,12 @@ export function FinalCta() {
         height={refreshImages.ship_final.height}
         loading="lazy"
         style={{ y }}
-        className="closing-image"
+        className="closing-image [position:absolute] [inset:-12%_0] [width:100%] [height:124%] [object-fit:cover] [z-index:-2]"
       />
-      <div className="closing-shade" />
-      <Reveal className="container-x closing-cta relative flex flex-col items-center text-center">
+      <div className="closing-shade [position:absolute] [inset:0] [background:var(--closing-shade)] [z-index:-1]" />
+      <Reveal className="container-x closing-cta [flex:1] [min-height:60svh] [justify-content:center] [padding-block:80px] [@media(max-width:767.98px)]:[min-height:0] [@media(max-width:767.98px)]:[padding-block:56px] [@media(max-width:767.98px)]:[&_p]:[font-size:16px] relative flex flex-col items-center text-center">
         <Item>
-          <h2 className="h2-display max-w-3xl">Let’s Build the Future Together</h2>
+          <h2 className="h2-display [.eh-why_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[font-size:36px] [.eh-challenge-heading_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[color:var(--navy)] [@media(max-width:767.98px)]:[.eh-challenge-heading_&]:[font-size:32px] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[.eh-challenge-heading_&]:[font-size:30px] [.closing-cta_&]:[color:var(--paper)] [@media(max-width:767.98px)]:[.closing-cta_&]:[font-size:32px] max-w-3xl">Let’s Build the Future Together</h2>
         </Item>
         <Item>
           <p className="mt-6 max-w-2xl text-lg text-paper/85 md:text-xl">
@@ -61,7 +61,7 @@ export function FinalCta() {
             institutions to learn, adapt, innovate, and create value in a changing world.
           </p>
         </Item>
-        <Item className="mt-10">
+        <Item className="mt-10 [.closing-cta_&]:[margin-top:24px]">
           <MagneticButton />
         </Item>
       </Reveal>

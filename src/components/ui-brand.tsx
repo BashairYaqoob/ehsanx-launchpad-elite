@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 type Variant = "gold" | "outline-light" | "outline-navy";
 const variantClass: Record<Variant, string> = {
   gold: "btn-gold",
-  "outline-light": "btn-outline-light",
-  "outline-navy": "btn-outline-navy",
+  "outline-light": "btn-outline-light [&:hover]:[background:var(--btn-outline-light-background-1)]",
+  "outline-navy": "btn-outline-navy [&:hover]:[background:var(--btn-outline-navy-background-2)]",
 };
 
 export function BrandButton({
@@ -29,9 +29,9 @@ export function BrandButton({
   const sy = useSpring(y, { stiffness: 200, damping: 20 });
   const reduced = useReducedMotion();
   return (
-    <motion.span className="inline-flex" style={{ x: sx, y: sy }} onMouseMove={e => { if (variant !== "gold" || reduced || !window.matchMedia("(pointer:fine)").matches) return; const rect = e.currentTarget.getBoundingClientRect(); x.set((e.clientX - rect.left - rect.width / 2) * 0.12); y.set((e.clientY - rect.top - rect.height / 2) * 0.15); }} onMouseLeave={() => { x.set(0); y.set(0); }}><Link to={to} className={cn("btn-base", variantClass[variant], className)}>
+    <motion.span className="inline-flex" style={{ x: sx, y: sy }} onMouseMove={e => { if (variant !== "gold" || reduced || !window.matchMedia("(pointer:fine)").matches) return; const rect = e.currentTarget.getBoundingClientRect(); x.set((e.clientX - rect.left - rect.width / 2) * 0.12); y.set((e.clientY - rect.top - rect.height / 2) * 0.15); }} onMouseLeave={() => { x.set(0); y.set(0); }}><Link to={to} className={cn("btn-base [&:hover]:[transform:translateY(-2px)]", variantClass[variant], className)}>
       <span>{children}</span>
-      <ArrowRight className="btn-arrow h-4 w-4" aria-hidden />
+      <ArrowRight className="btn-arrow [.btn-base_&]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [.btn-base:hover_&]:[transform:translateX(4px)] h-4 w-4" aria-hidden />
     </Link></motion.span>
   );
 }
