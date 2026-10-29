@@ -9,7 +9,7 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -41,12 +41,32 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: ErrorComponentProps) {
+const navigationRetries = new WeakMap<object, { pathname: string; retried: boolean }>();
+
+function ErrorComponent(props: ErrorComponentProps) {
+  const pathname = useLocation({ select: location => location.pathname });
+  return <RouteErrorFallback key={pathname} {...props} pathname={pathname} />;
+}
+
+function RouteErrorFallback({ error, reset, pathname }: ErrorComponentProps & { pathname: string }) {
   console.error(error);
   const router = useRouter();
+  const [retryNavigation] = useState(() => {
+    const navigation = navigationRetries.get(router);
+    return navigation?.pathname === pathname && !navigation.retried;
+  });
+  useEffect(() => {
+    if (!retryNavigation) return;
+    const navigation = navigationRetries.get(router);
+    if (!navigation || navigation.retried) return;
+    navigation.retried = true;
+    reset();
+  }, [router, reset, retryNavigation]);
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
+
+  if (retryNavigation) return null;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -123,6 +143,10 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const isHome = useLocation({ select: location => location.pathname === "/" });
+  const router = useRouter();
+  useEffect(() => router.subscribe("onBeforeNavigate", ({ pathChanged, toLocation }) => {
+    if (pathChanged) navigationRetries.set(router, { pathname: toLocation.pathname, retried: false });
+  }), [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
