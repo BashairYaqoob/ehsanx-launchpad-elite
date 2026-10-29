@@ -9,7 +9,7 @@ type Stage = { name: string; image: ImageAsset; alt: string; description?: strin
 type Props = { kind: "eplus" | "approach"; stages: Stage[]; paragraph: string; caption?: string };
 
 export function Journey({ kind, stages, paragraph, caption }: Props) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const setup = useCallback<Parameters<typeof useScrollScene>[1]>((gsap, _ScrollTrigger, element) => {
     const panels = Array.from(element.querySelectorAll<HTMLElement>(".journey-panel"));
@@ -23,35 +23,39 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
     const mm = gsap.matchMedia();
     mm.add({ small: "(max-width: 767px)", large: "(min-width: 768px)" }, (context) => {
       const small = !!context.conditions?.['small'];
-      gsap.set(panels.slice(1), { autoAlpha: 0 });
-      gsap.set(end, { autoAlpha: 0, y: 24 });
+      if (panels.length > 1) gsap.set(panels.slice(1), { autoAlpha: 0 });
+      if (end) gsap.set(end, { autoAlpha: 0, y: 24 });
       const vertical = kind === "eplus" ? small : !small;
-      gsap.set(progress, { scaleX: vertical ? 1 : 0, scaleY: vertical ? 0 : 1 });
-      gsap.set(loop, { autoAlpha: 0 });
+      if (progress) gsap.set(progress, { scaleX: vertical ? 1 : 0, scaleY: vertical ? 0 : 1 });
+      if (loop) gsap.set(loop, { autoAlpha: 0 });
       if (arrow) gsap.set(arrow, { strokeDasharray: 1, strokeDashoffset: 1 });
       const tl = gsap.timeline({ scrollTrigger: {
         trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 3}`,
         pin: true, pinSpacing: true, scrub: 0.6, invalidateOnRefresh: true,
         onUpdate: self => { const active = Math.min(4, Math.floor(self.progress * 5.5)); nodes.forEach((node, i) => { node.dataset['active'] = String(i <= active); node.dataset['current'] = String(i === active); }); },
       }});
-      tl.to(progress, { scaleX: 1, scaleY: 1, duration: 4.4, ease: "none" }, 0);
+      if (progress) tl.to(progress, { scaleX: 1, scaleY: 1, duration: 4.4, ease: "none" }, 0);
       stages.slice(1).forEach((_, i) => {
         const next = panels[i + 1]; const previous = panels[i];
         if (!next || !previous) return;
         tl.to(previous, { autoAlpha: 0, duration: 0.6 }, i + 0.65)
-          .fromTo(next, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, i + 0.65)
-          .fromTo(next.querySelector(".journey-title-inner"), { yPercent: 110 }, { yPercent: 0, duration: 0.7 }, i + 0.65);
-        if (kind === "approach") tl.fromTo(next.querySelector("img"), { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.8 }, i + 0.65);
+          .fromTo(next, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.7 }, i + 0.65);
+        const title = next.querySelector(".journey-title-inner");
+        const image = next.querySelector("img");
+        if (title) tl.fromTo(title, { yPercent: 110 }, { yPercent: 0, duration: 0.7 }, i + 0.65);
+        if (kind === "approach" && image) tl.fromTo(image, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.8 }, i + 0.65);
       });
-      if (arrow) tl.to(loop, { autoAlpha: 1, duration: 0.1 }, 4.3).to(arrow, { strokeDashoffset: 0, duration: 0.5, ease: "none" }, 4.35);
-      tl.to(text, { autoAlpha: 0, duration: 0.3 }, 4.7)
-        .to(end, { autoAlpha: 1, y: 0, duration: 0.5 }, 4.85)
-        .to({}, { duration: 0.65 });
+      if (arrow && loop) tl.to(loop, { autoAlpha: 1, duration: 0.1 }, 4.3).to(arrow, { strokeDashoffset: 0, duration: 0.5, ease: "none" }, 4.35);
+      if (text.length) tl.to(text, { autoAlpha: 0, duration: 0.3 }, 4.7);
+      if (end) tl.to(end, { autoAlpha: 1, y: 0, duration: 0.5 }, 4.85);
+      tl.to({}, { duration: 0.65 });
     });
+    return () => mm.revert();
   }, [kind, stages]);
   useScrollScene(ref, setup, reduced);
   const isEplus = kind === "eplus";
-  return <section ref={ref} className={`journey journey-${kind} ${isEplus ? "bg-navy text-paper" : "bg-paper text-navy"}`} aria-label={isEplus ? "The E-Plus Model" : "Our Approach"}>
+  return <section aria-label={isEplus ? "The E-Plus Model" : "Our Approach"}>
+    <div ref={ref} className={`journey journey-${kind} ${isEplus ? "bg-navy text-paper" : "bg-paper text-navy"}`}>
     <div className="journey-stage">
       <header className="container-x journey-header">
         <p className={isEplus ? "eyebrow-dark" : "eyebrow"}>{isEplus ? "Our Philosophy" : "How We Work"}</p>
@@ -77,6 +81,7 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
         <p className="journey-paragraph">{paragraph}</p>
         <BrandButton to={isEplus ? "/philosophy" : "/our-approach"} variant={isEplus ? "gold" : "outline-navy"}>{isEplus ? "Explore the Full Model" : "See Our Approach"}</BrandButton>
       </div>
+    </div>
     </div>
   </section>;
 }

@@ -1,10 +1,10 @@
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useState, type RefObject } from "react";
 import type { gsap as Gsap } from "gsap";
 import type { ScrollTrigger as Trigger } from "gsap/ScrollTrigger";
 
 export function useScrollScene(
   ref: RefObject<HTMLElement | null>,
-  setup: (gsap: typeof Gsap, ScrollTrigger: typeof Trigger, element: HTMLElement) => void,
+  setup: (gsap: typeof Gsap, ScrollTrigger: typeof Trigger, element: HTMLElement) => void | (() => void),
   reduced: boolean | null,
 ) {
   const [motionDisabled, setMotionDisabled] = useState(false);
@@ -15,7 +15,7 @@ export function useScrollScene(
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (reduced || motionDisabled || !ref.current) return;
     let cancelled = false;
     let dispose: (() => void) | undefined;
@@ -43,7 +43,7 @@ export function useScrollScene(
         if (cancelled || !ref.current) return;
         gsap.registerPlugin(ScrollTrigger);
         const element = ref.current;
-        const context = gsap.context(() => setup(gsap, ScrollTrigger, element), element);
+        const context = gsap.context(() => setup(gsap, ScrollTrigger, element), ref);
         dispose = () => context.revert();
         refresh();
       },
