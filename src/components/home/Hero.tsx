@@ -7,7 +7,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { images } from "@/lib/image-assets";
 import { BrandButton } from "@/components/ui-brand";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ const SLIDES = [
     img: images.hero_blocks.src,
     srcSet: images.hero_blocks.srcSet,
     pos: "70% center",
+    objectPosition: "80% 50%",
     alt: "Navy, teal and gold EX sculpture in a sunlit atrium",
   },
   {
@@ -30,6 +31,7 @@ const SLIDES = [
     img: images.hero_2.src,
     srcSet: images.hero_2.srcSet,
     pos: "65% center",
+    objectPosition: "50% 35%",
     alt: "A senior leader presenting a plan to five colleagues in a bright boardroom at golden hour",
   },
   {
@@ -38,6 +40,7 @@ const SLIDES = [
     img: images.hero_3.src,
     srcSet: images.hero_3.srcSet,
     pos: "60% center",
+    objectPosition: "50% 35%",
     alt: "A professional on a mezzanine overlooking teams collaborating across an open-plan atrium office",
   },
   {
@@ -46,6 +49,7 @@ const SLIDES = [
     img: images.ship.src,
     srcSet: images.ship.srcSet,
     pos: "70% center",
+    objectPosition: "50% 35%",
     alt: "An EhsanX sailing ship crossing the sea",
   },
 ] as const;
@@ -101,7 +105,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] [@media(max-width:767.98px)]:[height:100dvh] max-md:!min-h-[840px] relative bg-navy-deep text-paper"
+      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] max-md:[height:auto] max-md:[min-height:max(125vw,648px)] relative bg-navy-deep text-paper"
       aria-roledescription="carousel"
       aria-label="Highlights"
       tabIndex={0}
@@ -160,7 +164,13 @@ export function Hero() {
                 width={1920}
                 height={1088}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                className={`h-full w-full object-cover ${slide.pos === "65% center" ? "object-[65%_center]" : slide.pos === "60% center" ? "object-[60%_center]" : "object-[70%_center]"}`}
+                style={
+                  {
+                    "--hero-pos": slide.objectPosition,
+                    "--hero-pos-md": slide.pos,
+                  } as CSSProperties
+                }
+                className="h-full w-full object-cover [object-position:var(--hero-pos)] md:[object-position:var(--hero-pos-md)]"
               />
             </picture>
           </motion.div>
