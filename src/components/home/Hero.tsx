@@ -105,7 +105,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] max-md:[height:auto] max-md:[min-height:440px] max-md:aspect-[4/5] relative bg-navy-deep text-paper"
+      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] max-md:[height:auto] max-md:[min-height:0] relative bg-navy-deep text-paper"
       aria-roledescription="carousel"
       aria-label="Highlights"
       tabIndex={0}
@@ -176,7 +176,7 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
         <div className={`bg-hero-overlay [background:var(--hero-overlay)] absolute inset-0 ${index === 0 ? "hero-first-overlay [background:var(--hero-first-shade)]" : ""}`} />
-        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content [position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px] max-md:[position:static] max-md:[padding-top:104px] max-md:[padding-bottom:116px]">
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content [position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px] max-md:[position:static] max-md:flex max-md:flex-col max-md:justify-end max-md:[min-height:calc(125vw)] max-md:[padding-top:104px] max-md:[padding-bottom:116px]">
           <div className="eh-hero-copy [max-width:820px] [text-shadow:var(--hero-copy-shadow)] [display:grid] [@media(max-width:767.98px)]:[max-width:100%] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:720px]" aria-live="polite" aria-atomic="true">
             {SLIDES.map((s, i) => {
               const Heading = i === 0 ? "h1" : "h2";
