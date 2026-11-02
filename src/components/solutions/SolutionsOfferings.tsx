@@ -62,7 +62,7 @@ export function SolutionsOfferings() {
   };
 
   const hidden = { opacity: 0, transform: "translateY(8px)" };
-  const active = offerings[selected];
+  const active = offerings[selected] ?? offerings[0]!;
 
   return (
     <section ref={rootRef} className="bg-white py-16 lg:py-24">
@@ -78,7 +78,7 @@ export function SolutionsOfferings() {
                   data-fan={s.fan}
                   d={s.tangled}
                   fill="none"
-                  stroke={strandColor[offerings[i].color]}
+                  stroke={strandColor[offerings[i]!.color]}
                   strokeWidth={2}
                   strokeLinecap="round"
                   vectorEffect="non-scaling-stroke"
@@ -90,7 +90,7 @@ export function SolutionsOfferings() {
           {/* Mobile strands */}
           <svg aria-hidden="true" viewBox="400 50 200 180" className="mx-auto block h-[120px] w-[140px] md:hidden">
             {strandPaths.map((s, i) => (
-              <path key={i} data-strand data-fan={s.mobile} d={s.tangled} fill="none" stroke={strandColor[offerings[i].color]} strokeWidth={2} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+              <path key={i} data-strand data-fan={s.mobile} d={s.tangled} fill="none" stroke={strandColor[offerings[i]!.color]} strokeWidth={2} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
             ))}
           </svg>
 
