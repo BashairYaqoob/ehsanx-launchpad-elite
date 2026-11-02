@@ -16,7 +16,7 @@ export function SolutionsOfferings() {
     const reveal = q("[data-reveal]");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const finalState = () => {
-      q("[data-strand]").forEach((p) => p.setAttribute("d", p.dataset.fan!));
+      q("[data-strand]").forEach((p) => p.setAttribute("d", p.dataset["fan"]!));
       reveal.forEach((el) => {
         el.style.opacity = "1";
         el.style.transform = "none";
@@ -39,7 +39,7 @@ export function SolutionsOfferings() {
           paused: true,
           scrollTrigger: { trigger: root.querySelector("[data-knot]"), start: "top 70%", once: true },
         });
-        tl.to(strands, { attr: { d: (_i: number, el: SVGPathElement) => el.dataset.fan! }, duration: 1.8, ease: "power3.inOut", stagger: 0.12 }, 0)
+        tl.to(strands, { attr: { d: (_i: number, el: SVGPathElement) => el.dataset["fan"]! }, duration: 1.8, ease: "power3.inOut", stagger: 0.12 }, 0)
           .to(q("[data-intro]"), { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 1.1)
           .to(q("[data-node-dot]"), { opacity: 1, scale: 1, duration: 0.4, ease: "power2.out", stagger: 0.12 }, 2.05)
           .to(q("[data-node-label]"), { opacity: 1, y: 0, duration: 0.5, ease: "power2.out", stagger: 0.12 }, 2.1)
