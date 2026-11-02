@@ -94,14 +94,14 @@ export function SolutionsOfferings() {
             ))}
           </svg>
 
-          <p data-reveal data-intro style={hidden} className="mx-auto mt-10 max-w-[820px] text-center font-display text-[22px] font-medium leading-[1.4] text-navy md:order-first md:text-[28px] lg:text-[32px]">
+          <p data-reveal data-intro style={hidden} className="mx-auto mt-10 max-w-[820px] text-center font-display text-[22px] font-medium leading-[1.4] text-navy md:text-[28px] lg:text-[32px]">
             {solutionsIntro}
           </p>
         </div>
 
         {/* Desktop tabs */}
         <div className="mx-auto hidden max-w-[1040px] md:block">
-          <div role="tablist" aria-label={solutionsIntro.slice(0, 0) || "Offerings"} onKeyDown={onKey} className="relative -mt-[calc(440px*0.023)] h-[150px]">
+          <div role="tablist" aria-label="Offerings" onKeyDown={onKey} className="relative -mt-[calc(440px*0.023)] h-[150px]">
             {offerings.map((o, i) => (
               <button
                 key={o.id}
