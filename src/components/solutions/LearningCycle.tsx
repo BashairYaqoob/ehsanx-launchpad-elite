@@ -34,7 +34,7 @@ export function LearningCycle({ stages, className = "", ariaLabel = "Learning cy
       <motion.span
         aria-hidden="true"
         variants={reduce ? undefined : lineX}
-        className="absolute left-0 right-0 top-[3.25rem] hidden h-[1.5px] origin-left bg-navy/25 md:block"
+        className="absolute left-0 right-0 top-[55px] hidden h-[1.5px] origin-left bg-navy/25 md:block"
       />
       {/* Mobile line */}
       <motion.span
@@ -48,7 +48,7 @@ export function LearningCycle({ stages, className = "", ariaLabel = "Learning cy
           key={i}
           aria-hidden="true"
           variants={reduce ? undefined : fade}
-          className="absolute top-[3.25rem] hidden -translate-x-1/2 -translate-y-1/2 md:block"
+          className="absolute top-[55px] hidden -translate-x-1/2 -translate-y-1/2 md:block"
           style={{ left: `${((i + 1) / count) * 100}%` }}
         >
           <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
