@@ -12,7 +12,7 @@ export const solutionsHero = {
 
 export const solution01 = {
   number: "01",
-  eyebrow: "01 · EXECUTIVE LEADERSHIP DIALOGUES",
+  eyebrow: "EXECUTIVE LEADERSHIP DIALOGUES",
   title: "Inspiring Entrepreneurial Leaders.",
   description: [
     "Designed for owners, CEOs, boards, and senior executives, these high-impact executive sessions help leadership teams rethink the future of their organizations, challenge conventional assumptions, and explore new approaches to leadership, innovation, AI, and institutional transformation.",
@@ -37,7 +37,7 @@ export const solution01 = {
 
 export const solution02 = {
   number: "02",
-  eyebrow: "02 · LEADERSHIP DEVELOPMENT & TRANSFORMATION PROGRAMMES",
+  eyebrow: "LEADERSHIP DEVELOPMENT & TRANSFORMATION PROGRAMMES",
   title: "Developing Entrepreneurial Leaders and High-Performance Teams.",
   description: [
     "These customized organizational learning journeys are designed for senior and middle management to develop entrepreneurial thinking, strengthen leadership capabilities, and build high-performing teams capable of driving innovation, transformation, and sustainable growth.",
@@ -74,7 +74,7 @@ export const learningCycleStages: LearningCycleStage[] = [
 
 export const solution03 = {
   number: "03",
-  eyebrow: "03 · ORGANIZATIONAL TRANSFORMATION PARTNERSHIPS",
+  eyebrow: "ORGANIZATIONAL TRANSFORMATION PARTNERSHIPS",
   title: "Building Entrepreneurial Organizations.",
   description: [
     "Sustainable transformation requires more than training. It requires leadership commitment, continued application, coaching, and sustained implementation.",
