@@ -40,7 +40,7 @@ export function LearningCycle({ stages, className = "", ariaLabel = "Learning cy
       <motion.span
         aria-hidden="true"
         variants={lineY}
-        className="absolute bottom-3 left-[5px] top-3 w-[1.5px] origin-top bg-navy/25 md:hidden"
+        className="absolute bottom-5 left-[19.25px] top-5 w-[1.5px] origin-top bg-navy/25 md:hidden"
       />
       {/* Desktop chevrons */}
       {Array.from({ length: Math.max(count - 1, 0) }).map((_, i) => (
@@ -64,12 +64,9 @@ export function LearningCycle({ stages, className = "", ariaLabel = "Learning cy
               <span aria-hidden="true" className="mx-auto mt-[0.5625rem] block h-3 w-3 rounded-full bg-gold" />
               <span className="mt-5 block font-[Montserrat] text-[clamp(1.25rem,2vw,1.75rem)] font-semibold text-navy">{stage.label}</span>
             </motion.div>
-            <motion.div variants={itemX} className="flex items-start gap-5 md:hidden">
-              <span aria-hidden="true" className="mt-1.5 block h-3 w-3 shrink-0 rounded-full bg-gold" />
-              <span className="min-w-0">
-                <span className="block font-[Montserrat] text-[14px] font-semibold text-teal">{pad(i + 1)}</span>
-                <span className="block font-[Montserrat] text-[clamp(1.25rem,2vw,1.75rem)] font-semibold text-navy">{stage.label}</span>
-              </span>
+            <motion.div variants={itemX} className="flex items-center gap-5 md:hidden">
+              <span aria-hidden="true" className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full bg-navy font-[Montserrat] text-[14px] font-semibold text-white ring-2 ring-gold">{pad(i + 1)}</span>
+              <span className="min-w-0 font-[Montserrat] text-[22px] font-semibold text-navy">{stage.label}</span>
             </motion.div>
           </li>
         ))}

@@ -5,6 +5,7 @@ import img01 from "@/assets/solutions/solution-01.jpg.asset.json";
 import img02 from "@/assets/solutions/solution-02.jpg.asset.json";
 import img03 from "@/assets/solutions/solution-03.jpg.asset.json";
 import { LearningCycle } from "./LearningCycle";
+import { FeatureList } from "./FeatureList";
 import { learningCycleStages, outcomes, solution01, solution02, solution03, solutionsHero, whyPartner } from "@/data/solutions";
 
 const container = "mx-auto w-full max-w-[1280px] px-6 md:px-10";
@@ -30,28 +31,16 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
   );
 }
 
-function List({ items, cols = 2 }: { items: string[]; cols?: 1 | 2 }) {
-  return (
-    <ul className={cols === 2 ? "grid grid-cols-1 gap-x-10 sm:grid-flow-col sm:grid-cols-2" : "grid grid-cols-1"} style={cols === 2 ? { gridTemplateRows: `repeat(${Math.ceil(items.length / 2)}, auto)` } : undefined}>
-      {items.map((item) => (
-        <li key={item} className="flex items-start gap-3 border-t border-navy/15 py-[14px] font-[Inter] text-[17px] leading-[1.5] text-[#0D0D0D]">
-          <span aria-hidden="true" className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
-          <span className="min-w-0">{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 function Paras({ items }: { items: string[] }) {
   return <div className="space-y-5">{items.map((p) => <p key={p} className={body}>{p}</p>)}</div>;
 }
 
-function HowColumns({ labelText, items }: { labelText: string; items: string[] }) {
+function HowItWorks({ labelText, items, cols }: { labelText: string; items: string[]; cols: 2 | 3 }) {
   return (
-    <div>
-      <p className={label}>{labelText}</p>
-      <div className="grid gap-6 lg:grid-cols-3 lg:gap-10">{items.map((p) => <p key={p} className={body}>{p}</p>)}</div>
+    <div className="pt-16">
+      <div aria-hidden="true" className="h-px w-full bg-gold/60" />
+      <h3 className={`${h2} mt-10`}>{labelText}</h3>
+      <div className={`mt-8 grid grid-cols-1 gap-6 ${cols === 3 ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-10`}>{items.map((p) => <p key={p} className={body}>{p}</p>)}</div>
     </div>
   );
 }
@@ -62,7 +51,7 @@ function Img({ src, alt, className, ratio }: { src: string; alt: string; classNa
 
 function Connector() {
   return (
-    <div aria-hidden="true" className="relative z-10 h-0">
+    <div aria-hidden="true" className="pointer-events-none relative z-10 h-0 w-full">
       <span className="absolute left-1/2 top-[-32px] h-16 w-[1.5px] -translate-x-1/2 bg-gold" />
       <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold" />
     </div>
@@ -105,14 +94,14 @@ function Solution01() {
           <span aria-hidden="true" className={numeral}>{s.number}</span>
           <p className={`${eyebrow} mt-4`}>{s.eyebrow}</p>
           <h2 className={`${h2} mt-4`}>{s.title}</h2>
-          <Img src={img01.url} alt={s.alt} ratio="aspect-[3/2]" className="mt-8 lg:hidden" />
+          <Img src={img01.url} alt={s.alt} ratio="aspect-[4/5]" className="mt-8 lg:hidden" />
           <div className="mt-8"><Paras items={s.description} /></div>
         </div>
         <div className="hidden lg:col-span-5 lg:block lg:self-center">
-          <Img src={img01.url} alt="" ratio="aspect-[3/2]" />
+          <Img src={img01.url} alt="" ratio="aspect-[4/5]" />
         </div>
-        <div className="mt-4 lg:col-span-6 lg:mt-12"><p className={label}>{s.listLabel}</p><List items={s.list} /></div>
-        <div className="lg:col-span-6 lg:mt-12"><p className={label}>{s.howLabel}</p><Paras items={s.how} /></div>
+        <div className="mt-4 lg:col-span-12 lg:mt-12"><p className={label}>{s.listLabel}</p><FeatureList items={s.list} variant="panel" /></div>
+        <div className="lg:col-span-12"><HowItWorks labelText={s.howLabel} items={s.how} cols={2} /></div>
       </div>
     </Reveal>
   );
@@ -121,7 +110,7 @@ function Solution01() {
 function Solution02() {
   const s = solution02;
   return (
-    <Reveal className="bg-[#F4F6F9] py-20 lg:py-28">
+    <Reveal className="bg-white py-20 lg:py-28">
       <div className={`${container} space-y-14 lg:space-y-20`}>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[45fr_55fr] lg:items-center lg:gap-14">
           <div className="hidden lg:block"><Img src={img02.url} alt="" ratio="aspect-[4/5]" /></div>
@@ -133,8 +122,8 @@ function Solution02() {
             <div className="mt-8"><Paras items={s.description} /></div>
           </div>
         </div>
-        <div><p className={label}>{s.listLabel}</p><List items={s.list} /></div>
-        <HowColumns labelText={s.howLabel} items={s.how} />
+        <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} variant="striped" /></div>
+        <HowItWorks labelText={s.howLabel} items={s.how} cols={3} />
         <LearningCycle stages={learningCycleStages} className="pt-4" />
       </div>
     </Reveal>
@@ -155,8 +144,8 @@ function Solution03() {
           </div>
           <div className="lg:pt-6"><Paras items={s.description} /></div>
         </div>
-        <div><p className={label}>{s.listLabel}</p><List items={s.list} /></div>
-        <HowColumns labelText={s.howLabel} items={s.how} />
+        <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} variant="striped" marker="bar" /></div>
+        <HowItWorks labelText={s.howLabel} items={s.how} cols={3} />
       </div>
     </Reveal>
   );
