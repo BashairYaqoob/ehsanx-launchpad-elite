@@ -6,6 +6,7 @@ import img02 from "@/assets/solutions/solution-02.jpg.asset.json";
 import img03 from "@/assets/solutions/solution-03.jpg.asset.json";
 import { LearningCycle } from "./LearningCycle";
 import { FeatureList } from "./FeatureList";
+import { FinalCta } from "@/components/home/FounderAndCta";
 import { learningCycleStages, outcomes, solution01, solution02, solution03, solutionsHero, whyPartner } from "@/data/solutions";
 
 const container = "mx-auto w-full max-w-[1280px] px-6 md:px-10";
@@ -47,15 +48,6 @@ function HowItWorks({ labelText, items, cols }: { labelText: string; items: stri
 
 function Img({ src, alt, className, ratio }: { src: string; alt: string; className?: string; ratio: string }) {
   return <img src={src} alt={alt} width={1536} height={1024} loading="lazy" decoding="async" className={`w-full object-cover ${ratio} ${className ?? ""}`} />;
-}
-
-function Connector() {
-  return (
-    <div aria-hidden="true" className="pointer-events-none relative z-10 h-0 w-full">
-      <span className="absolute left-1/2 top-[-32px] h-16 w-[1.5px] -translate-x-1/2 bg-gold" />
-      <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold" />
-    </div>
-  );
 }
 
 function Hero() {
@@ -100,7 +92,7 @@ function Solution01() {
         <div className="hidden lg:col-span-5 lg:block lg:self-center">
           <Img src={img01.url} alt="" ratio="aspect-[4/5]" />
         </div>
-        <div className="mt-4 lg:col-span-12 lg:mt-12"><p className={label}>{s.listLabel}</p><FeatureList items={s.list} variant="panel" /></div>
+        <div className="mt-4 lg:col-span-12 lg:mt-12"><p className={label}>{s.listLabel}</p><FeatureList items={s.list} label={s.listLabel} /></div>
         <div className="lg:col-span-12"><HowItWorks labelText={s.howLabel} items={s.how} cols={2} /></div>
       </div>
     </Reveal>
@@ -122,7 +114,7 @@ function Solution02() {
             <div className="mt-8"><Paras items={s.description} /></div>
           </div>
         </div>
-        <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} variant="striped" /></div>
+        <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} label={s.listLabel} /></div>
         <HowItWorks labelText={s.howLabel} items={s.how} cols={3} />
         <LearningCycle stages={learningCycleStages} className="pt-4" />
       </div>
@@ -144,7 +136,7 @@ function Solution03() {
           </div>
           <div className="lg:pt-6"><Paras items={s.description} /></div>
         </div>
-        <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} variant="striped" marker="bar" /></div>
+        <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} label={s.listLabel} /></div>
         <HowItWorks labelText={s.howLabel} items={s.how} cols={3} />
       </div>
     </Reveal>
@@ -178,13 +170,22 @@ function Outcomes() {
       <div className={container}>
         <h2 className={h2}>{outcomes.title}</h2>
         <p className={`${body} mt-6`}>{outcomes.intro}</p>
-        <ul className="mt-12 grid grid-cols-1 gap-x-10 md:grid-cols-2 lg:grid-cols-3">
-          {outcomes.items.map((item) => (
-            <li key={item} className="flex items-start gap-3 border-t border-navy/15 py-6 font-[Montserrat] text-[20px] font-medium leading-snug text-navy">
-              <span aria-hidden="true" className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
-              <span className="min-w-0">{item}</span>
-            </li>
-          ))}
+        <ul className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {outcomes.items.map((item, i) => {
+            // 1 col: alternate; 2 cols: swap every second row; 3 cols: odd/even.
+            const one = i % 2 === 0;
+            const two = (Math.floor(i / 2) + (i % 2)) % 2 === 0;
+            const three = i % 2 === 0;
+            const navy = "bg-navy text-white";
+            const pale = "bg-[#E9EEF4] text-navy";
+            const cls = `${one ? navy : pale} ${two ? "sm:bg-navy sm:text-white" : "sm:bg-[#E9EEF4] sm:text-navy"} ${three ? "lg:bg-navy lg:text-white" : "lg:bg-[#E9EEF4] lg:text-navy"}`;
+            return (
+              <li key={item} className={`flex min-h-[200px] flex-col justify-between gap-8 p-7 md:p-8 ${cls}`}>
+                <span aria-hidden="true" className="font-[Montserrat] text-[clamp(2.5rem,4vw,3.5rem)] font-bold leading-none text-gold">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-[Montserrat] text-[20px] font-semibold leading-snug">{item}</span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </Reveal>
@@ -196,12 +197,13 @@ export function SolutionsPageContent() {
     <div className="overflow-x-clip">
       <Hero />
       <Solution01 />
-      <Connector />
       <Solution02 />
-      <Connector />
       <Solution03 />
       <WhyPartner />
       <Outcomes />
+      {/* Shared closing CTA + footer; the marker hides the standalone footer like Philosophy/Our Approach. */}
+      <span aria-hidden="true" className="advisory-page hidden" />
+      <FinalCta />
     </div>
   );
 }
