@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SolutionsHero } from "@/components/solutions/SolutionsHero";
-import { SolutionsOfferings } from "@/components/solutions/SolutionsOfferings";
+import { PagePlaceholder } from "@/components/PagePlaceholder";
 import { pageHead } from "@/lib/site";
 
 export const Route = createFileRoute("/solutions")({
@@ -9,10 +8,5 @@ export const Route = createFileRoute("/solutions")({
 });
 
 function SolutionsPage() {
-  return (
-    <>
-      <SolutionsHero />
-      <SolutionsOfferings />
-    </>
-  );
+  return <PagePlaceholder name="Solutions" />;
 }
