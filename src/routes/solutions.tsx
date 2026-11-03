@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/PagePlaceholder";
+import { SolutionsPageContent } from "@/components/solutions/SolutionsSections";
 import { pageHead } from "@/lib/site";
 
 export const Route = createFileRoute("/solutions")({
@@ -8,5 +8,5 @@ export const Route = createFileRoute("/solutions")({
 });
 
 function SolutionsPage() {
-  return <PagePlaceholder name="Solutions" />;
+  return <SolutionsPageContent />;
 }
