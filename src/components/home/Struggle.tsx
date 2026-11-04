@@ -69,7 +69,7 @@ export function Struggle() {
     });
     return () => mm.revert();
   }, []);
-  useScrollScene(ref, setup, reduced);
+  useScrollScene(ref, setup, reduced || !pinned);
 
   return <section aria-labelledby="challenge-title">
     <div ref={ref} data-mode={pinned ? "pinned" : "list"} className={`group/ch eh-challenge relative isolate bg-wash [background:var(--paper)] ${pinned ? "h-dvh" : ""}`}>
