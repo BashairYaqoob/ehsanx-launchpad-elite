@@ -187,7 +187,7 @@ export function Hero() {
         <div aria-hidden="true" className="absolute inset-0 hidden min-[900px]:block" style={{ background: "linear-gradient(90deg, rgba(8,22,40,0.88) 0%, rgba(8,22,40,0.6) 40%, rgba(8,22,40,0) 70%)" }} />
       </motion.div>
       </div>
-        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content relative pt-10 min-[900px]:[position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content relative pt-10 max-[899.98px]:![bottom:auto] min-[900px]:[position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
           <div className="eh-hero-copy [max-width:820px] [text-shadow:var(--hero-copy-shadow)] [display:grid] [@media(max-width:767.98px)]:[max-width:100%] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:720px]" aria-live="polite" aria-atomic="true">
             {SLIDES.map((s, i) => {
               const Heading = i === 0 ? "h1" : "h2";
@@ -242,7 +242,7 @@ export function Hero() {
             </BrandButton>
           </div>
         </div>
-        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-controls relative py-8 min-[900px]:py-0 min-[900px]:[position:absolute] [inset-inline:0] [bottom:52px] [display:flex] [align-items:center] [justify-content:space-between] [z-index:3] [@media(max-width:767.98px)]:[bottom:44px] [@media(max-width:767.98px)]:[padding-right:92px]">
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-controls relative py-8 max-[899.98px]:![bottom:auto] min-[900px]:py-0 min-[900px]:[position:absolute] [inset-inline:0] [bottom:52px] [display:flex] [align-items:center] [justify-content:space-between] [z-index:3] [@media(max-width:767.98px)]:[bottom:44px] [@media(max-width:767.98px)]:[padding-right:92px]">
           <div className="flex items-center gap-6">
             <p className="eh-counter [font-family:var(--font-display)] [font-weight:600] [font-size:13px] [white-space:nowrap]">
               <span className="text-gold">{String(index + 1).padStart(2, "0")}</span>
