@@ -13,7 +13,7 @@ import type { AdvisoryImage } from './philosophy';
 import type { SitePath } from '@/lib/site';
 const photo=(src:string,small:string,alt:string):AdvisoryImage=>({src,srcSet:`${small} 1x, ${src} 2x`,width:800,height:800,alt});
 const images={
- hero:{...heroImages.approach_hero,alt:'A consultant in conversation with four colleagues around a meeting table in a bright office.'},
+ hero:{...heroImages.approach_hero,mobilePos:'62% 45%',desktopPos:'50% 40%',alt:'A consultant in conversation with four colleagues around a meeting table in a bright office.'},
  listen:photo(listen2,listen1,'Two Pakistani professionals listening attentively in a quiet office.'),
  diagnose:photo(diagnose2,diagnose1,'Three Pakistani managers discussing a whiteboard of blank sticky notes.'),
  design:photo(design2,design1,'A Pakistani team working together around a table with blank sketch sheets.'),
