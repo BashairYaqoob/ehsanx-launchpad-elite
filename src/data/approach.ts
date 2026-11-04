@@ -1,5 +1,4 @@
-import hero1 from '@/assets/approach-conversation-800.webp';
-import hero2 from '@/assets/approach-conversation-1600.webp';
+import { images as heroImages } from '@/lib/image-assets';
 import listen1 from '@/assets/approach-listen-400.webp';
 import listen2 from '@/assets/approach-listen-800.webp';
 import diagnose1 from '@/assets/approach-diagnose-400.webp';
@@ -14,7 +13,7 @@ import type { AdvisoryImage } from './philosophy';
 import type { SitePath } from '@/lib/site';
 const photo=(src:string,small:string,alt:string):AdvisoryImage=>({src,srcSet:`${small} 1x, ${src} 2x`,width:800,height:800,alt});
 const images={
- hero:{src:hero2,srcSet:`${hero1} 1x, ${hero2} 2x`,width:1600,height:1200,alt:'A senior Pakistani consultant and two executives in a thoughtful office conversation.'},
+ hero:{...heroImages.approach_hero,alt:'A consultant in conversation with four colleagues around a meeting table in a bright office.'},
  listen:photo(listen2,listen1,'Two Pakistani professionals listening attentively in a quiet office.'),
  diagnose:photo(diagnose2,diagnose1,'Three Pakistani managers discussing a whiteboard of blank sticky notes.'),
  design:photo(design2,design1,'A Pakistani team working together around a table with blank sketch sheets.'),

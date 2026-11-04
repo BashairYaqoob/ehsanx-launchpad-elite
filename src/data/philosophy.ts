@@ -1,5 +1,4 @@
-import hero1 from '@/assets/philosophy-waterfront-800.webp';
-import hero2 from '@/assets/philosophy-waterfront-1600.webp';
+import { images as heroImages } from '@/lib/image-assets';
 import closing1 from '@/assets/philosophy-discussion-960.webp';
 import closing2 from '@/assets/philosophy-discussion-1920.webp';
 import type { SitePath } from '@/lib/site';
@@ -44,5 +43,5 @@ export const philosophy = {
  ],
  closing:{eyebrow:'AT EHSANX, WE BELIEVE THAT TRANSFORMATION BEGINS WITH A SIMPLE BUT POWERFUL IDEA',first:'People are not merely resources to be managed. They are sources of creativity, initiative, resilience, and innovation.',second:'When purpose, leadership, and entrepreneurial thinking come together, organizations can achieve extraordinary results.',attribution:'EhsanX'},
  cta:{title:'See how this plays out in practice.',primary:{label:'See How This Plays Out: Our Approach',to:'/our-approach' as SitePath},secondary:{label:'Explore Our Solutions',to:'/solutions' as SitePath}},
- images:{hero:{src:hero2,srcSet:`${hero1} 1x, ${hero2} 2x`,width:1600,height:1200,alt:'A quiet waterfront walkway beside a curved white contemporary building at golden hour.'},closing:{src:closing2,srcSet:`${closing1} 1x, ${closing2} 2x`,width:1920,height:832,alt:'Pakistani professionals listening and exchanging ideas in a naturally lit modern office.'}} satisfies Record<string,AdvisoryImage>
+ images:{hero:{...heroImages.philosophy_hero,alt:'A sunlit terrace with curved glass arches facing a city sunset.'},closing:{src:closing2,srcSet:`${closing1} 1x, ${closing2} 2x`,width:1920,height:832,alt:'Pakistani professionals listening and exchanging ideas in a naturally lit modern office.'}} satisfies Record<string,AdvisoryImage>
 };
