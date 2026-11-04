@@ -16,7 +16,7 @@ describe("enquiry", () => {
   it("addresses the mail draft to the EhsanX inbox with all details", () => {
     const url = buildEnquiryMailto(ok);
     expect(url.startsWith("mailto:ehsanx.transform@gmail.com?")).toBe(true);
-    const body = decodeURIComponent(url.split("body=")[1]);
+    const body = decodeURIComponent(url.split("body=")[1] ?? "");
     expect(body).toContain("Organization: Acme");
     expect(body).toContain("Email: sara@acme.com");
   });
