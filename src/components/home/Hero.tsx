@@ -28,29 +28,29 @@ const SLIDES = [
   {
     title: "Leadership That Creates Real Change.",
     sub: "Equip your people with the clarity, capability, and confidence to turn leadership potential into measurable performance.",
-    img: images.hero_2.src,
-    srcSet: images.hero_2.srcSet,
-    pos: "65% center",
-    objectPosition: "50% 35%",
-    alt: "A senior leader presenting a plan to five colleagues in a bright boardroom at golden hour",
+    img: images.home_slide_2.src,
+    srcSet: images.home_slide_2.srcSet,
+    pos: "50% 40%",
+    objectPosition: "40% 50%",
+    alt: "A speaker addressing participants seated in a large auditorium in front of a row of national flags",
   },
   {
     title: "From Individual Growth to Organizational Impact.",
     sub: "Align leadership, strengthen organizational culture, and turn development initiatives into meaningful business outcomes.",
-    img: images.hero_3.src,
-    srcSet: images.hero_3.srcSet,
-    pos: "60% center",
-    objectPosition: "50% 35%",
-    alt: "A professional on a mezzanine overlooking teams collaborating across an open-plan atrium office",
+    img: images.home_slide_3.src,
+    srcSet: images.home_slide_3.srcSet,
+    pos: "50% 50%",
+    objectPosition: "35% 55%",
+    alt: "Participants seated at long tables during a workshop in a bright training room",
   },
   {
     title: "Every Organization Has the Potential to Go Further.",
     sub: "We partner with organizations to uncover potential, navigate challenges, and build the capabilities needed for what comes next.",
-    img: images.ship.src,
-    srcSet: images.ship.srcSet,
-    pos: "70% center",
-    objectPosition: "50% 35%",
-    alt: "An EhsanX sailing ship crossing the sea",
+    img: images.home_slide_4.src,
+    srcSet: images.home_slide_4.srcSet,
+    pos: "60% 40%",
+    objectPosition: "50% 45%",
+    alt: "A large group of programme participants standing together for a photo in a modern venue",
   },
 ] as const;
 
@@ -100,12 +100,20 @@ export function Hero() {
     return () => cancelAnimationFrame(frame);
   }, [paused, progress, go]);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const coverY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 180]);
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 900px)");
+    const update = () => setWide(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  const coverY = useTransform(scrollYProgress, [0, 1], [0, reduce || !wide ? 0 : 180]);
   const slide = SLIDES[index] ?? SLIDES[0];
   return (
     <section
       ref={ref}
-      className="eh-hero [height:min(100dvh,1080px)] [min-height:600px] [overflow:clip] max-md:[height:auto] max-md:[min-height:max(125vw,648px)] relative bg-navy-deep text-paper"
+      className="eh-hero [overflow:clip] min-[900px]:[height:min(100dvh,1080px)] min-[900px]:[min-height:600px] relative bg-navy-deep text-paper"
       aria-roledescription="carousel"
       aria-label="Highlights"
       tabIndex={0}
@@ -142,6 +150,7 @@ export function Hero() {
         touch.current = null;
       }}
     >
+      <div className="relative mt-[calc(5rem+8px)] aspect-[4/3] w-full overflow-hidden min-[900px]:absolute min-[900px]:inset-0 min-[900px]:mt-0 min-[900px]:aspect-auto">
       <motion.div className="eh-hero-surface [position:absolute] [inset:0] [overflow:hidden]" style={{ y: coverY }}>
         <AnimatePresence initial={false}>
           <motion.div
@@ -170,13 +179,15 @@ export function Hero() {
                     "--hero-pos-md": slide.pos,
                   } as CSSProperties
                 }
-                className="h-full w-full object-cover [object-position:var(--hero-pos)] md:[object-position:var(--hero-pos-md)]"
+                className="h-full w-full object-cover [object-position:var(--hero-pos)] min-[900px]:[object-position:var(--hero-pos-md)]"
               />
             </picture>
           </motion.div>
         </AnimatePresence>
-        <div className={`bg-hero-overlay [background:var(--hero-overlay)] absolute inset-0 ${index === 0 ? "hero-first-overlay [background:var(--hero-first-shade)]" : ""}`} />
-        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content [position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
+        <div aria-hidden="true" className="absolute inset-0 hidden min-[900px]:block" style={{ background: "linear-gradient(90deg, rgba(8,22,40,0.88) 0%, rgba(8,22,40,0.6) 40%, rgba(8,22,40,0) 70%)" }} />
+      </motion.div>
+      </div>
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content relative pt-10 min-[900px]:[position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
           <div className="eh-hero-copy [max-width:820px] [text-shadow:var(--hero-copy-shadow)] [display:grid] [@media(max-width:767.98px)]:[max-width:100%] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:720px]" aria-live="polite" aria-atomic="true">
             {SLIDES.map((s, i) => {
               const Heading = i === 0 ? "h1" : "h2";
@@ -231,7 +242,7 @@ export function Hero() {
             </BrandButton>
           </div>
         </div>
-        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-controls [position:absolute] [inset-inline:0] [bottom:52px] [display:flex] [align-items:center] [justify-content:space-between] [z-index:3] [@media(max-width:767.98px)]:[bottom:44px] [@media(max-width:767.98px)]:[padding-right:92px]">
+        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-controls relative py-8 min-[900px]:py-0 min-[900px]:[position:absolute] [inset-inline:0] [bottom:52px] [display:flex] [align-items:center] [justify-content:space-between] [z-index:3] [@media(max-width:767.98px)]:[bottom:44px] [@media(max-width:767.98px)]:[padding-right:92px]">
           <div className="flex items-center gap-6">
             <p className="eh-counter [font-family:var(--font-display)] [font-weight:600] [font-size:13px] [white-space:nowrap]">
               <span className="text-gold">{String(index + 1).padStart(2, "0")}</span>
@@ -278,7 +289,6 @@ export function Hero() {
             </Button>
           </div>
         </div>
-      </motion.div>
     </section>
   );
 }

@@ -20,7 +20,7 @@ export function PageHero({eyebrow,title,line,image}:{eyebrow:string;title:string
  </div>
  <div className="relative mx-auto w-full max-w-[1280px] px-6 py-12 md:px-10 min-[900px]:pb-20 min-[900px]:pt-[calc(5rem+48px)]">
   <PageReveal className="max-w-[620px]">
-   <p className="font-[Inter] text-[13px] font-semibold uppercase tracking-[0.14em] text-gold">{eyebrow}</p>
+   <p className="ad-eyebrow font-[Inter] text-[13px] font-semibold uppercase tracking-[0.14em] text-gold">{eyebrow}</p>
    <h1 className="mt-5 font-[Montserrat] text-[clamp(2.2rem,4.4vw,3.75rem)] font-bold leading-[1.1] text-paper">{title}</h1>
    <span className="mt-7 block h-[2px] w-14 bg-gold" aria-hidden="true"/>
    <p className="mt-7 max-w-[52ch] font-[Inter] text-[17px] leading-[1.7] text-paper/90">{line}</p>
