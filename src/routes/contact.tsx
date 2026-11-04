@@ -12,7 +12,8 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   return (
     <div className="overflow-x-clip bg-wash">
-      <section className="pb-16 pt-[calc(5rem+48px)] md:pb-24 md:pt-[calc(5rem+88px)]">
+      <div aria-hidden="true" className="h-20 bg-navy-deep" />
+      <section className="pb-16 pt-12 md:pb-24 md:pt-20">
         <div className="mx-auto grid w-full max-w-[1280px] gap-12 px-6 md:px-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <h1 className="font-[Montserrat] text-[clamp(2.2rem,4.4vw,3.75rem)] font-bold leading-[1.1] text-navy [text-wrap:balance]">Let's Start a Conversation.</h1>

@@ -14,7 +14,8 @@ export const Route = createFileRoute("/meet-the-team")({
 function MeetTheTeamPage() {
   return (
     <div className="overflow-x-clip">
-      <section className="bg-white pb-12 pt-[calc(5rem+56px)] md:pb-16 md:pt-[calc(5rem+96px)]">
+      <div aria-hidden="true" className="h-20 bg-navy-deep" />
+      <section className="bg-white pb-12 pt-14 md:pb-16 md:pt-24">
         <div className="mx-auto w-full max-w-[1280px] px-6 md:px-10">
           <p className="font-[Inter] text-[13px] font-semibold uppercase tracking-[0.14em] text-teal">{teamHero.eyebrow}</p>
           <h1 className="mt-5 max-w-[22ch] font-[Montserrat] text-[clamp(2.2rem,4.4vw,3.75rem)] font-bold leading-[1.1] text-navy [text-wrap:balance]">{teamHero.title}</h1>
