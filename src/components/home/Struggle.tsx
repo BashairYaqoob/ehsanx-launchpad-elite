@@ -1,33 +1,67 @@
 import { useReducedMotion } from "framer-motion";
-import { useCallback, useRef } from "react";
-import { Building2, Network, Sparkles, Unplug } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
-import { images } from "@/lib/image-assets";
-import { ResponsiveImage } from "@/components/ResponsiveImage";
+
 const CARDS = [
-  { n: "01", text: "Limited ownership, initiative, and entrepreneurial thinking", card: "bg-navy text-paper", num: "text-gold", image: images.challenge_1, Icon: Unplug, alt: "Tethered navy paper boats beside a gold boat sailing freely" },
-  { n: "02", text: "Short-term leadership and limited future readiness", card: "bg-teal text-paper", num: "text-gold", image: images.challenge_2, Icon: Building2, alt: "A teal paper boat tethered to shore" },
-  { n: "03", text: "Siloed teams and weak collaboration", card: "bg-paper text-navy border border-navy/10", num: "text-teal", image: images.challenge_3, Icon: Network, alt: "Separate groups of paper boats divided by stone barriers" },
-  { n: "04", text: "Difficulty adapting to technological and AI-driven change", card: "bg-gold text-navy", num: "text-navy", image: images.challenge_4, Icon: Sparkles, alt: "Paper boats navigating a complex geometric network" },
+  { text: "Limited ownership, initiative, and entrepreneurial thinking", detail: "People wait for direction instead of taking ownership, showing initiative, and thinking entrepreneurially.", card: "bg-navy text-paper", rule: "bg-gold" },
+  { text: "Short-term leadership and limited future readiness", detail: "Leadership focused on the short term leaves the organization less ready for what comes next.", card: "bg-teal text-paper", rule: "bg-gold" },
+  { text: "Siloed teams and weak collaboration", detail: "Teams work in silos, and collaboration across the organization stays weak.", card: "bg-paper text-navy border border-navy/15", rule: "bg-teal" },
+  { text: "Difficulty adapting to technological and AI-driven change", detail: "Organizations find it difficult to adapt as technology and AI change how work is done.", card: "bg-gold text-navy", rule: "bg-navy" },
 ];
+
+const PINNED_QUERY = "(min-width: 1024px) and (min-height: 600px)";
+
 export function Struggle() {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const [pinned, setPinned] = useState(false);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const mq = window.matchMedia(PINNED_QUERY);
+    const update = () => setPinned(mq.matches && !reduced);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, [reduced]);
+
+  // List mode (mobile, tablet, short screens, reduced motion): the card crossing the
+  // middle of the viewport becomes the active challenge as the user scrolls.
+  useEffect(() => {
+    if (pinned || !ref.current) return;
+    const cards = Array.from(ref.current.querySelectorAll<HTMLElement>(".eh-challenge-card"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset["index"]));
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    cards.forEach((card) => io.observe(card));
+    return () => io.disconnect();
+  }, [pinned]);
+
   const setup = useCallback<Parameters<typeof useScrollScene>[1]>((gsap, _ScrollTrigger, element) => {
     const mm = gsap.matchMedia();
-    mm.add("(min-width: 1024px) and (min-height: 600px)", () => {
+    mm.add(PINNED_QUERY, () => {
       const cards = Array.from(element.querySelectorAll<HTMLElement>(".eh-challenge-card"));
       const rows = Array.from(element.querySelectorAll<HTMLElement>(".challenge-index-row"));
-      const stackOffset = () => Math.max(72, ...cards.map(card => (card.querySelector("header")?.getBoundingClientRect().height ?? 64) + 8));
+      if (cards.length < 2) return;
+      const stackOffset = () => Math.max(72, ...cards.map((card) => (card.querySelector("header")?.getBoundingClientRect().height ?? 64) + 8));
       gsap.set(cards.slice(1), { y: () => window.innerHeight + 100 });
-      const tl = gsap.timeline({ scrollTrigger: { trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 2.5}`, pin: true, pinSpacing: true, scrub: 0.7, invalidateOnRefresh: true,
-        onUpdate: self => { const active = Math.min(3, Math.floor(self.progress * 3.5)); rows.forEach((row, i) => row.dataset['active'] = String(i === active)); },
-      }});
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 2.5}`, pin: true, pinSpacing: true, scrub: 0.7, invalidateOnRefresh: true,
+          onUpdate: (self) => { const current = Math.min(3, Math.floor(self.progress * 3.5)); rows.forEach((row, i) => (row.dataset["active"] = String(i === current))); },
+        },
+      });
       cards.slice(1).forEach((card, i) => {
         cards.slice(0, i + 1).forEach((previous, j) => {
           tl.to(previous, { scale: 0.95, y: () => -(i + 1 - j) * stackOffset(), duration: 1, ease: "none" }, i);
-          tl.to(previous.querySelector(".challenge-card-detail"), { opacity: 0.7, duration: 1, ease: "none" }, i);
+          const detail = previous.querySelector(".challenge-card-detail");
+          if (detail) tl.to(detail, { opacity: 0, duration: 1, ease: "none" }, i);
         });
         tl.to(card, { y: 0, duration: 1, ease: "none" }, i);
       });
@@ -35,18 +69,38 @@ export function Struggle() {
     });
     return () => mm.revert();
   }, []);
-  useScrollScene(ref, setup, reduced);
+  useScrollScene(ref, setup, reduced || !pinned);
+
   return <section aria-labelledby="challenge-title">
-    <div ref={ref} className="eh-challenge [position:relative] [overflow:visible] [isolation:isolate] [margin:0] [border-radius:0] [z-index:auto] [background:var(--paper)] [height:100dvh] [@media(max-width:1023.98px)]:[height:auto] bg-wash">
-    <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-challenge-layout [padding-block:24px_128px] [display:grid] [grid-template-columns:minmax(0,4fr)_minmax(0,8fr)] [gap:32px] [align-items:center] [min-height:0] [height:100%] [@media(max-width:1023.98px)]:[padding-block:56px] [@media(max-height:599.98px)]:[display:block] [@media(max-width:1023.98px)_and_(min-height:600px)]:[display:block] [@media(max-width:1023.98px)]:[height:auto] max-md:!py-16 md:max-lg:!py-20">
-      <div className="eh-challenge-heading [@media(max-height:599.98px)]:[max-width:650px] [@media(max-width:1023.98px)_and_(min-height:600px)]:[max-width:650px] [@media(max-width:1023.98px)]:[margin-bottom:40px] [@media(min-width:1024px)_and_(max-height:599.98px)]:[margin-bottom:48px] [&>p]:[font-size:16px] [&>p]:[margin-top:16px]"><GoldRule /><p className="eyebrow [font-family:var(--font-display)] [font-weight:600] [font-size:0.75rem] [letter-spacing:0.14em] [text-transform:uppercase] [color:var(--teal)] mt-6">The Challenge</p><h2 id="challenge-title" className="h2-display [.eh-why_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[font-size:36px] [.eh-challenge-heading_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[color:var(--navy)] [@media(max-width:767.98px)]:[.eh-challenge-heading_&]:[font-size:32px] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[.eh-challenge-heading_&]:[font-size:30px] [.closing-cta_&]:[color:var(--paper)] [@media(max-width:767.98px)]:[.closing-cta_&]:[font-size:32px] [font-family:var(--font-display)] [font-size:clamp(2rem,_4vw,_3.5rem)] [font-weight:700] [line-height:1.1] [letter-spacing:0] max-sm:!text-3xl sm:max-lg:!text-4xl lg:max-xl:!text-5xl mt-4 text-navy">Why Organizations Struggle</h2><p className="mt-6 text-lg text-ink/80">Many organizations struggle with challenges such as:</p>
-        <ol className="challenge-index [display:grid] [gap:12px] [margin-top:28px] [@media(max-width:1023.98px)]:[display:none] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[gap:10px] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[margin-top:20px]">{CARDS.map((card, i) => <li key={card.n} className="challenge-index-row [display:flex] [gap:12px] [position:relative] [border-left:3px_solid_transparent] [padding-left:12px] [font-size:13px] [line-height:1.45] [color:var(--challenge-index-row-color-12)] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[font-size:12px] [&[data-active=true]]:[border-color:var(--gold)] [&[data-active=true]]:[color:var(--navy)] [&[data-active=true]]:[font-weight:700]" data-active={i === 0 ? "true" : "false"}><span>{card.n}</span><span>{card.text}</span></li>)}</ol>
+    <div ref={ref} data-mode={pinned ? "pinned" : "list"} className={`group/ch eh-challenge relative isolate bg-wash [background:var(--paper)] ${pinned ? "h-dvh" : ""}`}>
+      <div className={`container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 ${pinned ? "grid h-full grid-cols-[minmax(0,4fr)_minmax(0,8fr)] items-center gap-8 pb-32 pt-6" : "py-16 md:py-20 lg:py-24"}`}>
+        <div className={`[&>p]:[font-size:16px] [&>p]:[margin-top:16px] ${pinned ? "" : "mb-10 max-w-[650px]"}`}>
+          <GoldRule />
+          <p className="eyebrow [font-family:var(--font-display)] [font-weight:600] [font-size:0.75rem] [letter-spacing:0.14em] [text-transform:uppercase] [color:var(--teal)] mt-6">The Challenge</p>
+          <h2 id="challenge-title" className="mt-4 font-display text-[32px] font-bold leading-[1.1] text-navy md:text-[36px] lg:max-xl:text-[30px]">Why Organizations Struggle</h2>
+          <p className="mt-6 text-lg text-ink/80">Many organizations struggle with challenges such as:</p>
+          {pinned && <ol className="challenge-index mt-7 grid gap-3 lg:max-xl:mt-5 lg:max-xl:gap-2.5">{CARDS.map((card, i) => <li key={card.text} className="challenge-index-row [display:flex] [gap:12px] [border-left:3px_solid_transparent] [padding-left:12px] [font-size:13px] [line-height:1.45] [color:var(--challenge-index-row-color-12)] lg:max-xl:[font-size:12px] [&[data-active=true]]:[border-color:var(--gold)] [&[data-active=true]]:[color:var(--navy)] [&[data-active=true]]:[font-weight:700]" data-active={i === 0 ? "true" : "false"}><span>{String(i + 1).padStart(2, "0")}</span><span>{card.text}</span></li>)}</ol>}
+        </div>
+        <div className={pinned ? "relative h-[min(52vh,calc(100dvh_-_280px))] self-end" : "grid gap-5"}>
+          {CARDS.map((card, i) => {
+            const isActive = pinned || i === active;
+            return <article
+              key={card.text}
+              data-index={i}
+              data-active={isActive}
+              className={`eh-challenge-card flex origin-top flex-col overflow-hidden rounded-[24px] shadow-lift [box-shadow:var(--shadow-lift)] transition-[background-color,color,opacity,transform] duration-500 ${pinned ? "absolute inset-0" : "relative"} ${isActive ? card.card : "border border-navy/15 bg-paper text-navy opacity-70"} ${!pinned && isActive ? "scale-100" : ""} ${!pinned && !isActive ? "scale-[0.98]" : ""}`}
+            >
+              <header className="px-6 pb-4 pt-6 md:px-10 md:pt-8 lg:px-12 lg:pt-9">
+                <h3 className="max-w-[24ch] font-display text-[22px] font-semibold leading-[1.2] md:text-[28px] lg:max-xl:text-[26px]">{card.text}</h3>
+              </header>
+              <div className="challenge-card-detail mt-auto px-6 pb-7 md:px-10 md:pb-10 lg:px-12 lg:pb-12">
+                <span aria-hidden="true" className={`mb-5 block h-[2px] w-12 ${isActive ? card.rule : "bg-teal"}`} />
+                <p className="max-w-[46ch] text-base leading-[1.65] md:text-lg">{card.detail}</p>
+              </div>
+            </article>;
+          })}
+        </div>
       </div>
-      <div className="eh-challenge-stack [position:relative] [height:min(52vh,calc(100dvh_-_280px))] [min-height:0] [margin-top:0] [align-self:end] [@media(max-width:1023.98px)]:[height:auto] [@media(max-width:1023.98px)]:[padding-bottom:0] [@media(min-width:1024px)_and_(max-height:599.98px)]:[padding-bottom:64px]">{CARDS.map((card, i) => <article key={card.n} className={`eh-challenge-card [position:absolute] [inset:0] [display:grid] [grid-template-columns:45%_55%] [gap:0] [padding:0] [border-radius:24px] [min-height:0] [transform-origin:top] [overflow:hidden] [height:100%] [@media(max-height:599.98px)]:[position:sticky] [@media(max-width:1023.98px)_and_(min-height:600px)]:[position:sticky] [@media(max-width:767.98px)]:[display:flex] [@media(min-width:768px)_and_(max-width:1023.98px)]:[min-height:400px] [@media(max-height:599.98px)]:[top:88px] [@media(max-width:1023.98px)_and_(min-height:600px)]:[top:88px] [@media(max-width:1023.98px)]:[margin-bottom:24px] [@media(min-width:1024px)_and_(max-height:599.98px)]:[margin-bottom:60px] [@media(max-width:767.98px)]:[flex-direction:column] [@media(max-width:1023.98px)]:[height:auto] [@media(max-width:1023.98px)]:[&[data-card='2']]:[top:152px] [@media(min-width:1024px)_and_(max-height:599.98px)]:[&[data-card='2']]:[top:100px] [@media(max-width:1023.98px)]:[&[data-card='3']]:[top:216px] [@media(min-width:1024px)_and_(max-height:599.98px)]:[&[data-card='3']]:[top:112px] [@media(max-width:1023.98px)]:[&[data-card='4']]:[top:280px] [@media(min-width:1024px)_and_(max-height:599.98px)]:[&[data-card='4']]:[top:124px] [@media(max-height:599.98px)]:[&[data-card='4']]:[margin-bottom:0] [@media(max-width:1023.98px)_and_(min-height:600px)]:[&[data-card='4']]:[margin-bottom:0] max-lg:!relative max-lg:!top-auto max-lg:!grid-cols-1 shadow-lift [box-shadow:var(--shadow-lift)] ${card.card}`} data-card={i + 1}>
-        <div className="challenge-card-text [display:flex] [flex-direction:column] [padding:76px_20px_24px] [min-width:0] [background:inherit] [@media(max-width:767.98px)]:[padding:24px] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[padding:76px_16px_20px]"><header className="eh-challenge-title [align-self:start] [display:flex] [gap:12px] [position:absolute] [top:0] [left:0] [right:0] [z-index:2] [background:inherit] [align-items:center] [padding:0_20px] [height:56px] [@media(max-width:767.98px)]:[position:static] [@media(max-width:767.98px)]:[padding:0] [&_h3]:[font-size:28px] [&_h3]:[font-weight:600] [&_h3]:[line-height:1.15] [@media(max-width:767.98px)]:[&_h3]:[font-size:24px] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[&_h3]:[font-size:24px] [&>span]:[font-size:24px] [&>span]:[line-height:1.3] max-lg:[&>span]:shrink-0 max-lg:!h-auto max-lg:!min-h-14 max-lg:!py-3"><span className={`font-display font-semibold ${card.num}`}>{card.n}</span><h3>{card.text}</h3></header><div className="challenge-card-detail [display:flex] [align-items:center] [justify-content:space-between] [margin-top:auto] [padding-top:24px] [font-family:var(--font-display)] [font-size:13px] [@media(max-width:767.98px)]:[padding-top:20px]"><card.Icon size={32} strokeWidth={1.5} aria-hidden="true" /><span>{card.n} / 04</span></div></div>
-        <div className="eh-challenge-image [overflow:hidden] [align-self:stretch] [border-radius:0_24px_24px_0] [mask-image:none] [height:100%] [@media(max-width:767.98px)]:[border-radius:24px_24px_0_0] [@media(max-width:767.98px)]:[order:-1] [@media(max-width:767.98px)]:[width:100%] [@media(max-width:767.98px)]:[aspect-ratio:16/9] [@media(max-width:767.98px)]:[flex-shrink:0] [@media(max-width:767.98px)]:[height:auto] [&_img]:[width:100%] [&_img]:[height:100%] [&_img]:[object-fit:cover] max-lg:!order-none max-lg:max-w-full"><ResponsiveImage asset={card.image} alt={card.alt} loading="lazy" sizes="(min-width: 1024px) 35vw, 100vw" /></div>
-      </article>)}</div>
-    </div>
     </div>
   </section>;
 }
