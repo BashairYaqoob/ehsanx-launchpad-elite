@@ -20,7 +20,7 @@ export function PhotoCaseStudy({ data, bw, colour, tone, extra }: Props) {
           <div className="lg:col-span-6">
             <p className={eyebrow}>{data.eyebrow}</p>
             <h2 id={`${data.id}-title`} className={`${h2} mt-4`}>{data.title}</h2>
-            <div className="mt-8 space-y-5">{data.challenge.map((p) => <p key={p} className={body}>{p}</p>)}</div>
+            <div className="mt-8"><Block title="Challenge"><div className="space-y-5">{data.challenge.map((p) => <p key={p} className={body}>{p}</p>)}</div></Block></div>
           </div>
           <div className="lg:col-span-6 lg:pt-2">
             <ImageHoverReveal bw={bw} colour={colour} alt={data.imageAlt} width={1600} height={1200} />
@@ -29,7 +29,6 @@ export function PhotoCaseStudy({ data, bw, colour, tone, extra }: Props) {
 
         <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="space-y-10 lg:col-span-5">
-            <Block title="Challenge"><p className={body}>{data.challenge[0]}</p></Block>
             <Block title="Programme"><p className={body}>{data.programme}</p></Block>
             {extra}
             <Block title="Learning by Doing"><p className={body}>{data.learningByDoing}</p></Block>
