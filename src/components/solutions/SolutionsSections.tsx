@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import heroImg from "@/assets/solutions/hero.jpg.asset.json";
-import img01 from "@/assets/solutions/solution-01.jpg.asset.json";
-import img02 from "@/assets/solutions/solution-02.jpg.asset.json";
-import img03 from "@/assets/solutions/solution-03.jpg.asset.json";
+import heroImg from "@/assets/solutions/hero.jpg";
+import img01 from "@/assets/solutions/solution-01.jpg";
+import img02 from "@/assets/solutions/solution-02.jpg";
+import img03 from "@/assets/solutions/solution-03.jpg";
 import { LearningCycle } from "./LearningCycle";
 import { FeatureList } from "./FeatureList";
 import { FinalCta } from "@/components/home/FounderAndCta";
@@ -55,7 +55,7 @@ function Hero() {
     <section className="relative bg-navy-deep min-[900px]:flex min-[900px]:min-h-[max(85vh,600px)] min-[900px]:items-center">
       <div className="pt-[calc(5rem+8px)] min-[900px]:absolute min-[900px]:inset-0 min-[900px]:pt-0">
         <img
-          src={heroImg.url}
+          src={heroImg}
           alt={solutionsHero.alt}
           width={1536}
           height={1024}
@@ -86,11 +86,11 @@ function Solution01() {
           <span aria-hidden="true" className={numeral}>{s.number}</span>
           <p className={`${eyebrow} mt-4`}>{s.eyebrow}</p>
           <h2 className={`${h2} mt-4`}>{s.title}</h2>
-          <Img src={img01.url} alt={s.alt} ratio="aspect-[4/5]" className="mt-8 lg:hidden" />
+          <Img src={img01} alt={s.alt} ratio="aspect-[4/5]" className="mt-8 lg:hidden" />
           <div className="mt-8"><Paras items={s.description} /></div>
         </div>
         <div className="hidden lg:col-span-5 lg:block lg:self-center">
-          <Img src={img01.url} alt="" ratio="aspect-[4/5]" />
+          <Img src={img01} alt="" ratio="aspect-[4/5]" />
         </div>
         <div className="mt-4 lg:col-span-12 lg:mt-12"><p className={label}>{s.listLabel}</p><FeatureList items={s.list} label={s.listLabel} /></div>
         <div className="lg:col-span-12"><HowItWorks labelText={s.howLabel} items={s.how} cols={2} /></div>
@@ -105,12 +105,12 @@ function Solution02() {
     <Reveal className="bg-white py-20 lg:py-28">
       <div className={`${container} space-y-14 lg:space-y-20`}>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[45fr_55fr] lg:items-center lg:gap-14">
-          <div className="hidden lg:block"><Img src={img02.url} alt="" ratio="aspect-[4/5]" /></div>
+          <div className="hidden lg:block"><Img src={img02} alt="" ratio="aspect-[4/5]" /></div>
           <div>
             <span aria-hidden="true" className={numeral}>{s.number}</span>
             <p className={`${eyebrow} mt-4`}>{s.eyebrow}</p>
             <h2 className={`${h2} mt-4`}>{s.title}</h2>
-            <Img src={img02.url} alt={s.alt} ratio="aspect-[4/5] md:aspect-[3/2]" className="mt-8 lg:hidden" />
+            <Img src={img02} alt={s.alt} ratio="aspect-[4/5] md:aspect-[3/2]" className="mt-8 lg:hidden" />
             <div className="mt-8"><Paras items={s.description} /></div>
           </div>
         </div>
@@ -127,7 +127,7 @@ function Solution03() {
   return (
     <Reveal className="bg-white py-24 lg:py-32">
       <div className={`${container} space-y-12 lg:space-y-16`}>
-        <Img src={img03.url} alt={s.alt} ratio="aspect-[4/3] md:aspect-[21/9]" />
+        <Img src={img03} alt={s.alt} ratio="aspect-[4/3] md:aspect-[21/9]" />
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14">
           <div>
             <span aria-hidden="true" className={numeral}>{s.number}</span>

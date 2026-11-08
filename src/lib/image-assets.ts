@@ -1,18 +1,18 @@
-import home_slide_2_640 from "@/assets/home-slide-2-640.webp.asset.json";
-import home_slide_2_1280 from "@/assets/home-slide-2-1280.webp.asset.json";
-import home_slide_2_1920 from "@/assets/home-slide-2-1920.webp.asset.json";
-import home_slide_3_640 from "@/assets/home-slide-3-640.webp.asset.json";
-import home_slide_3_1280 from "@/assets/home-slide-3-1280.webp.asset.json";
-import home_slide_3_1600 from "@/assets/home-slide-3-1600.webp.asset.json";
-import home_slide_4_640 from "@/assets/home-slide-4-640.webp.asset.json";
-import home_slide_4_1280 from "@/assets/home-slide-4-1280.webp.asset.json";
-import home_slide_4_1920 from "@/assets/home-slide-4-1920.webp.asset.json";
-import philosophy_hero_640 from "@/assets/philosophy-hero-640.webp.asset.json";
-import philosophy_hero_1280 from "@/assets/philosophy-hero-1280.webp.asset.json";
-import philosophy_hero_1376 from "@/assets/philosophy-hero-1376.webp.asset.json";
-import approach_hero_640 from "@/assets/approach-hero-640.webp.asset.json";
-import approach_hero_1280 from "@/assets/approach-hero-1280.webp.asset.json";
-import approach_hero_1376 from "@/assets/approach-hero-1376.webp.asset.json";
+import home_slide_2_640 from "@/assets/home-slide-2-640.webp";
+import home_slide_2_1280 from "@/assets/home-slide-2-1280.webp";
+import home_slide_2_1920 from "@/assets/home-slide-2-1920.webp";
+import home_slide_3_640 from "@/assets/home-slide-3-640.webp";
+import home_slide_3_1280 from "@/assets/home-slide-3-1280.webp";
+import home_slide_3_1600 from "@/assets/home-slide-3-1600.webp";
+import home_slide_4_640 from "@/assets/home-slide-4-640.webp";
+import home_slide_4_1280 from "@/assets/home-slide-4-1280.webp";
+import home_slide_4_1920 from "@/assets/home-slide-4-1920.webp";
+import philosophy_hero_640 from "@/assets/philosophy-hero-640.webp";
+import philosophy_hero_1280 from "@/assets/philosophy-hero-1280.webp";
+import philosophy_hero_1376 from "@/assets/philosophy-hero-1376.webp";
+import approach_hero_640 from "@/assets/approach-hero-640.webp";
+import approach_hero_1280 from "@/assets/approach-hero-1280.webp";
+import approach_hero_1376 from "@/assets/approach-hero-1376.webp";
 import eplus_1_640 from "@/assets/eplus-1-640.webp";
 import eplus_1_1280 from "@/assets/eplus-1-1280.webp";
 import eplus_1_1920 from "@/assets/eplus-1-1920.webp";
@@ -31,46 +31,20 @@ import eplus_5_1920 from "@/assets/eplus-5-1920.webp";
 import hero_blocks_640 from "@/assets/hero-blocks-640.webp";
 import hero_blocks_1280 from "@/assets/hero-blocks-1280.webp";
 import hero_blocks_1920 from "@/assets/hero-blocks-1920.webp";
-import ship_640 from "@/assets/ship-640.webp.asset.json";
-import ship_1280 from "@/assets/ship-1280.webp.asset.json";
-import ship_1920 from "@/assets/ship-1920.webp.asset.json";
-import portrait_640 from "@/assets/portrait-640.webp.asset.json";
-import portrait_928 from "@/assets/portrait-928.webp.asset.json";
-import vision_640 from "@/assets/vision-640.webp.asset.json";
-import vision_1280 from "@/assets/vision-1280.webp.asset.json";
-import vision_1920 from "@/assets/vision-1920.webp.asset.json";
-import challenge_1_640 from "@/assets/challenge-1-640.webp.asset.json";
-import challenge_1_1280 from "@/assets/challenge-1-1280.webp.asset.json";
-import challenge_1_1600 from "@/assets/challenge-1-1600.webp.asset.json";
-import challenge_2_640 from "@/assets/challenge-2-640.webp.asset.json";
-import challenge_2_1280 from "@/assets/challenge-2-1280.webp.asset.json";
-import challenge_2_1600 from "@/assets/challenge-2-1600.webp.asset.json";
-import workshop_550 from "@/assets/workshop-550.webp.asset.json";
-import challenge_3_640 from "@/assets/challenge-3-640.webp";
-import challenge_3_1280 from "@/assets/challenge-3-1280.webp";
-import challenge_3_1600 from "@/assets/challenge-3-1600.webp.asset.json";
-import challenge_4_640 from "@/assets/challenge-4-640.webp";
-import challenge_4_1280 from "@/assets/challenge-4-1280.webp";
-import challenge_4_1600 from "@/assets/challenge-4-1600.webp.asset.json";
+import portrait_640 from "@/assets/portrait-640.webp";
+import portrait_928 from "@/assets/portrait-928.webp";
 export const images = {
-home_slide_2: {src: home_slide_2_1920.url, width:1920, height:1087, srcSet: `${home_slide_2_640.url} 640w, ${home_slide_2_1280.url} 1280w, ${home_slide_2_1920.url} 1920w`},
-home_slide_3: {src: home_slide_3_1600.url, width:1600, height:900, srcSet: `${home_slide_3_640.url} 640w, ${home_slide_3_1280.url} 1280w, ${home_slide_3_1600.url} 1600w`},
-home_slide_4: {src: home_slide_4_1920.url, width:1920, height:1089, srcSet: `${home_slide_4_640.url} 640w, ${home_slide_4_1280.url} 1280w, ${home_slide_4_1920.url} 1920w`},
-philosophy_hero: {src: philosophy_hero_1376.url, width:1376, height:768, srcSet: `${philosophy_hero_640.url} 640w, ${philosophy_hero_1280.url} 1280w, ${philosophy_hero_1376.url} 1376w`},
-approach_hero: {src: approach_hero_1376.url, width:1376, height:768, srcSet: `${approach_hero_640.url} 640w, ${approach_hero_1280.url} 1280w, ${approach_hero_1376.url} 1376w`},
+home_slide_2: {src: home_slide_2_1920, width:1920, height:1087, srcSet: `${home_slide_2_640} 640w, ${home_slide_2_1280} 1280w, ${home_slide_2_1920} 1920w`},
+home_slide_3: {src: home_slide_3_1600, width:1600, height:900, srcSet: `${home_slide_3_640} 640w, ${home_slide_3_1280} 1280w, ${home_slide_3_1600} 1600w`},
+home_slide_4: {src: home_slide_4_1920, width:1920, height:1089, srcSet: `${home_slide_4_640} 640w, ${home_slide_4_1280} 1280w, ${home_slide_4_1920} 1920w`},
+philosophy_hero: {src: philosophy_hero_1376, width:1376, height:768, srcSet: `${philosophy_hero_640} 640w, ${philosophy_hero_1280} 1280w, ${philosophy_hero_1376} 1376w`},
+approach_hero: {src: approach_hero_1376, width:1376, height:768, srcSet: `${approach_hero_640} 640w, ${approach_hero_1280} 1280w, ${approach_hero_1376} 1376w`},
 eplus_1: {src: eplus_1_1920, width:1920, height:1088, srcSet: `${eplus_1_640} 640w, ${eplus_1_1280} 1280w, ${eplus_1_1920} 1920w`},
 eplus_2: {src: eplus_2_1920, width:1920, height:1088, srcSet: `${eplus_2_640} 640w, ${eplus_2_1280} 1280w, ${eplus_2_1920} 1920w`},
 eplus_3: {src: eplus_3_1920, width:1920, height:1088, srcSet: `${eplus_3_640} 640w, ${eplus_3_1280} 1280w, ${eplus_3_1920} 1920w`},
 eplus_4: {src: eplus_4_1920, width:1920, height:1088, srcSet: `${eplus_4_640} 640w, ${eplus_4_1280} 1280w, ${eplus_4_1920} 1920w`},
 eplus_5: {src: eplus_5_1920, width:1920, height:1088, srcSet: `${eplus_5_640} 640w, ${eplus_5_1280} 1280w, ${eplus_5_1920} 1920w`},
 hero_blocks: {src: hero_blocks_1920, width:1920, height:1088, srcSet: `${hero_blocks_640} 640w, ${hero_blocks_1280} 1280w, ${hero_blocks_1920} 1920w`},
-ship: {src: ship_1920.url, width:1920, height:1080, srcSet: `${ship_640.url} 640w, ${ship_1280.url} 1280w, ${ship_1920.url} 1920w`},
-portrait: {src: portrait_928.url, width:928, height:691, srcSet: `${portrait_640.url} 640w, ${portrait_928.url} 928w`},
-vision: {src: vision_1920.url, width:1920, height:1080, srcSet: `${vision_640.url} 640w, ${vision_1280.url} 1280w, ${vision_1920.url} 1920w`},
-challenge_1: {src: challenge_1_1600.url, width:1600, height:1200, srcSet: `${challenge_1_640.url} 640w, ${challenge_1_1280.url} 1280w, ${challenge_1_1600.url} 1600w`},
-challenge_2: {src: challenge_2_1600.url, width:1600, height:1200, srcSet: `${challenge_2_640.url} 640w, ${challenge_2_1280.url} 1280w, ${challenge_2_1600.url} 1600w`},
-workshop: {src: workshop_550.url, width:550, height:212, srcSet: `${workshop_550.url} 550w`},
-challenge_3: {src: challenge_3_1600.url, width:1600, height:1200, srcSet: `${challenge_3_640} 640w, ${challenge_3_1280} 1280w, ${challenge_3_1600.url} 1600w`},
-challenge_4: {src: challenge_4_1600.url, width:1600, height:1200, srcSet: `${challenge_4_640} 640w, ${challenge_4_1280} 1280w, ${challenge_4_1600.url} 1600w`}
+portrait: {src: portrait_928, width:928, height:691, srcSet: `${portrait_640} 640w, ${portrait_928} 928w`}
 };
 export type ImageAsset = {src:string;srcSet:string;width:number;height:number};

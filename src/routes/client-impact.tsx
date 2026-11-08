@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroImg from "@/assets/impact/hero.webp.asset.json";
+import heroImg from "@/assets/impact/hero.webp";
 import { EngagementIndex } from "@/components/impact/EngagementIndex";
 import { CaseStudyAhmadJamal, CaseStudyKfc, CaseStudyPci } from "@/components/impact/CaseStudies";
 import { FinalCta } from "@/components/home/FounderAndCta";
@@ -17,7 +17,7 @@ function Hero() {
     <section className="relative bg-navy-deep min-[900px]:flex min-[900px]:min-h-[max(85vh,600px)] min-[900px]:items-center">
       <div className="pt-[calc(5rem+8px)] min-[900px]:absolute min-[900px]:inset-0 min-[900px]:pt-0">
         <img
-          src={heroImg.url}
+          src={heroImg}
           alt={impactHero.alt}
           width={1800}
           height={1200}

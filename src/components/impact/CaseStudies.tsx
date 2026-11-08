@@ -1,14 +1,14 @@
-import kfcBw from "@/assets/impact/kfc-bw.webp.asset.json";
-import kfcColour from "@/assets/impact/kfc-colour.webp.asset.json";
-import pciBw from "@/assets/impact/pci-bw.webp.asset.json";
-import pciColour from "@/assets/impact/pci-colour.webp.asset.json";
-import ajLogo from "@/assets/impact/aj-logo.webp.asset.json";
+import kfcBw from "@/assets/impact/kfc-bw.webp";
+import kfcColour from "@/assets/impact/kfc-colour.webp";
+import pciBw from "@/assets/impact/pci-bw.webp";
+import pciColour from "@/assets/impact/pci-colour.webp";
+import ajLogo from "@/assets/impact/aj-logo.webp";
 import { ajCase, kfcCase, pciCase } from "@/data/clientImpactDetailed";
 import { PhotoCaseStudy } from "./PhotoCaseStudy";
 import { Block, BulletList, Takeaway, body, container, eyebrow, h2 } from "./CaseStudyParts";
 
 export function CaseStudyKfc() {
-  return <PhotoCaseStudy data={kfcCase} bw={kfcBw.url} colour={kfcColour.url} tone="white" />;
+  return <PhotoCaseStudy data={kfcCase} bw={kfcBw} colour={kfcColour} tone="white" />;
 }
 
 // Filenames were misleading: "PCI_-_coloured" is the black-and-white frame, "PCI" is colour.
@@ -16,8 +16,8 @@ export function CaseStudyPci() {
   return (
     <PhotoCaseStudy
       data={pciCase}
-      bw={pciBw.url}
-      colour={pciColour.url}
+      bw={pciBw}
+      colour={pciColour}
       tone="wash"
       extra={
         <Block title="The Seven Departments">
@@ -38,7 +38,7 @@ export function CaseStudyAhmadJamal() {
       <div className={container}>
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
-            <img src={ajLogo.url} alt="Ahmad Jamal Textile Processing logo" width={690} height={362} loading="lazy" decoding="async" className="h-auto w-[200px] object-contain md:w-[240px]" />
+            <img src={ajLogo} alt="Ahmad Jamal Textile Processing logo" width={690} height={362} loading="lazy" decoding="async" className="h-auto w-[200px] object-contain md:w-[240px]" />
             <div aria-hidden="true" className="mt-8 h-px w-16 bg-gold" />
           </div>
           <div className="lg:col-span-8">
