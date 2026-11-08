@@ -1,0 +1,86 @@
+# EhsanX: static site for Hostinger (Apache-compatible LiteSpeed).
+# Copied to the build output root by Vite; upload it to public_html with the
+# rest of .output/public. Matches the prerendered layout:
+#   /index.html, /<route>/index.html, /404.html, /assets/*
+# Canonical URLs have no trailing slash (https://ehsanx.com/philosophy),
+# matching the router and the canonical <link> tags.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html
+
+# Serve /philosophy from philosophy/index.html without first redirecting to
+# /philosophy/ (the default), which the router would redirect straight back.
+DirectorySlash Off
+
+# Unknown URLs get the not-found page with a real 404 status. 404.html is the
+# server-rendered not-found page, written at build time by scripts/render-404.mjs.
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1. One canonical origin: https://ehsanx.com. Applies only on the ehsanx.com
+  #    hostnames, so Hostinger's temporary/preview domain is left alone. Needs
+  #    the SSL certificate to be active first (see docs/deployment.md).
+  RewriteCond %{HTTP_HOST} ^www\.ehsanx\.com$ [NC,OR]
+  RewriteCond %{HTTP_HOST}#%{HTTPS} ^ehsanx\.com#off$ [NC]
+  RewriteRule ^ https://ehsanx.com%{REQUEST_URI} [R=301,L]
+
+  # 2. /philosophy/index.html -> /philosophy and /index.html -> / (requests
+  #    typed by visitors only; THE_REQUEST ignores the internal rewrite below).
+  RewriteCond %{THE_REQUEST} \s/+(?:(.+)/)?index\.html[\s?]
+  RewriteRule ^(?:.+/)?index\.html$ /%1 [R=301,L]
+
+  # 3. Trailing slash -> none, for page directories: /philosophy/ -> /philosophy
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # 4. Clean URL -> prerendered file: /philosophy -> /philosophy/index.html
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.+)$ /$1/index.html [L]
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType video/mp4 .mp4
+  AddType application/manifest+json .webmanifest
+  AddCharset utf-8 .html .css .js .xml .txt
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Caching. Fingerprinted /assets/* files are cached for a year by
+  # assets/.htaccess. HTML must be revalidated so a new deploy shows at once.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # Unhashed files in the root (preloader video, icons, share image): 1 day.
+  <FilesMatch "\.(mp4|png|ico|webmanifest)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  <FilesMatch "\.(xml|txt)$">
+    Header set Cache-Control "public, max-age=3600"
+  </FilesMatch>
+
+  # Security headers. The pages carry inline <script> data that TanStack Start
+  # uses to hydrate, plus inline style attributes, and a static host cannot
+  # issue per-request nonces, so script-src and style-src allow 'unsafe-inline'.
+  # Everything else is limited to this origin and Google Fonts.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  # HSTS: enable only after HTTPS has worked on ehsanx.com for a few days.
+  # Browsers then refuse plain HTTP for the whole period, even if SSL lapses.
+  # Header always set Strict-Transport-Security "max-age=31536000"
+
+  # The not-found page must never be indexed when requested directly.
+  <Files "404.html">
+    Header set X-Robots-Tag "noindex"
+  </Files>
+</IfModule>

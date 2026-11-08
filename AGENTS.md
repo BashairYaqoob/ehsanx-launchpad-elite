@@ -11,3 +11,4 @@
 - Page presentation uses element-level Tailwind utilities with theme tokens, keyframes, grain, baseline accessibility and reduced-motion fallbacks in the single entry stylesheet; this avoids component stylesheet imports while retaining existing presentation values.
 - Advisory pages reuse FinalCta unchanged and hide the redundant standalone footer through their scoped page marker; this avoids modifying the shared shell.
 - Advisory interactions use browser-safe selection helpers, static diagrams and the existing Drawer; this keeps keyboard behavior testable without scroll effects.
+- Production is a static prerender for Hostinger (no Node.js): `build:hostinger` writes .output/public with the .htaccess rules; keep every route renderable at build time without server functions, and keep SITE_URL, the sitemap and robots.txt in sync so canonical and share URLs stay on https://ehsanx.com.

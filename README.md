@@ -118,14 +118,20 @@ The project uses [Bun](https://bun.sh) as its package manager and TanStack Start
 bun install          # install dependencies from bun.lock
 bun run dev          # dev server on http://localhost:8080
 bun run test         # unit tests (Vitest)
-bun run build        # production build into .output/
+bun run build:hostinger  # production: static site in .output/public/
+bun run build        # build only (used by the temporary Vercel preview)
 bun run preview      # serve the production build
 ```
 
+Every page is prerendered to static HTML at build time. Production
+(https://ehsanx.com on Hostinger, no Node.js) serves only the contents of
+`.output/public/`; see [docs/deployment.md](docs/deployment.md) for the upload,
+`.htaccess` rules, caching, security headers and the go-live checklist.
+
 The build uses [Nitro](https://nitro.build). It auto-detects the hosting provider
 (Vercel, Netlify, Cloudflare and others) and otherwise produces a Node server,
-which you can start with `node .output/server/index.mjs`. Set `NITRO_PRESET` to
-choose a target explicitly.
+which renders the pages during the build. Set `NITRO_PRESET` to choose a target
+explicitly.
 
 Images live in `src/assets/` and are imported directly; Vite fingerprints them at
 build time. Responsive variants and their sizes are registered in
