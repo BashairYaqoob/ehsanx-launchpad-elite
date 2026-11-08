@@ -129,7 +129,7 @@ export const impactHero = {
   title: "Real Organizations. Real Challenges. Meaningful Change.",
   intro:
     "Every organization has its own challenges, ambitions, and opportunities. Through leadership development, entrepreneurial thinking, and practical application, EhsanX works with organizations to develop people, strengthen capabilities, and create meaningful impact.",
-  alt: "EhsanX programme participants gathered for a group photograph outside a training venue",
+  alt: "EhsanX programme participants gathered with Dr Shahid Qureshi for a group photograph at a venue entrance",
 };
 
 export const engagementIndex = [

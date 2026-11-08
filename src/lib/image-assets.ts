@@ -10,9 +10,13 @@ import home_slide_4_1920 from "@/assets/home-slide-4-1920.webp";
 import philosophy_hero_640 from "@/assets/philosophy-hero-640.webp";
 import philosophy_hero_1280 from "@/assets/philosophy-hero-1280.webp";
 import philosophy_hero_1376 from "@/assets/philosophy-hero-1376.webp";
-import approach_dialogue_640 from "@/assets/approach-dialogue-640.webp";
-import approach_dialogue_1280 from "@/assets/approach-dialogue-1280.webp";
-import approach_dialogue_1536 from "@/assets/approach-dialogue-1536.webp";
+import philosophy_workshop_640 from "@/assets/philosophy-workshop-640.webp";
+import philosophy_workshop_1280 from "@/assets/philosophy-workshop-1280.webp";
+import philosophy_workshop_1440 from "@/assets/philosophy-workshop-1440.webp";
+import approach_auditorium_640 from "@/assets/approach-auditorium-640.webp";
+import approach_auditorium_1217 from "@/assets/approach-auditorium-1217.webp";
+import impact_cohort_640 from "@/assets/impact/hero-cohort-640.webp";
+import impact_cohort_1280 from "@/assets/impact/hero-cohort-1280.webp";
 import approach_hero_640 from "@/assets/approach-hero-640.webp";
 import approach_hero_1280 from "@/assets/approach-hero-1280.webp";
 import approach_hero_1376 from "@/assets/approach-hero-1376.webp";
@@ -42,7 +46,9 @@ home_slide_3: {src: home_slide_3_1600, width:1600, height:900, srcSet: `${home_s
 home_slide_4: {src: home_slide_4_1920, width:1920, height:1089, srcSet: `${home_slide_4_640} 640w, ${home_slide_4_1280} 1280w, ${home_slide_4_1920} 1920w`},
 philosophy_hero: {src: philosophy_hero_1376, width:1376, height:768, srcSet: `${philosophy_hero_640} 640w, ${philosophy_hero_1280} 1280w, ${philosophy_hero_1376} 1376w`},
 approach_hero: {src: approach_hero_1376, width:1376, height:768, srcSet: `${approach_hero_640} 640w, ${approach_hero_1280} 1280w, ${approach_hero_1376} 1376w`},
-approach_dialogue: {src: approach_dialogue_1536, width:1536, height:1024, srcSet: `${approach_dialogue_640} 640w, ${approach_dialogue_1280} 1280w, ${approach_dialogue_1536} 1536w`},
+philosophy_workshop: {src: philosophy_workshop_1440, width:1440, height:958, srcSet: `${philosophy_workshop_640} 640w, ${philosophy_workshop_1280} 1280w, ${philosophy_workshop_1440} 1440w`},
+approach_auditorium: {src: approach_auditorium_1217, width:1217, height:684, srcSet: `${approach_auditorium_640} 640w, ${approach_auditorium_1217} 1217w`},
+impact_cohort: {src: impact_cohort_1280, width:1280, height:853, srcSet: `${impact_cohort_640} 640w, ${impact_cohort_1280} 1280w`},
 eplus_1: {src: eplus_1_1920, width:1920, height:1088, srcSet: `${eplus_1_640} 640w, ${eplus_1_1280} 1280w, ${eplus_1_1920} 1920w`},
 eplus_2: {src: eplus_2_1920, width:1920, height:1088, srcSet: `${eplus_2_640} 640w, ${eplus_2_1280} 1280w, ${eplus_2_1920} 1920w`},
 eplus_3: {src: eplus_3_1920, width:1920, height:1088, srcSet: `${eplus_3_640} 640w, ${eplus_3_1280} 1280w, ${eplus_3_1920} 1920w`},

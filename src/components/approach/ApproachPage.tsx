@@ -6,7 +6,7 @@ import { ArrowDown, ArrowRight, RefreshCw } from "lucide-react";
 import kfcPhoto from "@/assets/impact/kfc-colour.webp";
 import pciPhoto from "@/assets/impact/pci-colour.webp";
 import { FinalCta } from "@/components/home/FounderAndCta";
-import { container, Eyebrow, Reveal } from "@/components/advisory/PagePrimitives";
+import { container, Eyebrow, PhotoHero, Reveal } from "@/components/advisory/PagePrimitives";
 import { approach, type ApproachPhase, type ApproachStep } from "@/data/approach";
 import { kfcCase, pciCase } from "@/data/clientImpact";
 import { cn } from "@/lib/utils";
@@ -26,45 +26,16 @@ const textLink =
 function Hero() {
   const { hero } = approach;
   return (
-    <section className="relative overflow-hidden bg-teal text-paper">
-      <div className="lg:grid lg:min-h-[max(80vh,640px)] lg:grid-cols-2">
-        {/* Photo: under the navbar band on small screens; on large screens it starts below the
-            navbar so the white navigation never sits on the bright photograph. */}
-        <div className="relative pt-[88px] lg:order-2 lg:pt-32">
-          <img
-            src={hero.image.src}
-            srcSet={hero.image.srcSet}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            alt={hero.image.alt}
-            width={hero.image.width}
-            height={hero.image.height}
-            fetchPriority="high"
-            className="aspect-[4/3] w-full object-cover object-[30%_50%] lg:aspect-auto lg:h-full"
-          />
-        </div>
-        <div className="flex items-end lg:order-1">
-          <div className="w-full px-6 pb-16 pt-12 md:px-10 md:pb-20 lg:pb-24 lg:pl-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))] lg:pr-16 lg:pt-44">
-            <Eyebrow tone="teal">{hero.eyebrow}</Eyebrow>
-            <h1 className="mt-7 font-display text-[clamp(2.75rem,6.2vw,5.25rem)] font-bold leading-[1.02] tracking-[-0.015em]">
-              {hero.title}
-            </h1>
-            <p className="mt-8 max-w-[22ch] font-display text-[clamp(1.25rem,2.1vw,1.75rem)] font-light leading-[1.45] text-paper/90">
-              {hero.line}
-            </p>
-            <ul className="mt-10 flex flex-wrap items-center gap-x-4 gap-y-2 font-display text-[13px] font-semibold uppercase tracking-[0.16em] text-paper/85">
-              {hero.qualities.map((q, i) => (
-                <li key={q} className="flex items-center gap-4">
-                  {i > 0 && (
-                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold" />
-                  )}
-                  {q}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+    <PhotoHero eyebrow={hero.eyebrow} title={hero.title} line={hero.line} image={hero.image}>
+      <ul className="mt-9 flex items-center gap-x-2.5 whitespace-nowrap font-display text-[12px] font-semibold uppercase tracking-[0.08em] text-paper/90 sm:gap-x-4 sm:text-[13px] sm:tracking-[0.16em]">
+        {hero.qualities.map((q, i) => (
+          <li key={q} className="flex items-center gap-2.5 sm:gap-4">
+            {i > 0 && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold" />}
+            {q}
+          </li>
+        ))}
+      </ul>
+    </PhotoHero>
   );
 }
 

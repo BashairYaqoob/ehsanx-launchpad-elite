@@ -148,9 +148,12 @@ export const approach = {
     line: "At EhsanX, transformation begins with understanding.",
     // p.9 "a practical, collaborative, and reflective process"
     qualities: ["Practical", "Collaborative", "Reflective"],
+    // Colour-graded (softer saturation, slight navy cast) to sit with the brand palette.
     image: {
-      ...images.approach_dialogue,
-      alt: "Dr Shahid Qureshi facilitating a dialogue with seated participants in an EhsanX session.",
+      ...images.approach_auditorium,
+      alt: "Dr Shahid Qureshi addressing participants seated in a lecture theatre during an EhsanX session.",
+      mobilePosition: "74% 50%",
+      desktopPosition: "62% 42%",
     },
   },
   intro: {

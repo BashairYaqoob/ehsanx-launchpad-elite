@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import heroImg from "@/assets/impact/hero.webp";
+import { images } from "@/lib/image-assets";
 import { EngagementIndex } from "@/components/impact/EngagementIndex";
 import { CaseStudyAhmadJamal, CaseStudyKfc, CaseStudyPci } from "@/components/impact/CaseStudies";
 import { FinalCta } from "@/components/home/FounderAndCta";
@@ -15,16 +15,19 @@ export const Route = createFileRoute("/client-impact")({
 function Hero() {
   return (
     <section className="relative bg-navy-deep min-[900px]:flex min-[900px]:min-h-[max(85vh,600px)] min-[900px]:items-center">
-      <div className="pt-[calc(5rem+8px)] min-[900px]:absolute min-[900px]:inset-0 min-[900px]:pt-0">
+      {/* From 900px the photo starts 40% in and fades out of the navy, keeping the cohort clear of the text. */}
+      <div className="pt-[calc(5rem+8px)] min-[900px]:absolute min-[900px]:inset-y-0 min-[900px]:left-[40%] min-[900px]:right-0 min-[900px]:pt-0">
         <img
-          src={heroImg}
+          src={images.impact_cohort.src}
+          srcSet={images.impact_cohort.srcSet}
+          sizes="100vw"
           alt={impactHero.alt}
-          width={1800}
-          height={1200}
+          width={images.impact_cohort.width}
+          height={images.impact_cohort.height}
           fetchPriority="high"
-          className="aspect-[4/3] w-full object-cover object-[50%_50%] min-[900px]:aspect-auto min-[900px]:h-full min-[900px]:object-[50%_55%]"
+          className="aspect-[4/3] w-full object-cover object-[50%_45%] min-[900px]:aspect-auto min-[900px]:h-full min-[900px]:object-[50%_40%]"
         />
-        <div aria-hidden="true" className="absolute inset-0 hidden min-[900px]:block" style={{ background: "linear-gradient(90deg, rgba(8,22,40,0.88) 0%, rgba(8,22,40,0.6) 40%, rgba(8,22,40,0) 70%)" }} />
+        <div aria-hidden="true" className="absolute inset-0 hidden min-[900px]:block" style={{ background: "linear-gradient(90deg, #1f2e45 0%, rgba(31,46,69,0.7) 22%, rgba(31,46,69,0) 55%), linear-gradient(180deg, rgba(31,46,69,0.55) 0%, rgba(31,46,69,0) 22%)" }} />
       </div>
       <div className="relative mx-auto w-full max-w-[1280px] px-6 py-12 md:px-10 min-[900px]:pb-20 min-[900px]:pt-[calc(5rem+48px)]">
         <div className="max-w-[620px]">
