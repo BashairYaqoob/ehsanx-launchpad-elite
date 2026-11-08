@@ -1,6 +1,5 @@
 import { animate, useInView, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { clientImpact, combinedImpact } from "@/data/clientImpact";
 import { BrandButton, GoldRule } from "@/components/ui-brand";
 
@@ -42,19 +41,18 @@ export function CaseKfc() {
       <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 relative">
         <div className="impact-heading-row [display:flex] [align-items:baseline] [justify-content:space-between] [gap:24px] max-lg:!grid max-lg:!grid-cols-[minmax(0,1fr)_auto] [&>*]:min-w-0">
           <div><GoldRule /><h2 id="impact-title" className="impact-title [font-size:clamp(2.5rem,5vw,4.5rem)]! [line-height:1.1] [font-weight:800] [color:var(--paper)] [margin-top:24px] [letter-spacing:0.02em] max-md:!text-4xl">Client Impact</h2></div>
-          <div className="impact-desktop-cta [display:none] [flex-shrink:0] [@media(min-width:1024px)]:[display:block]"><BrandButton to="/client-impact">See All Client Impact</BrandButton></div>
         </div>
         <ul className="impact-logos [display:grid] [grid-template-columns:1fr] [gap:24px] [margin-top:40px] [list-style:none] [padding:0] [@media(min-width:768px)]:[grid-template-columns:repeat(3,minmax(0,1fr))] [&>li]:[min-width:0]">
           {clientImpact.map((client) => (
             <li key={client.name}>
-              <Link to="/client-impact" className="impact-logo-tile [display:flex] [align-items:center] [justify-content:center] [width:100%] [height:130px] [background:var(--paper)] [border-radius:24px] [border:1px_solid_transparent] [transition:transform_.3s,border-color_.3s] [@media(min-width:768px)]:[height:clamp(200px,22vw,280px)] [&:hover]:[transform:translateY(-4px)] [&:hover]:[border-color:var(--gold)] [&:focus-visible]:[outline:2px_solid_var(--gold)] [&:focus-visible]:[outline-offset:3px] [&:focus-visible]:[border-radius:24px] [&_img]:[width:70%] [&_img]:[height:60%] [&_img]:[object-fit:contain]" aria-label={client.name}>
+              <div className="impact-logo-tile [display:flex] [align-items:center] [justify-content:center] [width:100%] [height:130px] [background:var(--paper)] [border-radius:24px] [@media(min-width:768px)]:[height:clamp(200px,22vw,280px)] [&_img]:[width:70%] [&_img]:[height:60%] [&_img]:[object-fit:contain]">
                 <img
                   src={client.logo}
                   alt={client.name}
                   loading="lazy"
                   className={client.multiply ? "impact-logo-multiply [mix-blend-mode:multiply] [filter:brightness(1.06)]" : ""}
                 />
-              </Link>
+              </div>
             </li>
           ))}
         </ul>
@@ -65,7 +63,7 @@ export function CaseKfc() {
           <CombinedFigure value={totals.cities.value} display={totals.cities.display} label={totals.cities.label} />
         </div>
         <p className="impact-footnote [font-size:.8125rem] [color:var(--impact-footnote)] [text-align:center] [margin-top:16px]">Figures reflect the KFC Pakistan and PCI programmes.</p>
-        <div className="impact-all [display:flex] [justify-content:center] [margin-top:32px] [@media(min-width:1024px)]:[display:none]">
+        <div className="impact-all [display:flex] [justify-content:center] [margin-top:32px]">
           <BrandButton to="/client-impact">See All Client Impact</BrandButton>
         </div>
       </div>

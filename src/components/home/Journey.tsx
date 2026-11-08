@@ -30,7 +30,7 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
       if (loop) gsap.set(loop, { autoAlpha: 0 });
       if (arrow) gsap.set(arrow, { strokeDasharray: 1, strokeDashoffset: 1 });
       const tl = gsap.timeline({ scrollTrigger: {
-        trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 3}`,
+        trigger: element, start: "top 104px", end: () => `+=${window.innerHeight * 2}`,
         pin: true, pinSpacing: true, scrub: 0.6, invalidateOnRefresh: true,
         onUpdate: self => { const active = Math.min(4, Math.floor(self.progress * 5.5)); nodes.forEach((node, i) => { node.dataset['active'] = String(i <= active); node.dataset['current'] = String(i === active); }); },
       }});

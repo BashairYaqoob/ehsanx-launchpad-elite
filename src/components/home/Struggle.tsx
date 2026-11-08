@@ -4,10 +4,10 @@ import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
 
 const CARDS = [
-  { text: "Limited ownership, initiative, and entrepreneurial thinking", detail: "People wait for direction instead of taking ownership, showing initiative, and thinking entrepreneurially.", card: "bg-navy text-paper", rule: "bg-gold" },
-  { text: "Short-term leadership and limited future readiness", detail: "Leadership focused on the short term leaves the organization less ready for what comes next.", card: "bg-teal text-paper", rule: "bg-gold" },
-  { text: "Siloed teams and weak collaboration", detail: "Teams work in silos, and collaboration across the organization stays weak.", card: "bg-paper text-navy border border-navy/15", rule: "bg-teal" },
-  { text: "Difficulty adapting to technological and AI-driven change", detail: "Organizations find it difficult to adapt as technology and AI change how work is done.", card: "bg-gold text-navy", rule: "bg-navy" },
+  { text: "Limited ownership, initiative, and entrepreneurial thinking", detail: "People wait for direction instead of taking ownership, showing initiative, and thinking entrepreneurially.", card: "bg-navy text-paper", rule: "bg-gold", num: "text-gold" },
+  { text: "Short-term leadership and limited future readiness", detail: "Leadership focused on the short term leaves the organization less ready for what comes next.", card: "bg-teal text-paper", rule: "bg-gold", num: "text-gold" },
+  { text: "Siloed teams and weak collaboration", detail: "Teams work in silos, and collaboration across the organization stays weak.", card: "bg-paper text-navy border border-navy/15", rule: "bg-teal", num: "text-teal" },
+  { text: "Difficulty adapting to technological and AI-driven change", detail: "Organizations find it difficult to adapt as technology and AI change how work is done.", card: "bg-gold text-navy", rule: "bg-navy", num: "text-navy" },
 ];
 
 const STACK_TOPS = [88, 152, 216, 280];
@@ -70,10 +70,11 @@ export function Struggle() {
               key={card.text}
               data-index={i}
               style={pinned ? undefined : { top: STACK_TOPS[i] }}
-              className={`eh-challenge-card flex origin-top flex-col overflow-hidden rounded-[24px] shadow-lift [box-shadow:var(--shadow-lift)] ${pinned ? "absolute inset-0" : "sticky min-h-[300px] self-start md:min-h-[340px]"} ${card.card}`}
+              className={`eh-challenge-card flex origin-top flex-col overflow-hidden rounded-[24px] shadow-soft [box-shadow:var(--shadow-soft)] ${pinned ? "absolute inset-0" : "sticky min-h-[300px] self-start md:min-h-[340px]"} ${card.card}`}
             >
-              <header className="px-6 pb-4 pt-6 md:px-10 md:pt-8 lg:px-12 lg:pt-9">
+              <header className="flex items-start justify-between gap-6 px-6 pb-4 pt-6 md:px-10 md:pt-8 lg:px-12 lg:pt-9">
                 <h3 className="max-w-[24ch] font-display text-[22px] font-semibold leading-[1.2] md:text-[28px] lg:max-xl:text-[26px]">{card.text}</h3>
+                <span aria-hidden="true" className={`hidden shrink-0 font-display text-[56px] font-bold leading-none md:block ${card.num}`}>{String(i + 1).padStart(2, "0")}</span>
               </header>
               <div className="challenge-card-detail mt-auto px-6 pb-7 md:px-10 md:pb-10 lg:px-12 lg:pb-12">
                 <span aria-hidden="true" className={`mb-5 block h-[2px] w-12 ${card.rule}`} />

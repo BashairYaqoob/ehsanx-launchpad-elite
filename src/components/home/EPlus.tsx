@@ -7,4 +7,4 @@ const stages = [
 { name: 'Institutional Transformation', image: images.eplus_4, alt: 'Institutional Transformation at EhsanX' },
 { name: 'Human Flourishing', image: images.eplus_5, alt: 'Human Flourishing at EhsanX' }
 ];
-export function EPlus() { return <Journey kind="eplus" stages={stages} paragraph='Every engagement is built on EhsanX’s own philosophy: the E-Plus Model. Explore how purpose, character, and entrepreneurial capability come together to create value that outlasts any single project.' caption='Leadership → Innovation → Value Creation → Institutional Transformation → Human Flourishing.' />; }
+export function EPlus() { return <Journey kind="eplus" stages={stages} paragraph='Every engagement is built on EhsanX’s own philosophy: the E-Plus Model. Explore how purpose, character, and entrepreneurial capability come together to create value that outlasts any single project.' />; }

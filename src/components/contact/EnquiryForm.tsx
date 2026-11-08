@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
-import { CONTACT_EMAIL, MAILTO_URL } from "@/lib/contact";
-import { buildEnquiryMailto, validateEnquiry, type Enquiry, type EnquiryErrors } from "@/lib/enquiry";
+import { Check, Copy, Mail, MessageCircle } from "lucide-react";
+import { copyText } from "@/lib/clipboard";
+import { CONTACT_EMAIL, MAILTO_URL, WHATSAPP_CONVERSATION_URL } from "@/lib/contact";
+import { buildEnquiryMailto, enquiryDraftText, validateEnquiry, type Enquiry, type EnquiryErrors } from "@/lib/enquiry";
 
 const fields: { name: keyof Enquiry; label: string; type: string; placeholder: string; autoComplete: string }[] = [
   { name: "name", label: "Full Name", type: "text", placeholder: "Your full name", autoComplete: "name" },
@@ -15,9 +17,11 @@ export function EnquiryForm() {
   const [values, setValues] = useState<Enquiry>({ name: "", organization: "", email: "", message: "" });
   const [errors, setErrors] = useState<EnquiryErrors>({});
   const [drafted, setDrafted] = useState(false);
+  const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
 
   const set = (k: keyof Enquiry, v: string) => {
     setValues((s) => ({ ...s, [k]: v }));
+    setCopied("idle");
     if (errors[k]) setErrors((e) => ({ ...e, [k]: undefined }));
   };
 
@@ -35,6 +39,11 @@ export function EnquiryForm() {
     setDrafted(true);
   };
 
+  // Fallback for visitors whose device has no email app: paste the prepared message anywhere.
+  const onCopyDraft = async () => {
+    setCopied((await copyText(enquiryDraftText(values))) ? "copied" : "failed");
+  };
+
   const err = (k: keyof Enquiry) => errors[k] && (
     <p id={`enquiry-${k}-error`} className="mt-2 font-[Inter] text-[14px] text-destructive">{errors[k]}</p>
   );
@@ -42,8 +51,9 @@ export function EnquiryForm() {
   return (
     <form noValidate onSubmit={onSubmit} aria-labelledby="enquiry-title" className="border border-navy/15 bg-white p-6 md:p-10">
       <h2 id="enquiry-title" className="font-[Montserrat] text-[24px] font-bold text-navy">Send an Enquiry</h2>
-      <p className="mt-2 font-[Inter] text-[15px] leading-[1.6] text-ink/80">
-        Submitting opens your email application with your enquiry prefilled, ready for you to send to {CONTACT_EMAIL}.
+      <p id="enquiry-how" className="mt-2 font-[Inter] text-[15px] leading-[1.6] text-ink/80">
+        This form does not send your enquiry by itself. It opens a draft in your email application, addressed to{" "}
+        <span className="font-semibold text-navy">{CONTACT_EMAIL}</span>, ready for you to review and send.
       </p>
       <div aria-hidden="true" className="mt-6 h-px w-12 bg-gold" />
       <div className="mt-8 space-y-6">
@@ -87,18 +97,45 @@ export function EnquiryForm() {
           {err("message")}
         </div>
       </div>
-      <button
-        type="submit"
-        className="mt-8 inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-navy px-8 font-[Montserrat] text-[15px] font-semibold text-white transition-colors hover:bg-teal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold sm:w-auto"
-      >
-        Send Enquiry
-      </button>
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+        <button
+          type="submit"
+          aria-describedby="enquiry-how"
+          className="inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-full bg-navy px-8 font-[Montserrat] text-[15px] font-semibold text-white transition-colors hover:bg-teal focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold sm:w-auto"
+        >
+          <Mail aria-hidden="true" className="h-[18px] w-[18px]" />
+          Open Email Draft
+        </button>
+        <a
+          href={WHATSAPP_CONVERSATION_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-11 items-center justify-center gap-2 font-[Inter] text-[15px] font-semibold text-teal underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+        >
+          <MessageCircle aria-hidden="true" className="h-[18px] w-[18px]" />
+          Or message us on WhatsApp
+          <span className="sr-only">(opens in a new tab)</span>
+        </a>
+      </div>
       <div role="status" aria-live="polite">
         {drafted && (
-          <p className="mt-6 border-l-2 border-gold pl-4 font-[Inter] text-[15px] leading-[1.6] text-ink">
-            Your email application should now open with your enquiry. Please press send there to complete it. If nothing opened, your details are still here — email us directly at{" "}
-            <a href={MAILTO_URL} className="font-semibold text-teal underline underline-offset-4">{CONTACT_EMAIL}</a>.
-          </p>
+          <div className="mt-6 border-l-2 border-gold pl-4">
+            <p className="font-[Inter] text-[15px] leading-[1.6] text-ink">
+              Your email application should now open with your enquiry. Please press send there to complete it. If nothing opened, your details are still here — copy the enquiry below, or email us directly at{" "}
+              <a href={MAILTO_URL} className="font-semibold text-teal underline underline-offset-4">{CONTACT_EMAIL}</a>.
+            </p>
+            <button
+              type="button"
+              onClick={onCopyDraft}
+              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border border-navy/20 px-5 font-[Inter] text-[14px] font-semibold text-navy transition-colors hover:border-teal hover:text-teal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              {copied === "copied" ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
+              {copied === "copied" ? "Enquiry copied" : "Copy enquiry"}
+            </button>
+            {copied === "failed" && (
+              <p className="mt-2 font-[Inter] text-[14px] text-destructive">Copy did not work in this browser. Please email us directly at {CONTACT_EMAIL}.</p>
+            )}
+          </div>
         )}
       </div>
     </form>

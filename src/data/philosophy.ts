@@ -42,6 +42,6 @@ export const philosophy = {
  {title:'Impact Beyond Organizations',sentence:'Success is measured by the positive difference we create in institutions, communities, and society.'}
  ],
  closing:{eyebrow:'AT EHSANX, WE BELIEVE THAT TRANSFORMATION BEGINS WITH A SIMPLE BUT POWERFUL IDEA',first:'People are not merely resources to be managed. They are sources of creativity, initiative, resilience, and innovation.',second:'When purpose, leadership, and entrepreneurial thinking come together, organizations can achieve extraordinary results.',attribution:'EhsanX'},
- cta:{title:'See how this plays out in practice.',primary:{label:'See How This Plays Out: Our Approach',to:'/our-approach' as SitePath},secondary:{label:'Explore Our Solutions',to:'/solutions' as SitePath}},
+ next:{lead:'See how this plays out in practice.',label:'Our Approach',to:'/our-approach' as SitePath},
  images:{hero:{...heroImages.philosophy_hero,mobilePos:'72% 50%',desktopPos:'50% 50%',alt:'A sunlit terrace with curved glass arches facing a city sunset.'},closing:{src:closing2,srcSet:`${closing1} 1x, ${closing2} 2x`,width:1920,height:832,alt:'Pakistani professionals listening and exchanging ideas in a naturally lit modern office.'}} satisfies Record<string,AdvisoryImage>
 };

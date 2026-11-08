@@ -35,6 +35,6 @@ export const approach={
  {number:'05',title:'Reflect & Improve',description:'Review progress, capture lessons, and build continuous improvement capabilities.',photo:images.reflect,alt:images.reflect.alt}
  ],
  principle:{eyebrow:'WHY IT WORKS',title:'Grounded in your real context. Connected to practical outcomes.',copy:"This process ensures that every engagement is grounded in the organization's real context and connected to practical outcomes. By combining reflection, implementation, and capability building, EhsanX helps transformation continue beyond the program itself.",chips:['Practical','Collaborative','Reflective']},
- cta:{title:'Begin with a conversation.',primary:{label:'Talk About Your Context',to:'/contact' as SitePath},secondary:{label:'See Our Solutions',to:'/solutions' as SitePath}},
+ next:{label:'Solutions',to:'/solutions' as SitePath},
  images
 };

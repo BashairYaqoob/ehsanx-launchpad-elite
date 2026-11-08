@@ -18,7 +18,10 @@ export function validateEnquiry(v: Enquiry): EnquiryErrors {
   return e;
 }
 
-export function buildEnquiryMailto(v: Enquiry): string {
+export type EnquiryDraft = { to: string; subject: string; body: string };
+
+/** The email the form prepares; shared by the mailto link and the copy-to-clipboard fallback. */
+export function buildEnquiryDraft(v: Enquiry): EnquiryDraft {
   const subject = `Enquiry from ${v.name.trim()} — ${v.organization.trim()}`;
   const body = [
     `Name: ${v.name.trim()}`,
@@ -27,5 +30,16 @@ export function buildEnquiryMailto(v: Enquiry): string {
     "",
     v.message.trim(),
   ].join("\n");
-  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return { to: CONTACT_EMAIL, subject, body };
+}
+
+export function buildEnquiryMailto(v: Enquiry): string {
+  const { to, subject, body } = buildEnquiryDraft(v);
+  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+/** Plain-text version for visitors without an email app: paste it into any mail client or webmail. */
+export function enquiryDraftText(v: Enquiry): string {
+  const { to, subject, body } = buildEnquiryDraft(v);
+  return `To: ${to}\nSubject: ${subject}\n\n${body}`;
 }

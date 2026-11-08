@@ -5,7 +5,7 @@ import { EPlus } from "@/components/home/EPlus";
 import { FinalCta } from "@/components/home/FounderAndCta";
 import { Hero } from "@/components/home/Hero";
 import { Struggle } from "@/components/home/Struggle";
-import { WhyExists } from "@/components/home/WhyExists";
+import { Vision, WhyExists } from "@/components/home/WhyExists";
 import { WhoWeWorkWith } from "@/components/home/WhoWeWorkWith";
 import { pageHead } from "@/lib/site";
 
@@ -23,10 +23,11 @@ function Index() {
     <>
       <Hero />
       <WhyExists />
+      <CaseKfc />
+      <Vision />
       <Struggle />
       <EPlus />
       <Approach />
-      <CaseKfc />
       <WhoWeWorkWith />
       <FinalCta />
     </>
