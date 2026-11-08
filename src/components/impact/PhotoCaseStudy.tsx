@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { ImageHoverReveal } from "./ImageHoverReveal";
 import { Block, BulletList, Metrics, NumberedList, Takeaway, body, container, eyebrow, h2 } from "./CaseStudyParts";
-import type { Metric } from "@/data/clientImpactDetailed";
+import type { Metric } from "@/data/clientImpact";
 
 type Props = {
   data: {

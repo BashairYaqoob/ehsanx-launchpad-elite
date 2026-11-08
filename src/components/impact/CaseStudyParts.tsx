@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { Metric } from "@/data/clientImpactDetailed";
+import type { Metric } from "@/data/clientImpact";
 
 export const container = "mx-auto w-full max-w-[1280px] px-6 md:px-10";
 export const eyebrow = "font-[Inter] text-[12px] font-semibold uppercase tracking-[0.14em] text-teal md:text-[13px]";

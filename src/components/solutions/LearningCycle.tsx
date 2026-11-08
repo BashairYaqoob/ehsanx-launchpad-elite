@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Transition, type Variants } from "framer-motion";
 
 export type LearningCycleStage = { label: string };
 export type LearningCycleProps = {
@@ -14,18 +14,22 @@ export function LearningCycle({ stages, className = "", ariaLabel = "Learning cy
   const reduce = useReducedMotion();
   const count = stages.length;
 
+  // Reduced motion: show every stage at once (no delay, stagger or duration).
+  const timing = (transition: Transition): Transition => (reduce ? { duration: 0 } : transition);
   const parent: Variants = {
     hidden: {},
-    show: { transition: { delayChildren: 1.2, staggerChildren: 0.12 } },
+    show: { transition: reduce ? {} : { delayChildren: 1.2, staggerChildren: 0.12 } },
   };
-  const lineX: Variants = { hidden: { scaleX: 0 }, show: { scaleX: 1, transition: { duration: 1.2, ease: EASE } } };
-  const lineY: Variants = { hidden: { scaleY: 0 }, show: { scaleY: 1, transition: { duration: 1.2, ease: EASE } } };
-  const itemX: Variants = { hidden: { opacity: 0, x: -8 }, show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: EASE } } };
-  const itemY: Variants = { hidden: { opacity: 0, y: -8 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } } };
-  const fade: Variants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.5 } } };
+  const lineX: Variants = { hidden: { scaleX: 0 }, show: { scaleX: 1, transition: timing({ duration: 1.2, ease: EASE }) } };
+  const lineY: Variants = { hidden: { scaleY: 0 }, show: { scaleY: 1, transition: timing({ duration: 1.2, ease: EASE }) } };
+  const itemX: Variants = { hidden: { opacity: 0, x: -8 }, show: { opacity: 1, x: 0, transition: timing({ duration: 0.5, ease: EASE }) } };
+  const itemY: Variants = { hidden: { opacity: 0, y: -8 }, show: { opacity: 1, y: 0, transition: timing({ duration: 0.5, ease: EASE }) } };
+  const fade: Variants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: timing({ duration: 0.5 }) } };
 
+  // `initial` must match the server render; `initial: false` left the server's hidden styles in place
+  // after hydration, so reduced-motion visitors never saw the stages.
   const motionProps = reduce
-    ? { initial: false as const }
+    ? { initial: "hidden", animate: "show" }
     : { initial: "hidden", whileInView: "show", viewport: { once: true, amount: 0.3 } };
 
   return (

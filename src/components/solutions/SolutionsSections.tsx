@@ -17,15 +17,18 @@ const label = "mb-4 font-[Montserrat] text-[17px] font-semibold text-navy";
 const numeral = "block font-[Montserrat] text-[clamp(5rem,11vw,9rem)] font-bold leading-none text-gold";
 
 function Reveal({ children, className = "" }: { children: ReactNode; className?: string }) {
+  // Always render the motion element (as PageReveal does): swapping to a plain <section> for reduced
+  // motion left the server-rendered `opacity: 0` style in place after hydration, hiding the content.
+  // `initial` is identical on server and client so hydration matches; reduced motion then shows the
+  // content at once (duration 0) instead of waiting for a scroll that a very tall section may never get.
   const reduce = useReducedMotion();
-  if (reduce) return <section className={className}>{children}</section>;
   return (
     <motion.section
       className={className}
       initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      {...(reduce ? { animate: { opacity: 1, y: 0 } } : { whileInView: { opacity: 1, y: 0 } })}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduce ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.section>

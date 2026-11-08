@@ -3,7 +3,7 @@ import heroImg from "@/assets/impact/hero.webp";
 import { EngagementIndex } from "@/components/impact/EngagementIndex";
 import { CaseStudyAhmadJamal, CaseStudyKfc, CaseStudyPci } from "@/components/impact/CaseStudies";
 import { FinalCta } from "@/components/home/FounderAndCta";
-import { impactHero } from "@/data/clientImpactDetailed";
+import { impactHero } from "@/data/clientImpact";
 import { pageHead } from "@/lib/site";
 
 export const Route = createFileRoute("/client-impact")({

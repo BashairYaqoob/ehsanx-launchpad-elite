@@ -3,7 +3,7 @@ import { useReducedMotion } from "framer-motion";
 import kfcLogo from "@/assets/impact/kfc-logo.png";
 import pciLogo from "@/assets/impact/pci-logo.png";
 import ajLogo from "@/assets/impact/aj-logo.webp";
-import { engagementIndex } from "@/data/clientImpactDetailed";
+import { engagementIndex } from "@/data/clientImpact";
 import { container, eyebrow } from "./CaseStudyParts";
 
 const logos = {

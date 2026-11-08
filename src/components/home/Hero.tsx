@@ -113,7 +113,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="eh-hero [overflow:clip] min-[900px]:[height:min(100dvh,1080px)] min-[900px]:[min-height:600px] relative bg-navy-deep text-paper"
+      className="eh-hero flow-root [overflow:clip] min-[900px]:[height:min(100dvh,1080px)] min-[900px]:[min-height:600px] relative bg-navy-deep text-paper"
       aria-roledescription="carousel"
       aria-label="Highlights"
       tabIndex={0}
@@ -132,7 +132,8 @@ export function Hero() {
           e.preventDefault();
           go(-1);
         }
-        if (e.code === "Space") {
+        // Only when the carousel itself has focus: Space must still activate buttons and links inside it.
+        if (e.code === "Space" && e.target === e.currentTarget) {
           e.preventDefault();
           setUserPaused((p) => !p);
         }
@@ -188,7 +189,7 @@ export function Hero() {
       </motion.div>
       </div>
         <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-hero-content relative pt-10 max-[899.98px]:![bottom:auto] min-[900px]:[position:absolute] [bottom:clamp(88px,14vh,140px)] [left:0] [right:0] [z-index:2] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[bottom:104px] [@media(max-width:767.98px)_and_(min-height:701px)]:[bottom:112px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[bottom:132px]">
-          <div className="eh-hero-copy [max-width:820px] [text-shadow:var(--hero-copy-shadow)] [display:grid] [@media(max-width:767.98px)]:[max-width:100%] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:720px]" aria-live="polite" aria-atomic="true">
+          <div className="eh-hero-copy [max-width:820px] [text-shadow:var(--hero-copy-shadow)] [display:grid] [@media(max-width:767.98px)]:[max-width:100%] [@media(min-width:768px)_and_(max-width:1023.98px)]:[max-width:720px]" aria-live={paused ? "polite" : "off"} aria-atomic="true">
             {SLIDES.map((s, i) => {
               const Heading = i === 0 ? "h1" : "h2";
               const active = i === index;
@@ -260,7 +261,7 @@ export function Hero() {
             <Button
               variant="ghost"
               size="icon"
-              className="eh-control [width:44px] [height:44px] [border-radius:50%] [color:var(--paper)] [background:transparent] [&:hover]:[background:transparent] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:1.3]"
+              className="eh-control h-11 w-11 rounded-full [color:var(--paper)] [background:color-mix(in_srgb,var(--navy-deep)_62%,transparent)] [&:hover]:[background:color-mix(in_srgb,var(--navy-deep)_85%,transparent)] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:2]"
               aria-label="Previous slide"
               title="Previous slide"
               onClick={() => go(-1)}
@@ -270,7 +271,7 @@ export function Hero() {
             <Button
               variant="ghost"
               size="icon"
-              className="eh-control [width:44px] [height:44px] [border-radius:50%] [color:var(--paper)] [background:transparent] [&:hover]:[background:transparent] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:1.3]"
+              className="eh-control h-11 w-11 rounded-full [color:var(--paper)] [background:color-mix(in_srgb,var(--navy-deep)_62%,transparent)] [&:hover]:[background:color-mix(in_srgb,var(--navy-deep)_85%,transparent)] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:2]"
               aria-label="Next slide"
               title="Next slide"
               onClick={() => go(1)}
@@ -280,7 +281,7 @@ export function Hero() {
             <Button
               variant="ghost"
               size="icon"
-              className="eh-control [width:44px] [height:44px] [border-radius:50%] [color:var(--paper)] [background:transparent] [&:hover]:[background:transparent] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:1.3] eh-pause [&_svg]:[width:14px] [&_svg]:[height:14px] [@media(max-width:767.98px)]:[display:none]"
+              className="eh-control h-11 w-11 rounded-full [color:var(--paper)] [background:color-mix(in_srgb,var(--navy-deep)_62%,transparent)] [&:hover]:[background:color-mix(in_srgb,var(--navy-deep)_85%,transparent)] [&:hover]:[color:var(--paper)] [&:hover]:[box-shadow:var(--eh-control-box-shadow-4)] [&_svg]:[width:20px] [&_svg]:[height:20px] [&_svg]:[stroke-width:2] eh-pause [&_svg]:[width:14px] [&_svg]:[height:14px]"
               aria-label={userPaused ? "Play slideshow" : "Pause slideshow"}
               title={userPaused ? "Play slideshow" : "Pause slideshow"}
               onClick={() => setUserPaused((p) => !p)}

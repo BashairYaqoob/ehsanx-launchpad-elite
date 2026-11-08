@@ -3,7 +3,7 @@ import kfcColour from "@/assets/impact/kfc-colour.webp";
 import pciBw from "@/assets/impact/pci-bw.webp";
 import pciColour from "@/assets/impact/pci-colour.webp";
 import ajLogo from "@/assets/impact/aj-logo.webp";
-import { ajCase, kfcCase, pciCase } from "@/data/clientImpactDetailed";
+import { ajCase, kfcCase, pciCase } from "@/data/clientImpact";
 import { PhotoCaseStudy } from "./PhotoCaseStudy";
 import { Block, BulletList, Takeaway, body, container, eyebrow, h2 } from "./CaseStudyParts";
 
