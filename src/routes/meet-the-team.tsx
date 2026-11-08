@@ -34,7 +34,7 @@ function TeamHero() {
           style={{ background: "linear-gradient(90deg, color-mix(in srgb, var(--navy-deep) 96%, transparent) 0%, color-mix(in srgb, var(--navy-deep) 82%, transparent) 36%, color-mix(in srgb, var(--navy-deep) 28%, transparent) 63%, transparent 80%)" }}
         />
       </div>
-      <div className="relative mx-auto w-full max-w-[1280px] px-6 py-10 md:px-10 md:py-12 min-[900px]:pb-20 min-[900px]:pt-[calc(5rem+48px)]">
+      <div className="relative mx-auto w-full max-w-[1280px] px-6 py-10 md:px-10 md:max-[899.98px]:py-12 min-[900px]:pb-20 min-[900px]:pt-[calc(5rem+48px)]">
         <div className="max-w-[620px]">
           <p className="font-[Inter] text-[13px] font-semibold uppercase tracking-[0.14em] text-gold">{teamHero.eyebrow}</p>
           <h1 className="mt-5 font-[Montserrat] text-[clamp(2.2rem,4.4vw,3.75rem)] font-bold leading-[1.1] text-paper [text-wrap:balance]">{teamHero.title}</h1>

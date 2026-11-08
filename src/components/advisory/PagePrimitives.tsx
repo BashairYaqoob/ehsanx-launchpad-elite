@@ -1,9 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Link } from '@tanstack/react-router';
-import { ArrowRight, BrainCog, ChartNoAxesCombined, Compass, Diamond, Earth, HandHeart, Landmark, Lightbulb, Users, UsersRound, type LucideIcon } from 'lucide-react';
+import { BrainCog, ChartNoAxesCombined, Compass, Diamond, Earth, HandHeart, Landmark, Lightbulb, Users, UsersRound, type LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { AdvisoryImage } from '@/data/philosophy';
-import type { SitePath } from '@/lib/site';
 export const iconMap:Record<string,LucideIcon>={BrainCog,ChartNoAxesCombined,Compass,Diamond,Earth,HandHeart,Landmark,Lightbulb,Users,UsersRound};
 export function PageReveal({children,className}:{children:ReactNode;className?:string}) {
  const reduced=useReducedMotion();
@@ -27,15 +25,3 @@ export function PageHero({eyebrow,title,line,image}:{eyebrow:string;title:string
  </div>
 </section>;}
 export function SectionHeader({eyebrow,title,intro}:{eyebrow:string;title:string;intro?:string}){return <header className="ad-header [.advisory-page_&]:[margin-bottom:48px] [.advisory-page_&]:[max-width:900px] [.advisory-page_&_p]:[margin-top:24px] [.advisory-page_&_p]:[max-width:68ch]"><Eyebrow>{eyebrow}</Eyebrow><h2>{title}</h2>{intro&&<p>{intro}</p>}</header>;}
-// Contextual next step shown just before the shared FinalCta. A quiet text link rather than a second
-// button block, so the two closing sections do not compete for the same action.
-type NextStepData={lead?:string;label:string;to:SitePath};
-export function NextStep({data}:{data:NextStepData}){return <nav aria-label="Next page" className="ad-next border-t border-navy/10 bg-paper py-14 md:py-16">
-<PageReveal className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8">
-{data.lead&&<p className="mb-5 max-w-[46ch] font-[Inter] text-[17px] leading-[1.6] text-ink/75">{data.lead}</p>}
-<Link to={data.to} aria-label={`Next: ${data.label}`} className="group inline-flex flex-col gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold">
-<span className="font-[Inter] text-[12px] font-semibold uppercase tracking-[0.14em] text-teal md:text-[13px]">Next</span>
-<span className="inline-flex items-center gap-3 font-display text-[28px] font-semibold leading-[1.2] text-navy decoration-gold decoration-2 underline-offset-[6px] group-hover:underline md:text-[36px]">{data.label}<ArrowRight className="h-6 w-6 shrink-0 text-teal transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none md:h-7 md:w-7" aria-hidden="true"/></span>
-</Link>
-</PageReveal>
-</nav>;}

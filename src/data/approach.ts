@@ -10,7 +10,6 @@ import implement2 from '@/assets/approach-implement-800.webp';
 import reflect1 from '@/assets/approach-reflect-400.webp';
 import reflect2 from '@/assets/approach-reflect-800.webp';
 import type { AdvisoryImage } from './philosophy';
-import type { SitePath } from '@/lib/site';
 const photo=(src:string,small:string,alt:string):AdvisoryImage=>({src,srcSet:`${small} 1x, ${src} 2x`,width:800,height:800,alt});
 const images={
  hero:{...heroImages.approach_hero,mobilePos:'62% 45%',desktopPos:'50% 40%',alt:'A consultant in conversation with four colleagues around a meeting table in a bright office.'},
@@ -35,6 +34,5 @@ export const approach={
  {number:'05',title:'Reflect & Improve',description:'Review progress, capture lessons, and build continuous improvement capabilities.',photo:images.reflect,alt:images.reflect.alt}
  ],
  principle:{eyebrow:'WHY IT WORKS',title:'Grounded in your real context. Connected to practical outcomes.',copy:"This process ensures that every engagement is grounded in the organization's real context and connected to practical outcomes. By combining reflection, implementation, and capability building, EhsanX helps transformation continue beyond the program itself.",chips:['Practical','Collaborative','Reflective']},
- next:{label:'Solutions',to:'/solutions' as SitePath},
  images
 };
