@@ -1,15 +1,15 @@
 import type { MouseEvent } from "react";
 import { useReducedMotion } from "framer-motion";
-import kfcLogo from "@/assets/impact/kfc-logo.png.asset.json";
-import pciLogo from "@/assets/impact/pci-logo.png.asset.json";
-import ajLogo from "@/assets/impact/aj-logo.webp.asset.json";
+import kfcLogo from "@/assets/impact/kfc-logo.png";
+import pciLogo from "@/assets/impact/pci-logo.png";
+import ajLogo from "@/assets/impact/aj-logo.webp";
 import { engagementIndex } from "@/data/clientImpactDetailed";
 import { container, eyebrow } from "./CaseStudyParts";
 
 const logos = {
-  kfc: { src: kfcLogo.url, w: 1983, h: 2000, cls: "h-14" },
-  pci: { src: pciLogo.url, w: 246, h: 67, cls: "h-auto max-h-8 max-w-full" },
-  aj: { src: ajLogo.url, w: 690, h: 362, cls: "h-auto max-h-12 max-w-full" },
+  kfc: { src: kfcLogo, w: 1983, h: 2000, cls: "h-14" },
+  pci: { src: pciLogo, w: 246, h: 67, cls: "h-auto max-h-8 max-w-full" },
+  aj: { src: ajLogo, w: 690, h: 362, cls: "h-auto max-h-12 max-w-full" },
 } as const;
 
 export function EngagementIndex() {

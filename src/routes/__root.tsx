@@ -12,7 +12,6 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { MotionConfig } from "framer-motion";
 import { Footer, WhatsAppFab } from "@/components/Footer";
 import { Navbar, ScrollProgress } from "@/components/Navbar";
@@ -62,9 +61,6 @@ function RouteErrorFallback({ error, reset, pathname }: ErrorComponentProps & { 
     navigation.retried = true;
     reset();
   }, [router, reset, retryNavigation]);
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   if (retryNavigation) return null;
 

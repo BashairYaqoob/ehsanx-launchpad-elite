@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import shahid from "@/assets/team/shahid-portrait.webp.asset.json";
-import ambreen from "@/assets/team/ambreen-portrait.webp.asset.json";
-import hero640 from "@/assets/team/meet-the-team-hero-640.webp.asset.json";
-import hero1280 from "@/assets/team/meet-the-team-hero-1280.webp.asset.json";
-import hero1672 from "@/assets/team/meet-the-team-hero-1672.webp.asset.json";
+import shahid from "@/assets/team/shahid-portrait.webp";
+import ambreen from "@/assets/team/ambreen-portrait.webp";
+import hero640 from "@/assets/team/meet-the-team-hero-640.webp";
+import hero1280 from "@/assets/team/meet-the-team-hero-1280.webp";
+import hero1672 from "@/assets/team/meet-the-team-hero-1672.webp";
 import { DirectorProfile, FounderProfile } from "@/components/team/LeaderProfile";
 import { FinalCta } from "@/components/home/FounderAndCta";
 import { director, founder, teamHero } from "@/data/team";
@@ -19,8 +19,8 @@ function TeamHero() {
     <section className="relative bg-navy-deep min-[900px]:flex min-[900px]:min-h-[max(85vh,600px)] min-[900px]:items-center">
       <div className="pt-[calc(5rem+8px)] min-[900px]:absolute min-[900px]:inset-0 min-[900px]:pt-0">
         <img
-          src={hero1672.url}
-          srcSet={`${hero640.url} 640w, ${hero1280.url} 1280w, ${hero1672.url} 1672w`}
+          src={hero1672}
+          srcSet={`${hero640} 640w, ${hero1280} 1280w, ${hero1672} 1672w`}
           sizes="100vw"
           alt={teamHero.alt}
           width={1672}
@@ -50,8 +50,8 @@ function MeetTheTeamPage() {
   return (
     <div className="overflow-x-clip">
       <TeamHero />
-      <FounderProfile leader={founder} portrait={shahid.url} />
-      <DirectorProfile leader={director} portrait={ambreen.url} />
+      <FounderProfile leader={founder} portrait={shahid} />
+      <DirectorProfile leader={director} portrait={ambreen} />
       <span aria-hidden="true" className="advisory-page hidden" />
       <FinalCta />
     </div>

@@ -110,25 +110,23 @@ Do not use lorem ipsum, fake testimonials, fake stats, fake client logos, or inv
 
 Attached assets, in order: (1) stacked EX blocks atrium, (2) origami boats climbing cliff, (3) origami boats ripple circle, (4) sailing ship with EHSANX flag, (5) professionals in meeting room, (6) logo white version, (7) logo full-color version. Save them in src/assets with clear names (hero-blocks, hero-cliff, hero-ripple, hero-ship, workshop-team, logo-white, logo-color).
 
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://ehsanx-homepage.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/047be10c-62d9-4f99-8186-5feafae4cef1).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+The project uses [Bun](https://bun.sh) as its package manager and TanStack Start on Vite.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install          # install dependencies from bun.lock
+bun run dev          # dev server on http://localhost:8080
+bun run test         # unit tests (Vitest)
+bun run build        # production build into .output/
+bun run preview      # serve the production build
 ```
+
+The build uses [Nitro](https://nitro.build). It auto-detects the hosting provider
+(Vercel, Netlify, Cloudflare and others) and otherwise produces a Node server,
+which you can start with `node .output/server/index.mjs`. Set `NITRO_PRESET` to
+choose a target explicitly.
+
+Images live in `src/assets/` and are imported directly; Vite fingerprints them at
+build time. Responsive variants and their sizes are registered in
+`src/lib/image-assets.ts`.
