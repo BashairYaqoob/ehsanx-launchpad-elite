@@ -151,17 +151,11 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <MotionConfig reducedMotion="user">
         <IntroProvider>
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1200] focus:inline-flex focus:min-h-11 focus:items-center focus:rounded-full focus:bg-gold focus:px-5 focus:font-display focus:text-sm focus:font-semibold focus:text-navy focus:outline-2 focus:outline-offset-2 focus:outline-navy"
-          >
-            Skip to main content
-          </a>
           <Preloader />
           <SmoothScroll />
           <ScrollProgress />
           <Navbar />
-          <main id="main" tabIndex={-1} className="outline-none">
+          <main>
             <Outlet />
           </main>
           {!isHome && <Footer />}

@@ -49,8 +49,7 @@ try {
   const response = await fetchWhenReady(`http://127.0.0.1:${port}${probePath}`);
   const html = await response.text();
   if (response.status !== 404) throw new Error(`render-404: expected 404, got ${response.status}`);
-  // <main> carries attributes (the skip link's id="main" target), so match the tag, not the literal.
-  if (!html.startsWith("<!DOCTYPE html>") || !/<main[\s>]/.test(html)) {
+  if (!html.startsWith("<!DOCTYPE html>") || !html.includes("<main>")) {
     throw new Error("render-404: the response is not the server-rendered not-found page");
   }
   await writeFile(target, html);
