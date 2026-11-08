@@ -19,11 +19,17 @@ export type SitePath =
 
 export const WHATSAPP_URL = "https://wa.me/923018226596";
 
-export function pageHead(title: string, description: string, path: SitePath = "/") {
+// Production origin. Canonical URLs, Open Graph URLs and the share image use it,
+// as do public/robots.txt and public/sitemap.xml (kept in sync by a test).
+export const SITE_URL = "https://ehsanx.com";
+export const OG_IMAGE_URL = `${SITE_URL}/og-image.png`;
 
-  const url = `https://ehsanx-homepage.lovable.app${path}`;
+type HeadLink = { rel: string; href: string };
+
+export function pageHead(title: string, description: string, path: SitePath = "/", extraLinks: HeadLink[] = []) {
+  const url = `${SITE_URL}${path}`;
   return {
-    links: [{ rel: "canonical", href: url }],
+    links: [{ rel: "canonical", href: url }, ...extraLinks],
     meta: [
       { title },
       { name: "description", content: description },
@@ -31,8 +37,10 @@ export function pageHead(title: string, description: string, path: SitePath = "/
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { property: "og:url", content: url },
-      { property: "og:image", content: "https://ehsanx-homepage.lovable.app/og-image.png" },
-      { name: "twitter:image", content: "https://ehsanx-homepage.lovable.app/og-image.png" },
+      { property: "og:image", content: OG_IMAGE_URL },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:image", content: OG_IMAGE_URL },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
