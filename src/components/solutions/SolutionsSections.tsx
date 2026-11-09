@@ -39,12 +39,17 @@ function Paras({ items }: { items: string[] }) {
   return <div className="space-y-5">{items.map((p) => <p key={p} className={body}>{p}</p>)}</div>;
 }
 
-function HowItWorks({ labelText, items, cols }: { labelText: string; items: string[]; cols: 2 | 3 }) {
+/** "How it works" as a brand-colour panel, so each solution carries one strong colour block. */
+function HowItWorks({ labelText, items, cols, tone }: { labelText: string; items: string[]; cols: 2 | 3; tone: "navy" | "teal" }) {
   return (
-    <div className="pt-16">
-      <div aria-hidden="true" className="h-px w-full bg-gold/60" />
-      <h3 className={`${h2} mt-10`}>{labelText}</h3>
-      <div className={`mt-8 grid grid-cols-1 gap-6 ${cols === 3 ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-10`}>{items.map((p) => <p key={p} className={body}>{p}</p>)}</div>
+    <div className={`rounded-[24px] px-6 py-10 text-paper md:px-12 md:py-14 ${tone === "teal" ? "bg-teal" : "bg-navy"}`}>
+      <h3 className="flex items-center gap-4 font-[Montserrat] text-[clamp(1.6rem,2.6vw,2.25rem)] font-bold leading-[1.15] text-paper">
+        <span aria-hidden="true" className="h-px w-10 shrink-0 bg-gold" />
+        {labelText.replace(/:\s*$/, "")}
+      </h3>
+      <div className={`mt-8 grid grid-cols-1 gap-6 ${cols === 3 ? "md:grid-cols-3" : "md:grid-cols-2"} md:gap-10`}>
+        {items.map((p) => <p key={p} className="max-w-[62ch] font-[Inter] text-[17px] leading-[1.7] text-paper/90">{p}</p>)}
+      </div>
     </div>
   );
 }
@@ -96,7 +101,7 @@ function Solution01() {
           <Img src={img01} alt="" ratio="aspect-[4/5]" />
         </div>
         <div className="mt-4 lg:col-span-12 lg:mt-12"><p className={label}>{s.listLabel}</p><FeatureList items={s.list} label={s.listLabel} /></div>
-        <div className="lg:col-span-12"><HowItWorks labelText={s.howLabel} items={s.how} cols={2} /></div>
+        <div className="mt-12 lg:col-span-12 lg:mt-16"><HowItWorks labelText={s.howLabel} items={s.how} cols={2} tone="navy" /></div>
       </div>
     </Reveal>
   );
@@ -105,7 +110,7 @@ function Solution01() {
 function Solution02() {
   const s = solution02;
   return (
-    <Reveal className="bg-white py-20 lg:py-28">
+    <Reveal className="bg-wash py-20 lg:py-28">
       <div className={`${container} space-y-14 lg:space-y-20`}>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[45fr_55fr] lg:items-center lg:gap-14">
           <div className="hidden lg:block"><Img src={img02} alt="" ratio="aspect-[4/5]" /></div>
@@ -118,7 +123,7 @@ function Solution02() {
           </div>
         </div>
         <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} label={s.listLabel} /></div>
-        <HowItWorks labelText={s.howLabel} items={s.how} cols={3} />
+        <HowItWorks labelText={s.howLabel} items={s.how} cols={3} tone="teal" />
         <LearningCycle stages={learningCycleStages} className="pt-4" />
       </div>
     </Reveal>
@@ -140,7 +145,7 @@ function Solution03() {
           <div className="lg:pt-6"><Paras items={s.description} /></div>
         </div>
         <div><p className={label}>{s.listLabel}</p><FeatureList items={s.list} label={s.listLabel} /></div>
-        <HowItWorks labelText={s.howLabel} items={s.how} cols={3} />
+        <HowItWorks labelText={s.howLabel} items={s.how} cols={3} tone="navy" />
       </div>
     </Reveal>
   );
@@ -173,15 +178,15 @@ function Outcomes() {
       <div className={container}>
         <h2 className={h2}>{outcomes.title}</h2>
         <p className={`${body} mt-6`}>{outcomes.intro}</p>
-        <ul className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-12 grid grid-cols-1 overflow-hidden rounded-[24px] sm:grid-cols-2 lg:grid-cols-3">
           {outcomes.items.map((item, i) => {
-            // 1 col: alternate; 2 cols: swap every second row; 3 cols: odd/even.
+            // Navy and teal alternate as a checkerboard. 1 col: alternate; 2 cols: swap every second row; 3 cols: odd/even.
             const one = i % 2 === 0;
             const two = (Math.floor(i / 2) + (i % 2)) % 2 === 0;
             const three = i % 2 === 0;
-            const navy = "bg-navy text-white";
-            const pale = "bg-[#E9EEF4] text-navy";
-            const cls = `${one ? navy : pale} ${two ? "sm:bg-navy sm:text-white" : "sm:bg-[#E9EEF4] sm:text-navy"} ${three ? "lg:bg-navy lg:text-white" : "lg:bg-[#E9EEF4] lg:text-navy"}`;
+            const navy = "bg-navy";
+            const teal = "bg-teal";
+            const cls = `text-white ${one ? navy : teal} ${two ? "sm:bg-navy" : "sm:bg-teal"} ${three ? "lg:bg-navy" : "lg:bg-teal"}`;
             return (
               <li key={item} className={`flex min-h-[200px] flex-col justify-between gap-8 p-7 md:p-8 ${cls}`}>
                 <span aria-hidden="true" className="font-[Montserrat] text-[clamp(2.5rem,4vw,3.5rem)] font-bold leading-none text-gold">{String(i + 1).padStart(2, "0")}</span>

@@ -46,10 +46,9 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
         if (kind === "approach" && image) tl.fromTo(image, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.8 }, i + 0.65);
       });
       if (arrow && loop) tl.to(loop, { autoAlpha: 1, duration: 0.1 }, 4.3).to(arrow, { strokeDashoffset: 0, duration: 0.5, ease: "none" }, 4.35);
-      if (text.length) tl.to(text, { autoAlpha: 0, duration: 0.3 }, 4.7);
-      // Small screens: clear the vertical rail before the closing text appears so they never overlap.
-      const rail = element.querySelector(".journey-rail-wrap");
-      if (small && kind === "eplus" && rail) tl.to(rail, { autoAlpha: 0, duration: 0.3 }, 4.7);
+      // Wide screens show the closing text over the last image, so the titles clear first. Small
+      // screens place the closing text after the pinned stage: the last stage stays on screen.
+      if (text.length && !small) tl.to(text, { autoAlpha: 0, duration: 0.3 }, 4.7);
       if (end && !small) tl.to(end, { autoAlpha: 1, y: 0, duration: 0.5 }, 4.85);
       tl.to({}, { duration: 0.65 });
     });
@@ -58,8 +57,8 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
   useScrollScene(ref, setup, reduced);
   const isEplus = kind === "eplus";
   return <section aria-label={isEplus ? "The E-Plus Model" : "Our Approach"}>
-    <div ref={ref} className={`journey [position:relative] [overflow:clip] [border-radius:0] [margin-top:-24px] [z-index:auto] [isolation:isolate] [margin:0] max-w-full journey-${kind} ${isEplus ? "bg-navy text-paper" : "bg-paper text-navy"}`}>
-    <div className="journey-stage [position:relative] [min-height:0] [height:100dvh]! [max-height:none]">
+    <div ref={ref} className={`journey motion-reduce:hidden [position:relative] [overflow:clip] [border-radius:0] [margin-top:-24px] [z-index:auto] [isolation:isolate] [margin:0] max-w-full journey-${kind} ${isEplus ? "bg-navy text-paper" : "bg-paper text-navy"}`}>
+    <div className="journey-stage [position:relative] [min-height:0] [height:100dvh] [max-height:none]">
       <header className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 journey-header [position:absolute] [top:24px] [inset-inline:0] [z-index:4] [pointer-events:none] [@media(max-width:767.98px)]:[top:20px] [&_h2]:[font-size:32px]! [@media(max-width:767.98px)]:[&_h2]:[font-size:26px]">
         <p className={isEplus ? "eyebrow-dark [font-family:var(--font-display)] [font-weight:600] [font-size:0.75rem] [letter-spacing:0.14em] [text-transform:uppercase] [color:var(--gold)]" : "eyebrow [font-family:var(--font-display)] [font-weight:600] [font-size:0.75rem] [letter-spacing:0.14em] [text-transform:uppercase] [color:var(--teal)]"}>{isEplus ? "Our Philosophy" : "How We Work"}</p>
         <h2 className="h2-display [.eh-why_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[font-size:36px] [.eh-challenge-heading_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[color:var(--navy)] [@media(max-width:767.98px)]:[.eh-challenge-heading_&]:[font-size:32px] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[.eh-challenge-heading_&]:[font-size:30px] [.closing-cta_&]:[color:var(--paper)] [@media(max-width:767.98px)]:[.closing-cta_&]:[font-size:32px] [font-family:var(--font-display)] [font-size:clamp(2rem,_4vw,_3.5rem)] [font-weight:700] [line-height:1.1] [letter-spacing:0] max-sm:!text-3xl sm:max-lg:!text-4xl lg:max-xl:!text-5xl mt-3">{isEplus ? "The E-Plus Model" : "Our Approach"}</h2>
@@ -71,7 +70,7 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
           <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 journey-titles [position:absolute] [inset-inline:0] [top:30%] [display:flex] [align-items:center] [gap:36px] [@media(max-width:767.98px)]:[display:block] [@media(max-width:767.98px)]:[gap:18px] [@media(max-width:767.98px)]:[padding-left:64px] max-md:!pl-16 [@media(max-width:767.98px)]:[.journey-eplus_&]:[top:56%]">
             {!isEplus && <span className="journey-ghost" aria-hidden="true">0{i + 1}</span>}
             <span className="journey-numeral [font-family:var(--font-display)] [font-weight:600] [font-size:128px] [line-height:1] [color:var(--gold)] [@media(max-width:767.98px)]:[font-size:56px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[font-size:100px] [@media(max-width:767.98px)]:[margin-bottom:12px] [@media(max-width:767.98px)]:[display:block]" aria-hidden="true">0{i + 1}</span>
-            <div className="journey-title-mask [overflow:hidden] [max-width:640px] max-w-full min-w-0"><div className="journey-title-inner [&_h3]:[font-size:44px]! [&_h3]:[font-weight:600] [&_h3]:[line-height:1.15] [@media(max-width:767.98px)]:[&_h3]:[font-size:26px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[&_h3]:[font-size:36px]"><h3>{stage.name}</h3>{stage.description && <p className="journey-description">{stage.description}</p>}</div></div>
+            <div className="journey-title-mask [overflow:hidden] [max-width:640px] max-w-full min-w-0"><div className="journey-title-inner [&_h3]:!text-[26px] md:[&_h3]:!text-[36px] lg:[&_h3]:!text-[44px] [&_h3]:[font-weight:600] [&_h3]:[line-height:1.15] [&_h3]:[overflow-wrap:anywhere]"><h3>{stage.name}</h3>{stage.description && <p className="journey-description">{stage.description}</p>}</div></div>
           </div>
         </article>)}
       </div>
@@ -86,5 +85,40 @@ export function Journey({ kind, stages, paragraph, caption }: Props) {
         <BrandButton to={isEplus ? "/philosophy" : "/our-approach"} variant={isEplus ? "gold" : "outline-navy"}>{isEplus ? "Explore the Full Model" : "See Our Approach"}</BrandButton>
       </div>
     </div>
+    <JourneyStatic kind={kind} stages={stages} paragraph={paragraph} {...(caption ? { caption } : {})} />
   </section>;
+}
+
+/**
+ * Reduced-motion version: the same content as a still, numbered set of five, shown only when the
+ * visitor prefers reduced motion. Both versions are server-rendered and switched by CSS, so the
+ * markup never depends on the motion preference and hydration always matches.
+ */
+function JourneyStatic({ kind, stages, paragraph, caption }: Props) {
+  const isEplus = kind === "eplus";
+  return (
+    <div className={`hidden py-16 motion-reduce:block md:py-24 ${isEplus ? "bg-navy text-paper" : "bg-paper text-navy"}`}>
+      <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 xl:px-12">
+        <p className={`font-display text-xs font-semibold uppercase tracking-[0.14em] ${isEplus ? "text-gold" : "text-teal"}`}>{isEplus ? "Our Philosophy" : "How We Work"}</p>
+        <h2 className="mt-3 font-display text-[32px] font-bold leading-[1.1] md:text-[44px]">{isEplus ? "The E-Plus Model" : "Our Approach"}</h2>
+        <ol className="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 md:mt-14 lg:grid-cols-5" aria-label={isEplus ? "E-Plus stages" : "Approach steps"}>
+          {stages.map((stage, i) => (
+            <li key={stage.name} className="min-w-0">
+              <ResponsiveImage asset={stage.image} alt={stage.alt} loading="lazy" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="aspect-[16/10] w-full rounded-[16px] object-cover lg:aspect-[3/4]" />
+              <div className="mt-5 flex items-baseline gap-3">
+                <span aria-hidden="true" className="font-display text-[32px] font-semibold leading-none text-gold">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="min-w-0 font-display text-[20px] font-semibold leading-[1.25]">{stage.name}</h3>
+              </div>
+              {stage.description && <p className="mt-2 text-base leading-[1.6] opacity-90">{stage.description}</p>}
+            </li>
+          ))}
+        </ol>
+        <div className="mt-12 max-w-[780px] md:mt-16">
+          {caption && <p className="mb-4 text-sm">{caption}</p>}
+          <p className="mb-8 text-lg leading-[1.6] md:text-[22px]">{paragraph}</p>
+          <BrandButton to={isEplus ? "/philosophy" : "/our-approach"} variant={isEplus ? "gold" : "outline-navy"}>{isEplus ? "Explore the Full Model" : "See Our Approach"}</BrandButton>
+        </div>
+      </div>
+    </div>
+  );
 }

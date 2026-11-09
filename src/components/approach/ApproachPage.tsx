@@ -190,6 +190,17 @@ function Stage({ step }: { step: ApproachStep }) {
           </div>
         </div>
         <div className="lg:col-span-7 lg:pt-16">
+          <img
+            src={step.image.src}
+            srcSet={step.image.srcSet}
+            sizes="(min-width: 1024px) 680px, 100vw"
+            alt={step.image.alt}
+            width={step.image.width}
+            height={step.image.height}
+            loading="lazy"
+            decoding="async"
+            className="mb-10 aspect-[3/2] w-full rounded-[20px] object-cover"
+          />
           <p className="font-display text-[12px] font-semibold uppercase tracking-[0.16em] text-teal">
             What it involves
           </p>
@@ -437,7 +448,7 @@ function Difference() {
                   className="hidden h-5 w-5 self-center text-gold md:block"
                 />
                 <p className="font-display text-[20px] font-semibold text-paper">
-                  <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-gold">
+                  <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-paper">
                     To{" "}
                   </span>
                   {s.to}

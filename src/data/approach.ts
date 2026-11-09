@@ -19,6 +19,8 @@ export type ApproachStep = {
   list?: { label: string; items: string[] };
   /** TRANSITION: how this stage leads into the next. */
   leadsTo: { number: string; title: string; text: string };
+  /** A genuine photograph from an EhsanX workshop (GIFT University session), shown with the stage. */
+  image: { src: string; srcSet: string; width: number; height: number; alt: string };
 };
 
 const steps: ApproachStep[] = [
@@ -38,6 +40,10 @@ const steps: ApproachStep[] = [
       number: "02",
       title: "Diagnose",
       text: "What is learned about the organization’s context, challenges and aspirations becomes the basis for the diagnosis.",
+    },
+    image: {
+      ...images.approach_listen,
+      alt: "Dr Shahid Qureshi stands at a table of participants, listening as they talk through their work during an EhsanX workshop.",
     },
   },
   {
@@ -67,6 +73,10 @@ const steps: ApproachStep[] = [
       title: "Design",
       text: "The critical areas identified here set the priorities each intervention is designed around.",
     },
+    image: {
+      ...images.approach_diagnose,
+      alt: "Participants seated around a table write on large sheets of paper during an EhsanX workshop.",
+    },
   },
   {
     number: "03",
@@ -95,6 +105,10 @@ const steps: ApproachStep[] = [
       title: "Implement",
       text: "Each intervention is then delivered as practical learning linked to participants’ real responsibilities.",
     },
+    image: {
+      ...images.approach_design,
+      alt: "Dr Shahid Qureshi works with a table group as participants note ideas on paper, with a presentation screen behind them.",
+    },
   },
   {
     number: "04",
@@ -115,6 +129,10 @@ const steps: ApproachStep[] = [
       title: "Reflect & Improve",
       text: "Progress made in real work settings is then reviewed, and the lessons are captured.",
     },
+    image: {
+      ...images.approach_implement,
+      alt: "Participants work together with markers and sticky notes on flip-chart paper during an EhsanX workshop.",
+    },
   },
   {
     number: "05",
@@ -132,6 +150,10 @@ const steps: ApproachStep[] = [
       number: "01",
       title: "Listen",
       text: "Lessons carry into the next cycle, building the internal capability needed for continuous improvement.",
+    },
+    image: {
+      ...images.approach_reflect,
+      alt: "A participant holds up a flip-chart sheet to share a group's work with the room during an EhsanX workshop.",
     },
   },
 ];

@@ -72,13 +72,13 @@ export function Struggle() {
               style={pinned ? undefined : { top: STACK_TOPS[i] }}
               className={`eh-challenge-card flex origin-top flex-col overflow-hidden rounded-[24px] shadow-soft [box-shadow:var(--shadow-soft)] ${pinned ? "absolute inset-0" : "sticky min-h-[300px] self-start md:min-h-[340px]"} ${card.card}`}
             >
-              <header className="flex items-start justify-between gap-6 px-6 pb-4 pt-6 md:px-10 md:pt-8 lg:px-12 lg:pt-9">
+              <header className="flex items-start justify-between gap-6 px-7 pb-4 pt-8 md:px-12 md:pt-10 lg:px-14 lg:pt-11">
                 <h3 className="max-w-[24ch] font-display text-[22px] font-semibold leading-[1.2] md:text-[28px] lg:max-xl:text-[26px]">{card.text}</h3>
                 <span aria-hidden="true" className={`hidden shrink-0 font-display text-[56px] font-bold leading-none md:block ${card.num}`}>{String(i + 1).padStart(2, "0")}</span>
               </header>
-              <div className="challenge-card-detail mt-auto px-6 pb-7 md:px-10 md:pb-10 lg:px-12 lg:pb-12">
+              <div className="challenge-card-detail mt-auto px-7 pb-8 md:px-12 md:pb-11 lg:px-14 lg:pb-12">
                 <span aria-hidden="true" className={`mb-5 block h-[2px] w-12 ${card.rule}`} />
-                <p className="max-w-[46ch] text-base leading-[1.65] md:text-lg">{card.detail}</p>
+                <p className="max-w-[52ch] text-base leading-[1.7] md:text-lg">{card.detail}</p>
               </div>
             </article>;
           })}

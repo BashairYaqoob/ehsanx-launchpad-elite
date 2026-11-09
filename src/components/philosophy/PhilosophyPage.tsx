@@ -331,14 +331,14 @@ function Journey() {
     <section
       id="journey"
       aria-labelledby="journey-title"
-      className="scroll-mt-24 bg-paper py-24 md:py-32"
+      className="scroll-mt-24 bg-navy py-24 text-paper md:py-32"
     >
       <div className={container}>
         <Reveal>
-          <Eyebrow>{journey.eyebrow}</Eyebrow>
+          <Eyebrow tone="dark">{journey.eyebrow}</Eyebrow>
           <h2
             id="journey-title"
-            className="mt-6 max-w-[22ch] font-display text-[clamp(2rem,3.6vw,3rem)] font-bold leading-[1.1] text-navy"
+            className="mt-6 max-w-[22ch] font-display text-[clamp(2rem,3.6vw,3rem)] font-bold leading-[1.1] text-paper"
           >
             {journey.title}
           </h2>
@@ -347,11 +347,10 @@ function Journey() {
           {/* Connecting line: horizontal from md, vertical when stacked. */}
           <span
             aria-hidden="true"
-            className="absolute bottom-6 left-[27px] top-6 w-px bg-navy/15 md:bottom-auto md:left-0 md:right-0 md:top-[94px] md:h-px md:w-auto"
+            className="absolute bottom-6 left-[27px] top-6 w-px bg-paper/25 md:bottom-auto md:left-0 md:right-0 md:top-[94px] md:h-px md:w-auto"
           />
           <ol className="relative grid gap-10 md:grid-cols-5 md:gap-6">
             {stages.map((s, i) => {
-              const Icon = icons[s.icon] ?? UsersRound;
               const last = i === stages.length - 1;
               return (
                 <li key={s.number} className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 md:block">
@@ -359,8 +358,7 @@ function Journey() {
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "font-display text-[44px] font-light leading-none md:text-[64px]",
-                        last ? "text-teal" : "text-navy",
+                        "font-display text-[44px] font-light leading-none text-gold md:text-[64px]",
                       )}
                     >
                       {s.number}
@@ -368,21 +366,18 @@ function Journey() {
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "mt-4 h-3.5 w-3.5 rounded-full ring-[6px] ring-paper md:mt-[18px]",
-                        last ? "bg-gold" : "bg-navy",
+                        "mt-4 h-3.5 w-3.5 rounded-full ring-[6px] ring-navy md:mt-[18px]",
+                        last ? "bg-gold" : "border-2 border-gold bg-navy",
                       )}
                     />
                   </div>
                   <div className="md:mt-8">
-                    <Icon
-                      aria-hidden="true"
-                      strokeWidth={1.5}
-                      className={cn("h-6 w-6", last ? "text-teal" : "text-navy/70")}
-                    />
-                    <h3 className="mt-3 font-display text-[19px] font-semibold leading-snug text-navy">
+                    <h3 className="font-display text-[19px] font-semibold leading-snug text-paper">
                       {s.title}
                     </h3>
-                    <p className="mt-2 text-[15.5px] leading-[1.65] text-ink/80">{s.descriptor}</p>
+                    <p className="mt-2 text-[15.5px] leading-[1.65] text-paper/85">
+                      {s.descriptor}
+                    </p>
                   </div>
                 </li>
               );
@@ -390,11 +385,11 @@ function Journey() {
           </ol>
         </Reveal>
         <Reveal className="mt-20 flex items-center gap-5 md:gap-8">
-          <span aria-hidden="true" className="h-px flex-1 bg-navy/20" />
-          <p className="text-center font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-light text-navy [text-wrap:balance]">
+          <span aria-hidden="true" className="h-px flex-1 bg-paper/25" />
+          <p className="text-center font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-light text-paper [text-wrap:balance]">
             {tagline}
           </p>
-          <span aria-hidden="true" className="h-px flex-1 bg-navy/20" />
+          <span aria-hidden="true" className="h-px flex-1 bg-paper/25" />
         </Reveal>
       </div>
     </section>

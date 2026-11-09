@@ -8,7 +8,7 @@ import { PhotoCaseStudy } from "./PhotoCaseStudy";
 import { Block, BulletList, Takeaway, body, container, eyebrow, h2 } from "./CaseStudyParts";
 
 export function CaseStudyKfc() {
-  return <PhotoCaseStudy data={kfcCase} bw={kfcBw} colour={kfcColour} tone="white" />;
+  return <PhotoCaseStudy data={kfcCase} number={1} bw={kfcBw} colour={kfcColour} tone="white" band="navy" />;
 }
 
 // Filenames were misleading: "PCI_-_coloured" is the black-and-white frame, "PCI" is colour.
@@ -16,6 +16,8 @@ export function CaseStudyPci() {
   return (
     <PhotoCaseStudy
       data={pciCase}
+      number={2}
+      band="teal"
       bw={pciBw}
       colour={pciColour}
       tone="wash"
@@ -38,6 +40,7 @@ export function CaseStudyAhmadJamal() {
       <div className={container}>
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <div className="lg:col-span-4">
+            <span aria-hidden="true" className="mb-8 block font-[Montserrat] text-[64px] font-bold leading-none text-gold md:text-[88px]">03</span>
             <img src={ajLogo} alt="Ahmad Jamal Textile Processing logo" width={690} height={362} loading="lazy" decoding="async" className="h-auto w-[200px] object-contain md:w-[240px]" />
             <div aria-hidden="true" className="mt-8 h-px w-16 bg-gold" />
           </div>

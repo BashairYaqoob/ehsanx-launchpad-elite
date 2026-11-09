@@ -42,21 +42,38 @@ export function BulletList({ items }: { items: string[] }) {
   );
 }
 
-export function Metrics({ items, caption }: { items: Metric[]; caption: string }) {
+/** A figure reads as a numeral only when it is one; descriptive values (an industry, an approach) are set smaller. */
+const isFigure = (value: string) => /^[~≈]?\d/.test(value);
+
+/** Impact snapshot as a full-width colour band: amber numerals on navy or teal. */
+export function Metrics({ items, caption, tone = "navy" }: { items: Metric[]; caption: string; tone?: "navy" | "teal" }) {
   return (
-    <div>
-      <h3 className={label}>{caption}</h3>
-      <dl className="mt-5 grid grid-cols-2 border-l border-t border-navy/15 lg:grid-cols-4">
-        {items.map((m) => (
-          <div key={m.label} className="flex min-w-0 flex-col-reverse justify-end gap-2 border-b border-r border-navy/15 p-5 md:p-6">
-            <dt className="font-[Inter] text-[14px] leading-[1.45] text-ink/80">
-              {m.label}
-              {m.note && <span className="mt-1 block text-[12.5px] text-teal">{m.note}</span>}
-            </dt>
-            <dd className="break-words font-[Montserrat] text-[clamp(1.5rem,3vw,2.4rem)] font-bold leading-none text-navy">{m.value}</dd>
-          </div>
-        ))}
-      </dl>
+    <div className={tone === "teal" ? "bg-teal text-paper" : "bg-navy text-paper"}>
+      <div className={`${container} py-12 md:py-16`}>
+        <h3 className="flex items-center gap-3 font-[Inter] text-[12px] font-semibold uppercase tracking-[0.14em] text-paper md:text-[13px]">
+          <span aria-hidden="true" className="h-px w-8 bg-gold" />
+          {caption}
+        </h3>
+        <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-10">
+          {items.map((m) => (
+            <div key={m.label} className="flex min-w-0 flex-col-reverse justify-end gap-3 border-t border-paper/25 pt-5">
+              <dt className="font-[Inter] text-[15px] leading-[1.45] text-paper/90">
+                {m.label}
+                {m.note && <span className="mt-1.5 block text-[13px] leading-[1.45] text-paper/75">{m.note}</span>}
+              </dt>
+              <dd
+                className={
+                  isFigure(m.value)
+                    ? "font-[Montserrat] text-[clamp(2.5rem,5vw,4rem)] font-bold leading-none text-gold"
+                    : "font-[Montserrat] text-[clamp(1.35rem,2.2vw,1.75rem)] font-semibold leading-[1.15] text-paper [overflow-wrap:anywhere]"
+                }
+              >
+                {m.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </div>
   );
 }

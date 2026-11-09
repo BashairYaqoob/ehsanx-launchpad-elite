@@ -43,3 +43,30 @@ export function enquiryDraftText(v: Enquiry): string {
   const { to, subject, body } = buildEnquiryDraft(v);
   return `To: ${to}\nSubject: ${subject}\n\n${body}`;
 }
+
+/**
+ * Server delivery for the enquiry form (PREPARED, NOT ACTIVE).
+ * While this is null the form opens an email draft (mailto). To activate delivery to
+ * info@ehsanx.com through authenticated SMTP, upload server/hostinger/contact.php as
+ * /contact.php, create its private config, then set this to "/contact.php"
+ * (see docs/contact-form.md). CSP connect-src 'self' already allows the same-origin request.
+ */
+export const ENQUIRY_ENDPOINT: string | null = null;
+
+export type EnquirySendResult = { ok: true } | { ok: false; message: string };
+
+/** Posts the enquiry to the PHP endpoint; `website` is the hidden honeypot field. */
+export async function sendEnquiry(endpoint: string, v: Enquiry, website = ""): Promise<EnquirySendResult> {
+  try {
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ ...v, website }),
+    });
+    const data = (await res.json().catch(() => null)) as { ok?: boolean; message?: string } | null;
+    if (res.ok && data?.ok) return { ok: true };
+    return { ok: false, message: data?.message ?? "Your enquiry could not be sent. Please try again or email us directly." };
+  } catch {
+    return { ok: false, message: "Your enquiry could not be sent. Please check your connection, or email us directly." };
+  }
+}

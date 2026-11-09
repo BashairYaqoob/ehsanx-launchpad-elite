@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
 import type { CareerMilestone, Director, Founder, ProfileBlock, ProfileLink } from "@/data/team";
 
@@ -15,10 +16,11 @@ function ProfileLinks({ links }: { links: ProfileLink[] }) {
             href={link.href}
             target="_blank"
             rel="noreferrer"
-            className="group inline-flex min-h-11 items-center gap-2 font-[Inter] text-[14px] font-semibold text-navy underline decoration-navy/25 underline-offset-4 transition-colors hover:text-teal hover:decoration-gold"
+            className="group inline-flex min-h-11 items-center gap-2 font-[Inter] text-[15px] font-semibold text-paper underline decoration-gold/70 underline-offset-4 transition-colors hover:text-gold"
           >
             {link.label}
             <ArrowUpRight aria-hidden="true" className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <span className="sr-only">(opens in a new tab)</span>
           </a>
         </li>
       ))}
@@ -28,11 +30,11 @@ function ProfileLinks({ links }: { links: ProfileLink[] }) {
 
 function Affiliations({ items }: { items: string[] }) {
   return (
-    <div className="mt-7 border-y border-navy/15 py-4">
-      <p className={eyebrow}>Institutional affiliations</p>
+    <div className="mt-8 border-t border-paper/25 pt-5">
+      <p className="font-[Inter] text-[12px] font-semibold uppercase tracking-[0.14em] text-paper md:text-[13px]">Institutional affiliations</p>
       <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
         {items.map((item) => (
-          <li key={item} className="flex items-center gap-2 font-[Inter] text-[13px] font-medium text-navy">
+          <li key={item} className="flex items-center gap-2 font-[Inter] text-[14px] font-medium text-paper/90">
             <span aria-hidden="true" className="h-px w-3 shrink-0 bg-gold" />
             {item}
           </li>
@@ -42,26 +44,71 @@ function Affiliations({ items }: { items: string[] }) {
   );
 }
 
-function ThemeHeading({ title, index }: { title: string; index?: string }) {
+type IntroProps = {
+  leader: Founder | Director;
+  portrait: string;
+  tone: "navy" | "teal";
+  expertise?: string[];
+  nameClass?: string;
+};
+
+/** Profile opener on a brand-colour band: portrait beside name, role, overview and links. */
+function ProfileIntro({ leader, portrait, tone, expertise, nameClass = "" }: IntroProps) {
   return (
-    <div>
-      {index && <span aria-hidden="true" className="mb-4 block font-[Montserrat] text-[13px] font-semibold tracking-[0.14em] text-teal">{index}</span>}
-      <h3 className="max-w-[24ch] font-[Montserrat] text-[clamp(1.35rem,2vw,1.75rem)] font-bold leading-[1.25] text-navy">{title}</h3>
-      <div aria-hidden="true" className="mt-5 h-px w-14 bg-gold" />
+    <div className={`${tone === "teal" ? "bg-teal" : "bg-navy"} py-16 text-paper md:py-20 lg:py-24`}>
+      <div className={`${container} grid items-center gap-10 min-[900px]:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] min-[900px]:gap-12 lg:gap-16`}>
+        <div className="aspect-[4/5] w-full max-w-[440px] overflow-hidden rounded-[20px] bg-paper/10 min-[900px]:max-w-none">
+          <img src={portrait} alt={leader.portraitAlt} width={1200} height={1500} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
+        </div>
+        <header className="min-w-0">
+          <p className="flex items-center gap-3 font-[Inter] text-[12px] font-semibold uppercase tracking-[0.14em] text-paper md:text-[13px]">
+            <span aria-hidden="true" className="h-px w-8 shrink-0 bg-gold" />
+            {leader.title}
+          </p>
+          <h2 id={`${leader.id}-name`} className={`mt-5 font-[Montserrat] text-[clamp(2rem,3.6vw,3.25rem)] font-bold leading-[1.12] tracking-[-0.02em] text-paper [text-wrap:balance] ${nameClass}`}>{leader.name}</h2>
+          <p className="mt-7 max-w-[60ch] font-[Inter] text-[17px] leading-[1.7] text-paper/90 md:text-[19px]">{leader.overview}</p>
+          {expertise && (
+            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Areas of expertise">
+              {expertise.map((item) => <li key={item} className="rounded-full border border-paper/30 px-3.5 py-1.5 font-[Inter] text-[13px] font-medium text-paper">{item}</li>)}
+            </ul>
+          )}
+          <ProfileLinks links={leader.links} />
+          <Affiliations items={leader.affiliations} />
+        </header>
+      </div>
     </div>
   );
 }
 
-function BlockContent({ block }: { block: ProfileBlock }) {
+function ThemeHeading({ title, index }: { title: string; index: string }) {
+  return (
+    <div className="min-[900px]:sticky min-[900px]:top-28">
+      <span aria-hidden="true" className="block font-[Montserrat] text-[40px] font-bold leading-none text-gold md:text-[48px]">{index}</span>
+      <h3 className="mt-4 max-w-[18ch] font-[Montserrat] text-[clamp(1.35rem,2vw,1.75rem)] font-bold leading-[1.25] text-navy">{title}</h3>
+    </div>
+  );
+}
+
+/** One chapter of a profile: numbered heading on the left, the detail on the right. */
+function Chapter({ title, index, children }: { title: string; index: number; children: ReactNode }) {
+  return (
+    <div className="grid gap-8 border-t border-navy/15 py-12 first:border-t-0 first:pt-0 last:pb-0 md:py-14 min-[900px]:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] min-[900px]:gap-12 lg:gap-16">
+      <ThemeHeading title={title} index={String(index).padStart(2, "0")} />
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
+function BlockContent({ block, hideLabel = false }: { block: ProfileBlock; hideLabel?: boolean }) {
   return (
     <div>
-      <h4 className={blockLabel}>{block.label}</h4>
+      {!hideLabel && <h4 className={blockLabel}>{block.label}</h4>}
       {block.kind === "text" ? (
-        <div className="mt-4 space-y-4">
+        <div className={hideLabel ? "space-y-4" : "mt-4 space-y-4"}>
           {block.paragraphs.map((paragraph) => <p key={paragraph} className={body}>{paragraph}</p>)}
         </div>
       ) : (
-        <div className="mt-4">
+        <div className={hideLabel ? "" : "mt-4"}>
           {block.intro && <p className={`${body} mb-5`}>{block.intro}</p>}
           <ul className={`grid grid-cols-1 border-t border-navy/15 ${block.columns === 2 ? "sm:grid-cols-2 sm:gap-x-8" : ""}`}>
             {block.items.map((item) => (
@@ -97,68 +144,27 @@ function CareerTimeline({ milestones }: { milestones: CareerMilestone[] }) {
   );
 }
 
-function ProfilePortrait({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div className="min-w-0 self-stretch">
-      <div className="min-[900px]:sticky min-[900px]:top-28">
-        <div className="aspect-[4/5] max-h-[calc(100dvh-9rem)] w-full max-w-[520px] overflow-hidden bg-navy/5 min-[900px]:max-w-none">
-          <img
-            src={src}
-            alt={alt}
-            width={1200}
-            height={1500}
-            loading="lazy"
-            decoding="async"
-            className="h-full w-full object-cover object-top"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const profileGrid = `${container} grid gap-12 min-[900px]:grid-cols-[minmax(0,42fr)_minmax(0,58fr)] min-[900px]:gap-12 lg:gap-16`;
-
 export function FounderProfile({ leader, portrait }: { leader: Founder; portrait: string }) {
   return (
-    <section id={leader.id} aria-labelledby={`${leader.id}-name`} className="scroll-mt-24 bg-wash py-20 md:py-24 lg:py-28">
-      <div className={profileGrid}>
-        <ProfilePortrait src={portrait} alt={leader.portraitAlt} />
-
-        <div className="min-w-0">
-          <header>
-            <p className={eyebrow}>{leader.title}</p>
-            <h2 id={`${leader.id}-name`} className="mt-4 font-[Montserrat] text-[clamp(2rem,3.6vw,3.25rem)] font-bold leading-[1.15] tracking-[-0.02em] text-navy [text-wrap:balance]">{leader.name}</h2>
-            <div aria-hidden="true" className="mt-7 h-px w-16 bg-gold" />
-            <p className="mt-7 max-w-[68ch] font-[Inter] text-[18px] leading-[1.7] text-ink md:text-[19px]">{leader.overview}</p>
-            <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2" aria-label="Areas of expertise">
-              {leader.expertise.map((item) => <li key={item} className="font-[Inter] text-[13px] font-medium text-navy">{item}</li>)}
-            </ul>
-            <ProfileLinks links={leader.links} />
-            <Affiliations items={leader.affiliations} />
-          </header>
-
-          <div className="mt-14 border-t border-navy/15 pt-10">
-            <BlockContent block={leader.credentials} />
-          </div>
-
-          <div className="mt-16 border-t border-navy/15 pt-10">
-            <ThemeHeading title="Career Milestones" />
-            <p className={`${eyebrow} mt-8`}>Institutional Leadership & Advisory</p>
+    <section id={leader.id} aria-labelledby={`${leader.id}-name`} className="scroll-mt-20">
+      <ProfileIntro leader={leader} portrait={portrait} tone="navy" expertise={leader.expertise} />
+      <div className="bg-paper py-16 md:py-24">
+        <div className={container}>
+          <Chapter title={leader.credentials.label} index={1}>
+            <BlockContent block={leader.credentials} hideLabel />
+          </Chapter>
+          <Chapter title="Career Milestones" index={2}>
+            <p className={eyebrow}>Institutional Leadership & Advisory</p>
             <CareerTimeline milestones={leader.milestones} />
-          </div>
-
-          <div className="mt-16 border-t border-navy/15 pt-10">
-            <ThemeHeading title="Global Executive Education / Teaching" />
-            <div className="mt-8"><BlockContent block={leader.teaching} /></div>
-          </div>
-
-          <div className="mt-16 border-t border-navy/15 pt-10">
-            <ThemeHeading title="Research & Focus Areas" />
-            <div className="mt-8 space-y-10">
+          </Chapter>
+          <Chapter title="Global Executive Education / Teaching" index={3}>
+            <BlockContent block={leader.teaching} />
+          </Chapter>
+          <Chapter title="Research & Focus Areas" index={4}>
+            <div className="space-y-10">
               {leader.research.map((block) => <BlockContent key={block.label} block={block} />)}
             </div>
-          </div>
+          </Chapter>
         </div>
       </div>
     </section>
@@ -167,27 +173,16 @@ export function FounderProfile({ leader, portrait }: { leader: Founder; portrait
 
 export function DirectorProfile({ leader, portrait }: { leader: Director; portrait: string }) {
   return (
-    <section id={leader.id} aria-labelledby={`${leader.id}-name`} className="scroll-mt-24 bg-paper py-20 md:py-24 lg:py-28">
-      <div className={profileGrid}>
-        <ProfilePortrait src={portrait} alt={leader.portraitAlt} />
-
-        <div className="min-w-0">
-          <header>
-            <p className={eyebrow}>{leader.title}</p>
-            <h2 id={`${leader.id}-name`} className="mt-4 max-w-[18ch] font-[Montserrat] text-[clamp(2rem,3.6vw,3.25rem)] font-bold leading-[1.15] tracking-[-0.02em] text-navy [text-wrap:balance]">{leader.name}</h2>
-            <div aria-hidden="true" className="mt-7 h-px w-16 bg-gold" />
-            <p className="mt-7 max-w-[62ch] font-[Inter] text-[18px] leading-[1.7] text-ink md:text-[19px]">{leader.overview}</p>
-            <ProfileLinks links={leader.links} />
-            <Affiliations items={leader.affiliations} />
-          </header>
-
+    <section id={leader.id} aria-labelledby={`${leader.id}-name`} className="scroll-mt-20">
+      <ProfileIntro leader={leader} portrait={portrait} tone="teal" nameClass="max-w-[18ch]" />
+      <div className="bg-paper py-16 md:py-24">
+        <div className={container}>
           {leader.themes.map((theme, index) => (
-            <div key={theme.id} className="mt-16 border-t border-navy/15 pt-10">
-              <ThemeHeading title={theme.title} index={String(index + 1).padStart(2, "0")} />
-              <div className="mt-8 space-y-10">
+            <Chapter key={theme.id} title={theme.title} index={index + 1}>
+              <div className="space-y-10">
                 {theme.blocks.map((block) => <BlockContent key={block.label} block={block} />)}
               </div>
-            </div>
+            </Chapter>
           ))}
         </div>
       </div>

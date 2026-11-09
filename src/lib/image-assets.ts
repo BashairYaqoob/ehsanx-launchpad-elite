@@ -15,6 +15,16 @@ import philosophy_workshop_1280 from "@/assets/philosophy-workshop-1280.webp";
 import philosophy_workshop_1440 from "@/assets/philosophy-workshop-1440.webp";
 import approach_auditorium_640 from "@/assets/approach-auditorium-640.webp";
 import approach_auditorium_1217 from "@/assets/approach-auditorium-1217.webp";
+import approach_listen_640 from "@/assets/approach/stage-listen-640.webp";
+import approach_listen_1200 from "@/assets/approach/stage-listen-1200.webp";
+import approach_diagnose_640 from "@/assets/approach/stage-diagnose-640.webp";
+import approach_diagnose_1200 from "@/assets/approach/stage-diagnose-1200.webp";
+import approach_design_640 from "@/assets/approach/stage-design-640.webp";
+import approach_design_1200 from "@/assets/approach/stage-design-1200.webp";
+import approach_implement_640 from "@/assets/approach/stage-implement-640.webp";
+import approach_implement_1200 from "@/assets/approach/stage-implement-1200.webp";
+import approach_reflect_640 from "@/assets/approach/stage-reflect-640.webp";
+import approach_reflect_1200 from "@/assets/approach/stage-reflect-1200.webp";
 import impact_cohort_640 from "@/assets/impact/hero-cohort-640.webp";
 import impact_cohort_1280 from "@/assets/impact/hero-cohort-1280.webp";
 import approach_hero_640 from "@/assets/approach-hero-640.webp";
@@ -48,6 +58,11 @@ philosophy_hero: {src: philosophy_hero_1376, width:1376, height:768, srcSet: `${
 approach_hero: {src: approach_hero_1376, width:1376, height:768, srcSet: `${approach_hero_640} 640w, ${approach_hero_1280} 1280w, ${approach_hero_1376} 1376w`},
 philosophy_workshop: {src: philosophy_workshop_1440, width:1440, height:958, srcSet: `${philosophy_workshop_640} 640w, ${philosophy_workshop_1280} 1280w, ${philosophy_workshop_1440} 1440w`},
 approach_auditorium: {src: approach_auditorium_1217, width:1217, height:684, srcSet: `${approach_auditorium_640} 640w, ${approach_auditorium_1217} 1217w`},
+approach_listen: {src: approach_listen_1200, width:1200, height:798, srcSet: `${approach_listen_640} 640w, ${approach_listen_1200} 1200w`},
+approach_diagnose: {src: approach_diagnose_1200, width:1200, height:798, srcSet: `${approach_diagnose_640} 640w, ${approach_diagnose_1200} 1200w`},
+approach_design: {src: approach_design_1200, width:1200, height:798, srcSet: `${approach_design_640} 640w, ${approach_design_1200} 1200w`},
+approach_implement: {src: approach_implement_1200, width:1200, height:798, srcSet: `${approach_implement_640} 640w, ${approach_implement_1200} 1200w`},
+approach_reflect: {src: approach_reflect_1200, width:1200, height:798, srcSet: `${approach_reflect_640} 640w, ${approach_reflect_1200} 1200w`},
 impact_cohort: {src: impact_cohort_1280, width:1280, height:853, srcSet: `${impact_cohort_640} 640w, ${impact_cohort_1280} 1280w`},
 eplus_1: {src: eplus_1_1920, width:1920, height:1088, srcSet: `${eplus_1_640} 640w, ${eplus_1_1280} 1280w, ${eplus_1_1920} 1920w`},
 eplus_2: {src: eplus_2_1920, width:1920, height:1088, srcSet: `${eplus_2_640} 640w, ${eplus_2_1280} 1280w, ${eplus_2_1920} 1920w`},
