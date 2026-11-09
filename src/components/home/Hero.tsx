@@ -206,8 +206,11 @@ export function Hero() {
                   <Heading className="eh-hero-title [font-family:var(--font-display)] [font-size:clamp(2rem,4.2vw,4rem)]! [font-weight:700] [line-height:1.08] [min-height:3.24em] [letter-spacing:0] [text-shadow:var(--hero-headline-shadow)] [color:var(--paper)] [@media(max-width:767.98px)_and_(max-height:700.98px)]:[font-size:28px] [@media(max-width:767.98px)_and_(min-height:701px)]:[font-size:32px] [@media(min-width:768px)_and_(max-width:1023.98px)]:[font-size:48px] [@media(max-width:767.98px)]:[line-height:1.12] [@media(max-width:767.98px)]:[min-height:4.48em] max-md:!text-3xl">
                     {s.title.split(" ").map((word, w) => (
                       <span key={w} className="eh-word-mask [display:inline-block] [overflow:hidden] [vertical-align:bottom] [padding-bottom:.08em] [margin-bottom:-.08em] [margin-right:.22em] [&>span]:[display:inline-block]">
+                        {/* Explicit starting state, identical on server and client: with `initial={false}`
+                            the server rendered the motion "hidden" pose while a reduced-motion client
+                            rendered the static one, which broke hydration. */}
                         <motion.span
-                          initial={false}
+                          initial={{ y: "110%", opacity: 0 }}
                           animate={
                             active && ready
                               ? { y: 0, opacity: 1 }

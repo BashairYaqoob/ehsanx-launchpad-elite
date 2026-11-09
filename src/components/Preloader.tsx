@@ -11,6 +11,7 @@ export function Preloader() {
   const setReady = useSetIntroReady();
   const [phase, setPhase] = useState<Phase>("playing");
   const exited = useRef(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const exit = () => {
     if (exited.current) return;
@@ -45,6 +46,16 @@ export function Preloader() {
     const canplay = window.setTimeout(exit, PRELOADER_CANPLAY_MS);
     const clearCanplay = () => window.clearTimeout(canplay);
     window.addEventListener("ehsanx-preloader-canplay", clearCanplay);
+    // The video is in the server-rendered HTML, so it can load, start or even finish before React
+    // attaches its event props. Read its state now instead of waiting for events that already fired;
+    // otherwise the "never started" timer above cut the animation off about two seconds in.
+    const video = videoRef.current;
+    if (video) {
+      if (video.error) exit();
+      else if (video.ended) exit();
+      else if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) clearCanplay();
+      if (!exited.current && video.paused) void video.play().catch(() => undefined);
+    }
     // The inline script in __root dispatches this for pre-hydration Skip/Escape.
     window.addEventListener("ehsanx-preloader-exit", exit);
     const onKey = (e: KeyboardEvent) => {
@@ -89,6 +100,7 @@ export function Preloader() {
             }}
           >
             <video
+              ref={videoRef}
               className="h-auto max-h-full w-full object-contain [-webkit-mask-image:var(--preloader-mask)] [-webkit-mask-composite:source-in] [mask-image:var(--preloader-mask)] [mask-composite:intersect]"
               src={PRELOADER_VIDEO_SRC}
               muted

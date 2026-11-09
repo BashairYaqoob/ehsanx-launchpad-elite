@@ -1,7 +1,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Users, Building2, Sprout } from "lucide-react";
 import { refreshImages } from "@/lib/refresh-images";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
 import { images } from "@/lib/image-assets";
@@ -18,7 +18,11 @@ export function WhyExists() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const imageY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -16, reduce ? 0 : 16]);
+  // The first render must match the server (which cannot know the motion preference), so the
+  // parallax is switched off for reduced motion only after mounting.
+  const [still, setStill] = useState(false);
+  useEffect(() => setStill(!!reduce), [reduce]);
+  const imageY = useTransform(scrollYProgress, [0, 1], [still ? 0 : -16, still ? 0 : 16]);
   return (
     <section
       ref={ref}
