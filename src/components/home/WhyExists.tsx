@@ -1,13 +1,10 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Users, Building2, Sprout } from "lucide-react";
-import { refreshImages } from "@/lib/refresh-images";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
 import { images } from "@/lib/image-assets";
 
-const VISION =
-  "To develop people of character and entrepreneurial mindset who strengthen institutions, create value, and contribute to a flourishing society through the pursuit of Ihsan.";
 const PILLARS = [
   { label: "Develop entrepreneurial leaders", icon: Users },
   { label: "Strengthen institutions", icon: Building2 },
@@ -94,83 +91,101 @@ export function WhyExists() {
   );
 }
 
-// Vision band: not pinned. The words brighten as the band scrolls through the viewport (scrubbed),
-// so it reads in place instead of holding the page for extra screens.
+// The approved vision statement, broken into the lines it is set in on wide screens. Small screens
+// let it wrap naturally. The text itself must not change.
+const VISION_LINES = [
+  "To develop people of character",
+  "and entrepreneurial mindset",
+  "who strengthen institutions,",
+  "create value, and contribute",
+  "to a flourishing society",
+  "through the pursuit of",
+];
+
+/**
+ * Vision band: a typographic pull quote on teal, with no photograph. As the band scrolls through,
+ * the lines brighten in reading order (scrubbed) and the oversized quotation mark drifts a little
+ * slower than the text. Without motion every line is fully legible.
+ */
 export function Vision() {
-  const visionRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const setup = useCallback<Parameters<typeof useScrollScene>[1]>(
     (gsap, _ScrollTrigger, element) => {
-      const words = element.querySelectorAll(".eh-vision-word");
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: element,
-          start: "top 75%",
-          end: "bottom 65%",
-          scrub: 0.6,
-          invalidateOnRefresh: true,
+      const lines = element.querySelectorAll("[data-vision-line]");
+      gsap.fromTo(
+        lines,
+        { opacity: 0.28 },
+        {
+          opacity: 1,
+          stagger: 0.12,
+          ease: "none",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 70%",
+            end: "center 45%",
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
         },
-      });
-      timeline
-        .fromTo(
-          words,
-          { opacity: 0.25 },
-          { opacity: 1, stagger: 0.065, duration: 0.1, ease: "none" },
-        )
-        .to(element.querySelector(".eh-ihsan"), { color: "var(--gold)", duration: 0.1 });
-      timeline.fromTo(
-        element.querySelector(".eh-vision-rule"),
-        { scaleY: 0 },
-        { scaleY: 1, duration: timeline.duration(), ease: "none" },
-        0,
+      );
+      gsap.fromTo(
+        element.querySelectorAll("[data-vision-mark]"),
+        { yPercent: -8 },
+        {
+          yPercent: 12,
+          ease: "none",
+          scrollTrigger: { trigger: element, start: "top bottom", end: "bottom top", scrub: true },
+        },
       );
     },
     [],
   );
-  useScrollScene(visionRef, setup, reduce);
+  useScrollScene(ref, setup, reduce);
+
   return (
-    <section aria-label="Our Vision">
-      <div
-        ref={visionRef}
-        className="eh-vision [position:relative] [overflow:hidden] [display:flex] [align-items:center] [isolation:isolate] [margin:0] [border-radius:0] [z-index:auto] [background:var(--teal)] [&::after]:[content:''] [&::after]:[position:absolute] [&::after]:[inset:0] [&::after]:[background-image:var(--grain-image)] [&::after]:[opacity:.03] [&::after]:[pointer-events:none] bg-teal text-paper"
-      >
-        <img
-          className="eh-vision-image [position:absolute] [inset:0] [height:100%] [width:100%] [object-fit:cover] [object-position:70%_center]"
-          src={refreshImages.vision_v2.src}
-          srcSet={refreshImages.vision_v2.srcSet}
-          sizes="100vw"
-          alt="EhsanX vision across a calm horizon"
-          width={1920}
-          height={1080}
-          loading="lazy"
-        />
-        <div className="eh-vision-overlay [position:absolute] [inset:0] [background:var(--vision-shade)] [&::before]:[content:''] [&::before]:[position:absolute] [&::before]:[inset:0] [&::before]:[background:var(--vision-horizon)]" />
-        <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8 eh-vision-content [position:relative] [display:flex] [gap:48px] [padding-block:112px] [@media(max-width:767.98px)]:[gap:20px] max-lg:!py-20 max-lg:!gap-4">
-          <div className="eh-vision-rule-track [width:2px] [background:var(--eh-vision-rule-track-background-6)] [flex-shrink:0] [position:relative]">
-            <span className="eh-vision-rule [position:absolute] [inset:0] [background:var(--gold)] [transform-origin:top]" />
-          </div>
-          <div className="max-w-4xl">
-            <p className="eyebrow-dark [font-family:var(--font-display)] [font-weight:600] [font-size:0.75rem] [letter-spacing:0.14em] [text-transform:uppercase] [color:var(--gold)] text-paper">
-              Our Vision
-            </p>
+    <section
+      ref={ref}
+      aria-labelledby="vision-title"
+      className="relative isolate overflow-hidden bg-teal py-20 text-paper md:py-28 lg:py-32"
+    >
+      <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 md:px-12 lg:px-8 xl:px-12">
+        <div className="flex items-center gap-4">
+          <GoldRule />
+          <h2
+            id="vision-title"
+            className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-paper"
+          >
+            Our Vision
+          </h2>
+        </div>
+        <div className="relative mt-10 grid md:mt-14 lg:grid-cols-12 lg:gap-x-8">
+          <span
+            aria-hidden="true"
+            className="pointer-events-none select-none lg:col-span-2 lg:-mt-6"
+          >
             <span
-              aria-hidden
-              className="eh-quote [display:block] [font-family:var(--font-display)] [font-size:72px] [font-weight:700] [line-height:1] [margin-top:20px] [@media(max-width:767.98px)]:[font-size:56px] [@media(max-width:767.98px)]:[margin-top:16px] text-gold"
+              data-vision-mark
+              className="block font-display text-[120px] font-extrabold leading-[0.8] text-gold md:text-[180px] lg:text-[260px] xl:text-[300px]"
             >
               “
             </span>
-            <blockquote className="eh-vision-quote [font-family:var(--font-display)] [font-size:44px] [font-weight:600] [line-height:1.35] [color:var(--paper)] [@media(max-width:767.98px)]:[font-size:26px] [@media(min-width:768px)_and_(max-height:599.98px)]:[font-size:36px] [@media(min-width:768px)_and_(max-width:1023.98px)_and_(min-height:600px)]:[font-size:36px] max-sm:!text-2xl text-paper">
-              <span className="sr-only">{VISION}</span>
-              <span aria-hidden>
-                {VISION.split(" ").map((word, i) => (
-                  <span
-                    key={i}
-                    className={`eh-vision-word [display:inline] ${word === "Ihsan." ? "eh-ihsan" : ""}`}
-                  >
-                    {word}{" "}
+          </span>
+          <div className="mt-2 min-w-0 lg:col-span-10 lg:mt-0">
+            <blockquote>
+              <p className="font-display text-[30px] font-semibold leading-[1.14] tracking-[-0.02em] sm:text-[36px] md:text-[46px] lg:text-[min(4.1vw,64px)]">
+                {VISION_LINES.map((line) => (
+                  <span key={line} data-vision-line className="lg:block">
+                    {line}{" "}
                   </span>
                 ))}
-              </span>
+                <span data-vision-line className="lg:block">
+                  <span className="text-gold">Ihsan.</span>
+                  <span aria-hidden="true" className="text-gold">
+                    ”
+                  </span>
+                </span>
+              </p>
             </blockquote>
           </div>
         </div>

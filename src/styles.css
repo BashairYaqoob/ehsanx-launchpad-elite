@@ -81,7 +81,6 @@
     --ring: #fab74c;
     --hero-overlay: linear-gradient(90deg, color-mix(in srgb, var(--navy-deep) 70%, transparent) 0%, transparent 60%),
     linear-gradient(0deg, color-mix(in srgb, var(--navy-deep) 25%, transparent) 0%, transparent 35%);
-    --vision-overlay: color-mix(in srgb, var(--teal) 72%, transparent);
     --hero-copy-shadow: 0 2px 18px color-mix(in srgb, var(--navy-deep) 35%, transparent)
 }
 
@@ -121,7 +120,6 @@
 @keyframes eh-marquee{to{transform:translateX(-50%)}}
 
 :root {
-    --journey-shade: linear-gradient(90deg,color-mix(in srgb,var(--navy-deep) 85%,transparent),color-mix(in srgb,var(--navy) 42%,transparent));
     --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")
 }
 
@@ -139,8 +137,6 @@ body::after {
     --pin-offset: 104px;
     --hero-first-shade: linear-gradient(90deg,color-mix(in srgb,var(--navy-deep) 80%,transparent),transparent 65%),linear-gradient(0deg,color-mix(in srgb,var(--navy-deep) 25%,transparent),transparent 35%);
     --hero-headline-shadow: 0 2px 24px color-mix(in srgb,var(--ink) 35%,transparent);
-    --vision-shade: linear-gradient(90deg,color-mix(in srgb,var(--navy-deep) 85%,transparent),color-mix(in srgb,var(--teal) 35%,transparent)),radial-gradient(ellipse at center,transparent 25%,color-mix(in srgb,var(--navy-deep) 40%,transparent));
-    --vision-horizon: linear-gradient(0deg,transparent 30%,color-mix(in srgb,var(--gold) 8%,transparent) 48%,transparent 65%);
     --impact-shade: color-mix(in srgb,var(--navy-deep) 80%,transparent);
     --closing-shade: linear-gradient(0deg,color-mix(in srgb,var(--navy-deep) 65%,transparent),color-mix(in srgb,var(--navy-deep) 45%,transparent));
     --closing-footer-shade: linear-gradient(0deg,color-mix(in srgb,var(--navy-deep) 95%,transparent),color-mix(in srgb,var(--navy-deep) 60%,transparent))
@@ -159,9 +155,6 @@ body::after {
   --eh-progress-segment-background-3: color-mix(in srgb,var(--paper) 30%,transparent);
   --eh-control-box-shadow-4: inset 0 0 0 1px color-mix(in srgb,var(--paper) 30%,transparent);
   --eh-highlight-background-5: linear-gradient(var(--gold),var(--gold)) left 85% / 0% 100% no-repeat;
-  --eh-vision-rule-track-background-6: color-mix(in srgb,var(--paper) 15%,transparent);
-  --journey-image-overlay-background-7: linear-gradient(0deg,var(--navy) 32%,transparent 65%);
-  --journey-line-background-8: color-mix(in srgb,var(--paper) 25%,transparent);
   --industry-strip-mask-image-9: linear-gradient(90deg,transparent,var(--ink) 120px,var(--ink) calc(100% - 120px),transparent);
   --industry-strip-mask-image-10: linear-gradient(90deg,transparent,var(--ink) 40px,var(--ink) calc(100% - 40px),transparent);
   --industry-circle-background-11: color-mix(in srgb,var(--navy) 6%,var(--paper));
@@ -200,12 +193,12 @@ body::after {
   }
 }
 @media(prefers-reduced-motion:reduce){.eh-kenburns img{animation:none}}
-@media(prefers-reduced-motion:reduce){.eh-challenge-layout{display:block;padding-block:80px}.eh-challenge-heading{max-width:650px;margin-bottom:48px}.eh-challenge-stack{height:auto}.eh-challenge-card{position:relative;top:auto!important;margin-bottom:24px;min-height:400px}.eh-vision-word{opacity:1!important}.eh-ihsan{color:var(--gold)}.eh-highlight{background-size:100% 100%!important}}
+@media(prefers-reduced-motion:reduce){.eh-challenge-layout{display:block;padding-block:80px}.eh-challenge-heading{max-width:650px;margin-bottom:48px}.eh-challenge-stack{height:auto}.eh-challenge-card{position:relative;top:auto!important;margin-bottom:24px;min-height:400px}.eh-highlight{background-size:100% 100%!important}}
 @media(prefers-reduced-motion:reduce){
 .industry-track{animation:none;width:100%;display:block}.industry-list{flex-wrap:wrap;justify-content:center;padding:16px 24px;gap:32px}.industry-list[aria-hidden=true]{display:none}.industry-separator{display:none}.industry-strip{mask-image:none}
 }
 @media(prefers-reduced-motion:reduce){
- .eh-vision{height:auto;min-height:0}.eh-vision-content{padding-block:56px}.eh-challenge{height:auto}.eh-challenge-card{position:relative;top:auto!important;height:auto;min-height:320px}.eh-challenge-stack{height:auto;margin-top:0}.eh-challenge-layout{height:auto;padding-block:56px}.eh-challenge-image{min-height:260px}
+ .eh-challenge{height:auto}.eh-challenge-card{position:relative;top:auto!important;height:auto;min-height:320px}.eh-challenge-stack{height:auto;margin-top:0}.eh-challenge-layout{height:auto;padding-block:56px}.eh-challenge-image{min-height:260px}
 }
 @media(prefers-reduced-motion:reduce){.pillar-card:hover{translate:0}.pillar-card,.pillar-card *{transition:none}.impact-logo-tile:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.advisory-page .ad-model-card:hover,.advisory-page .ad-belief:hover,.advisory-page .ad-link:hover{transform:none}.advisory-page .ad-link .btn-arrow{transform:none}.advisory-page .ad-panel-shell,.advisory-page .ad-model-card,.advisory-page .ad-plus{transition:none}.ad-detail-drawer{animation:none!important;transition:none!important}}
