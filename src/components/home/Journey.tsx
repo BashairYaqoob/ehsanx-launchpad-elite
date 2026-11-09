@@ -4,11 +4,22 @@ import { useScrollScene } from "@/hooks/use-scroll-scene";
 import { BrandButton } from "@/components/ui-brand";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 import type { ImageAsset } from "@/lib/image-assets";
+import { JourneyPath, type PathProps } from "./JourneyPath";
 
 type Stage = { name: string; image: ImageAsset; alt: string; description?: string };
 type Props = { kind: "eplus" | "approach"; stages: Stage[]; paragraph: string; caption?: string };
+type JourneyProps = ({ layout?: "panels" } & Props) | ({ layout: "path" } & PathProps);
 
-export function Journey({ kind, stages, paragraph, caption }: Props) {
+/**
+ * Shared five-stage presentation. "panels" (default) is the pinned, photo-led sequence used by the
+ * E-Plus Model; "path" is the curved route used by Home "Our Approach".
+ */
+export function Journey(props: JourneyProps) {
+  if (props.layout === "path") return <JourneyPath {...props} />;
+  return <JourneyPanels {...props} />;
+}
+
+function JourneyPanels({ kind, stages, paragraph, caption }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const setup = useCallback<Parameters<typeof useScrollScene>[1]>((gsap, _ScrollTrigger, element) => {
@@ -122,3 +133,4 @@ function JourneyStatic({ kind, stages, paragraph, caption }: Props) {
     </div>
   );
 }
+

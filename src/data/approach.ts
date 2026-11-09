@@ -180,6 +180,9 @@ export const approach = {
   },
   intro: {
     eyebrow: "The Approach",
+    // p.9, first two sentences (used for the Home timeline).
+    summary:
+      "At EhsanX, transformation begins with understanding. Our approach is designed to move organizations from insight to action through a practical, collaborative, and reflective process.",
     // p.9
     text: "At EhsanX, transformation begins with understanding. Our approach is designed to move organizations from insight to action through a practical, collaborative, and reflective process. Each step helps leaders and teams identify what matters most, design meaningful interventions, apply learning in real work settings, and build the internal capability needed for continuous improvement.",
   },
