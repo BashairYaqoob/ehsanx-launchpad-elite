@@ -1,91 +1,120 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { Users, Building2, Sprout } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
+import { useCallback, useRef } from "react";
 import { GoldRule } from "@/components/ui-brand";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
-import { images } from "@/lib/image-assets";
 
-const PILLARS = [
-  { label: "Develop entrepreneurial leaders", icon: Users },
-  { label: "Strengthen institutions", icon: Building2 },
-  { label: "Enable sustainable transformation", icon: Sprout },
+// The five assets named in the section's own paragraph, set as the section's centrepiece. Each
+// sits on its own line (two share the first line on wide screens) with a staggered indent.
+const ASSETS = [
+  { word: "Strengths", colour: "text-navy", line: 0, indent: "" },
+  { word: "People", colour: "text-teal", line: 0, indent: "max-md:pl-0" },
+  { word: "Relationships", colour: "text-gold", line: 1, indent: "max-md:pl-[9%]" },
+  { word: "Resources", colour: "text-navy", line: 2, indent: "max-md:pl-0" },
+  { word: "Opportunities", colour: "text-teal", line: 3, indent: "max-md:pl-[9%]" },
 ];
+// Wide-screen placement of each line: left, ranged right, indented, ranged right.
+const LINES = ["md:justify-start", "md:justify-end", "md:pl-[18%]", "md:justify-end"];
 
+/**
+ * Why EhsanX Exists: the heading and paragraph, then the five assets the paragraph names set
+ * large, then the belief statement. As the assets scroll into view each one drops into its line
+ * (scrubbed), masked at the top of its line so it never crosses the words above. The settled
+ * layout is what renders first, so without motion every word is already in place.
+ */
 export function WhyExists() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  // The first render must match the server (which cannot know the motion preference), so the
-  // parallax is switched off for reduced motion only after mounting.
-  const [still, setStill] = useState(false);
-  useEffect(() => setStill(!!reduce), [reduce]);
-  const imageY = useTransform(scrollYProgress, [0, 1], [still ? 0 : -16, still ? 0 : 16]);
+  const setup = useCallback<Parameters<typeof useScrollScene>[1]>(
+    (gsap, _ScrollTrigger, element) => {
+      const field = element.querySelector("[data-why-field]");
+      const words = Array.from(element.querySelectorAll("[data-why-word]"));
+      if (!field || words.length === 0) return;
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: field,
+          start: "top 85%",
+          end: "center 55%",
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      });
+      words.forEach((word, i) => {
+        timeline
+          .fromTo(
+            word,
+            { yPercent: -105, rotate: i % 2 ? 3 : -3 },
+            { yPercent: 0, rotate: 0, duration: 0.36, ease: "back.out(1.6)" },
+            i * 0.16,
+          )
+          .fromTo(word, { opacity: 0 }, { opacity: 1, duration: 0.16, ease: "none" }, i * 0.16);
+      });
+    },
+    [],
+  );
+  useScrollScene(ref, setup, reduce);
+
+  const lines = LINES.map((_, line) => ASSETS.filter((asset) => asset.line === line));
   return (
     <section
       ref={ref}
-      className="eh-why [position:relative] [border-radius:0] [margin-top:-32px] [z-index:auto] [overflow:hidden] [isolation:isolate] [margin:0] section-y [padding-block:3.5rem] [@media(min-width:_768px)]:[padding-block:5rem] max-md:!py-16 bg-paper"
+      aria-labelledby="why-title"
+      className="relative isolate bg-paper pt-16 md:pt-24 lg:pt-28"
     >
-      <div className="container-x [width:100%] [max-width:1280px] [margin-inline:auto] [padding-inline:24px] [@media(min-width:_768px)]:[padding-inline:48px] max-xl:!px-4 sm:max-xl:!px-6 lg:max-xl:!px-8">
-        <div className="eh-why-grid [display:grid] [grid-template-columns:repeat(12,minmax(0,1fr))] [gap:48px] [align-items:start] [@media(max-width:767.98px)]:[display:block] [@media(max-height:599.98px)]:[gap:32px] [@media(max-width:1023.98px)_and_(min-height:600px)]:[gap:32px] [&>div:first-child]:[grid-column:span_6] max-md:[&>div]:min-w-0">
-          <div>
+      <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 md:px-12 lg:px-8 xl:px-12">
+        <div className="md:grid md:grid-cols-12 md:items-start md:gap-x-8 lg:gap-x-16">
+          <div className="md:col-span-5">
             <GoldRule />
-            <h2 className="h2-display [.eh-why_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[font-size:36px] [.eh-challenge-heading_&]:[letter-spacing:0] [.eh-challenge-heading_&]:[color:var(--navy)] [@media(max-width:767.98px)]:[.eh-challenge-heading_&]:[font-size:32px] [@media(min-width:1024px)_and_(max-width:1279.98px)]:[.eh-challenge-heading_&]:[font-size:30px] [.closing-cta_&]:[color:var(--paper)] [@media(max-width:767.98px)]:[.closing-cta_&]:[font-size:32px] [font-family:var(--font-display)] [font-size:clamp(2rem,_4vw,_3.5rem)] [font-weight:700] [line-height:1.1] [letter-spacing:0] max-sm:!text-3xl sm:max-lg:!text-4xl lg:max-xl:!text-5xl mt-6 text-navy">
+            <h2
+              id="why-title"
+              className="mt-6 font-display text-[32px] font-bold leading-[1.1] text-navy md:text-[36px] lg:text-[40px]"
+            >
               Why EhsanX Exists
             </h2>
-            <div className="eh-purpose-copy [margin-top:32px] [display:grid] [gap:24px] [color:var(--navy)] [font-size:18px] [line-height:1.8] [@media(max-height:599.98px)]:[font-size:17px] [@media(max-width:1023.98px)_and_(min-height:600px)]:[font-size:17px]">
-              <p>
-                EhsanX partners with organizations to develop entrepreneurial leaders, strengthen
-                institutions, and enable sustainable transformation. Through leadership development,
-                capability-building, consulting, and organizational transformation initiatives, we
-                help organizations unlock growth by leveraging the strengths, people, relationships,
-                resources, and opportunities they already possess.
-              </p>
-              <p className="text-ink">
-                We believe that extraordinary results emerge when people discover purpose, cultivate
-                an entrepreneurial mindset, and learn to create value from what they already have.
-              </p>
-            </div>
           </div>
-          <div className="eh-portrait-wrap [grid-column:span_6] [margin-top:60px] [position:relative] [max-width:560px] [justify-self:end] [width:100%] [@media(max-width:767.98px)]:[margin-inline:auto] max-md:!max-w-[calc(100%-16px)]">
-            <div className="eh-portrait [aspect-ratio:928_/_691] [border-radius:24px] [overflow:hidden] [&_img]:[width:100%] [&_img]:[height:calc(100%_+_32px)] [&_img]:[object-fit:cover] [&_img]:[margin-top:-16px]">
-              <motion.img
-                src={images.portrait.src}
-                srcSet={images.portrait.srcSet}
-                sizes="(min-width: 768px) 45vw, 100vw"
-                alt="A bright waterfront walkway beside an EhsanX building"
-                width={928}
-                height={691}
-                loading="lazy"
-                style={{ y: imageY }}
-              />
-            </div>
-            <span
-              className="eh-portrait-corner [position:absolute] [right:-12px] [bottom:-12px] [width:72px] [height:72px] [border-right:3px_solid_var(--gold)] [border-bottom:3px_solid_var(--gold)] [border-radius:0_0_24px_0] [@media(max-width:767.98px)]:[right:-8px] [@media(max-width:767.98px)]:[bottom:-8px]"
-              aria-hidden
-            />
-          </div>
+          {/* Offset so the first line sits level with the top of the heading's capitals. */}
+          <p className="mt-6 max-w-[58ch] text-base leading-[1.75] text-ink/80 md:col-span-7 md:mt-[26px] md:text-[17px]">
+            EhsanX partners with organizations to develop entrepreneurial leaders, strengthen
+            institutions, and enable sustainable transformation. Through leadership development,
+            capability-building, consulting, and organizational transformation initiatives, we help
+            organizations unlock growth by leveraging the strengths, people, relationships,
+            resources, and opportunities they already possess.
+          </p>
         </div>
-        <ul
-          aria-label="Three pillars"
-          className="eh-pillars mt-14 grid divide-y divide-navy/15 border-y border-navy/15 md:mt-16 md:grid-cols-3 md:divide-x md:divide-y-0"
+
+        {/* The paragraph above already names the five assets, so this display copy is hidden from screen readers. */}
+        <div
+          data-why-field
+          aria-hidden="true"
+          className="mt-12 font-display text-[40px] font-extrabold leading-[0.92] tracking-[-0.045em] sm:text-[48px] md:mt-20 md:text-[clamp(64px,8.6vw,132px)] md:leading-[0.9] lg:mt-24"
         >
-          {PILLARS.map(({ label, icon: Icon }, index) => (
-            <li
-              key={label}
-              className="flex min-w-0 items-center gap-4 py-6 md:px-8 md:py-8 md:first:pl-0 md:last:pr-0"
+          {lines.map((assets, line) => (
+            <div
+              key={line}
+              className={`md:flex md:gap-[0.28em] md:whitespace-nowrap ${LINES[line]}`}
             >
-              <span className="w-7 shrink-0 font-display text-sm font-semibold text-teal">
-                0{index + 1}
-              </span>
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border-[1.5px] border-teal text-teal">
-                <Icon size={20} strokeWidth={1.5} aria-hidden="true" />
-              </span>
-              <span className="min-w-0 font-display text-lg font-semibold leading-snug text-navy lg:text-xl">
-                {label}
-              </span>
-            </li>
+              {assets.map(({ word, colour, indent }) => (
+                <span
+                  key={word}
+                  className={`block pb-[0.1em] [clip-path:inset(0_-0.3em_-0.4em_-0.3em)] md:inline-block ${indent}`}
+                >
+                  <span data-why-word className={`inline-block will-change-transform ${colour}`}>
+                    {word}
+                  </span>
+                </span>
+              ))}
+            </div>
           ))}
-        </ul>
+        </div>
+
+        <div className="mt-14 border-t border-navy/15 pb-20 pt-10 md:mt-24 md:grid md:grid-cols-12 md:gap-x-8 md:pb-28 md:pt-16 lg:gap-x-16">
+          <div className="md:col-span-5">
+            <GoldRule className="md:mt-5" />
+          </div>
+          <p className="mt-6 max-w-[24ch] font-display text-[28px] font-semibold leading-[1.18] tracking-[-0.02em] text-navy md:col-span-7 md:mt-0 md:text-[36px] lg:text-[44px]">
+            We believe that extraordinary results emerge when people discover purpose, cultivate an
+            entrepreneurial mindset, and learn to create value from what they already have.
+          </p>
+        </div>
       </div>
     </section>
   );

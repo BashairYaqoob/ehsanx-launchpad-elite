@@ -33,8 +33,6 @@ import approach_hero_1376 from "@/assets/approach-hero-1376.webp";
 import hero_blocks_640 from "@/assets/hero-blocks-640.webp";
 import hero_blocks_1280 from "@/assets/hero-blocks-1280.webp";
 import hero_blocks_1920 from "@/assets/hero-blocks-1920.webp";
-import portrait_640 from "@/assets/portrait-640.webp";
-import portrait_928 from "@/assets/portrait-928.webp";
 import eplus_leadership_640 from "@/assets/eplus-leadership-640.webp";
 import eplus_leadership_1280 from "@/assets/eplus-leadership-1280.webp";
 import eplus_innovation_640 from "@/assets/eplus-innovation-640.webp";
@@ -64,7 +62,6 @@ eplus_innovation: {src: eplus_innovation_1280, width:1280, height:774, srcSet: `
 eplus_institutions: {src: eplus_institutions_1280, width:1280, height:670, srcSet: `${eplus_institutions_640} 640w, ${eplus_institutions_1280} 1280w`},
 eplus_value: {src: eplus_value_1280, width:1280, height:853, srcSet: `${eplus_value_640} 640w, ${eplus_value_1280} 1280w`},
 eplus_flourishing: {src: eplus_flourishing_1065, width:1065, height:710, srcSet: `${eplus_flourishing_640} 640w, ${eplus_flourishing_1065} 1065w`},
-hero_blocks: {src: hero_blocks_1920, width:1920, height:1088, srcSet: `${hero_blocks_640} 640w, ${hero_blocks_1280} 1280w, ${hero_blocks_1920} 1920w`},
-portrait: {src: portrait_928, width:928, height:691, srcSet: `${portrait_640} 640w, ${portrait_928} 928w`}
+hero_blocks: {src: hero_blocks_1920, width:1920, height:1088, srcSet: `${hero_blocks_640} 640w, ${hero_blocks_1280} 1280w, ${hero_blocks_1920} 1920w`}
 };
 export type ImageAsset = {src:string;srcSet:string;width:number;height:number};
