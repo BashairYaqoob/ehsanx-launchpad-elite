@@ -176,46 +176,49 @@ export function Vision() {
     <section
       ref={ref}
       aria-labelledby="vision-title"
-      className="relative isolate overflow-hidden bg-teal py-20 text-paper md:py-28 lg:py-32"
+      className="relative isolate bg-paper p-3 sm:p-4 md:p-6"
     >
-      <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 md:px-12 lg:px-8 xl:px-12">
-        <div className="flex items-center gap-4">
-          <GoldRule />
-          <h2
-            id="vision-title"
-            className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-paper"
-          >
-            Our Vision
-          </h2>
-        </div>
-        <div className="relative mt-10 grid md:mt-14 lg:grid-cols-12 lg:gap-x-8">
-          <span
-            aria-hidden="true"
-            className="pointer-events-none select-none lg:col-span-2 lg:-mt-6"
-          >
-            <span
-              data-vision-mark
-              className="block font-display text-[120px] font-extrabold leading-[0.8] text-gold md:text-[180px] lg:text-[260px] xl:text-[300px]"
+      {/* Inset panel: a white margin separates the teal from the navy Client Impact above. */}
+      <div className="overflow-hidden rounded-[24px] bg-teal py-16 text-paper md:rounded-[32px] md:py-24 lg:py-28">
+        <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 md:px-12 lg:px-8 xl:px-12">
+          <div className="flex items-center gap-4">
+            <GoldRule />
+            <h2
+              id="vision-title"
+              className="font-display text-xs font-semibold uppercase tracking-[0.14em] text-paper"
             >
-              “
+              Our Vision
+            </h2>
+          </div>
+          <div className="relative mt-10 grid md:mt-14 lg:grid-cols-12 lg:gap-x-8">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none select-none lg:col-span-2 lg:-mt-6"
+            >
+              <span
+                data-vision-mark
+                className="block font-display text-[120px] font-extrabold leading-[0.8] text-gold md:text-[180px] lg:text-[260px] xl:text-[300px]"
+              >
+                “
+              </span>
             </span>
-          </span>
-          <div className="mt-2 min-w-0 lg:col-span-10 lg:mt-0">
-            <blockquote>
-              <p className="font-display text-[30px] font-semibold leading-[1.14] tracking-[-0.02em] sm:text-[36px] md:text-[46px] lg:text-[min(4.1vw,64px)]">
-                {VISION_LINES.map((line) => (
-                  <span key={line} data-vision-line className="lg:block">
-                    {line}{" "}
+            <div className="mt-2 min-w-0 lg:col-span-10 lg:mt-0">
+              <blockquote>
+                <p className="font-display text-[30px] font-semibold leading-[1.14] tracking-[-0.02em] sm:text-[36px] md:text-[46px] lg:text-[min(4.1vw,64px)]">
+                  {VISION_LINES.map((line) => (
+                    <span key={line} data-vision-line className="lg:block">
+                      {line}{" "}
+                    </span>
+                  ))}
+                  <span data-vision-line className="lg:block">
+                    <span className="text-gold">Ihsan.</span>
+                    <span aria-hidden="true" className="text-gold">
+                      ”
+                    </span>
                   </span>
-                ))}
-                <span data-vision-line className="lg:block">
-                  <span className="text-gold">Ihsan.</span>
-                  <span aria-hidden="true" className="text-gold">
-                    ”
-                  </span>
-                </span>
-              </p>
-            </blockquote>
+                </p>
+              </blockquote>
+            </div>
           </div>
         </div>
       </div>

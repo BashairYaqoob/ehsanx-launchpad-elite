@@ -144,7 +144,6 @@ body::after {
 
 :root {
     --impact-divider: color-mix(in srgb,var(--paper) 15%,transparent);
-    --impact-footnote: color-mix(in srgb,var(--paper) 70%,transparent);
     --impact-glow: radial-gradient(ellipse at center,color-mix(in srgb,var(--gold) 8%,transparent),transparent 70%)
 }
 
@@ -158,7 +157,6 @@ body::after {
   --industry-strip-mask-image-9: linear-gradient(90deg,transparent,var(--ink) 120px,var(--ink) calc(100% - 120px),transparent);
   --industry-strip-mask-image-10: linear-gradient(90deg,transparent,var(--ink) 40px,var(--ink) calc(100% - 40px),transparent);
   --industry-circle-background-11: color-mix(in srgb,var(--navy) 6%,var(--paper));
-  --challenge-index-row-color-12: #5B6B84;
   --preloader-skip-border-13: 1px solid color-mix(in srgb,var(--navy) 25%,transparent);
   --approach-card-border-14: 1px solid color-mix(in srgb,var(--navy) 10%,transparent);
   --approach-grid-background-15: color-mix(in srgb,var(--teal) 35%,transparent);
@@ -193,12 +191,9 @@ body::after {
   }
 }
 @media(prefers-reduced-motion:reduce){.eh-kenburns img{animation:none}}
-@media(prefers-reduced-motion:reduce){.eh-challenge-layout{display:block;padding-block:80px}.eh-challenge-heading{max-width:650px;margin-bottom:48px}.eh-challenge-stack{height:auto}.eh-challenge-card{position:relative;top:auto!important;margin-bottom:24px;min-height:400px}.eh-highlight{background-size:100% 100%!important}}
+@media(prefers-reduced-motion:reduce){.eh-highlight{background-size:100% 100%!important}}
 @media(prefers-reduced-motion:reduce){
 .industry-track{animation:none;width:100%;display:block}.industry-list{flex-wrap:wrap;justify-content:center;padding:16px 24px;gap:32px}.industry-list[aria-hidden=true]{display:none}.industry-separator{display:none}.industry-strip{mask-image:none}
-}
-@media(prefers-reduced-motion:reduce){
- .eh-challenge{height:auto}.eh-challenge-card{position:relative;top:auto!important;height:auto;min-height:320px}.eh-challenge-stack{height:auto;margin-top:0}.eh-challenge-layout{height:auto;padding-block:56px}.eh-challenge-image{min-height:260px}
 }
 @media(prefers-reduced-motion:reduce){.pillar-card:hover{translate:0}.pillar-card,.pillar-card *{transition:none}.impact-logo-tile:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.advisory-page .ad-model-card:hover,.advisory-page .ad-belief:hover,.advisory-page .ad-link:hover{transform:none}.advisory-page .ad-link .btn-arrow{transform:none}.advisory-page .ad-panel-shell,.advisory-page .ad-model-card,.advisory-page .ad-plus{transition:none}.ad-detail-drawer{animation:none!important;transition:none!important}}

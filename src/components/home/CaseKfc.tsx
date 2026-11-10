@@ -62,7 +62,6 @@ export function CaseKfc() {
           <CombinedFigure value={totals.employees.value} display={totals.employees.display} label={totals.employees.label} />
           <CombinedFigure value={totals.cities.value} display={totals.cities.display} label={totals.cities.label} />
         </div>
-        <p className="impact-footnote [font-size:.8125rem] [color:var(--impact-footnote)] [text-align:center] [margin-top:16px]">Figures reflect the KFC Pakistan and PCI programmes.</p>
         <div className="impact-all [display:flex] [justify-content:center] [margin-top:32px]">
           <BrandButton to="/client-impact">See All Client Impact</BrandButton>
         </div>
