@@ -41,6 +41,7 @@
   --color-ink: var(--ink);
   --color-paper: var(--paper);
   --color-wash: var(--wash);
+  --color-teal-wash: var(--teal-wash);
 
   --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -59,6 +60,7 @@
     --ink: #0d0d0d;
     --paper: #ffffff;
     --wash: rgba(52, 74, 106, 0.04);
+    --teal-wash: #ecf2f3;
     --preloader-bg: #EFEFEF;
     --background: #ffffff;
     --foreground: #0d0d0d;

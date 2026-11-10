@@ -1,38 +1,27 @@
 // Philosophy — "What does EhsanX believe, and why?"
-// Navy, typographic and editorial: no photography. Content comes from src/data/philosophy.ts unchanged.
-import {
-  ArrowDown,
-  ChevronRight,
-  BrainCog,
-  ChartNoAxesCombined,
-  Compass,
-  Diamond,
-  Earth,
-  HandHeart,
-  Landmark,
-  Lightbulb,
-  Users,
-  UsersRound,
-  type LucideIcon,
-} from "lucide-react";
+// Typographic and editorial around one centrepiece, the E-Plus Model, set as a sentence: two flows
+// joined by a plus, arriving at the outcome, which carries the Journey as where it leads. Content
+// comes from src/data/philosophy.ts. Scroll motion runs through useScrollScene (GSAP after
+// hydration); the settled layout is what renders first, so without motion everything is in place.
+import { useCallback, useRef, type ReactNode } from "react";
+import { useReducedMotion } from "framer-motion";
+import { ArrowDown } from "lucide-react";
 import { FinalCta } from "@/components/home/FounderAndCta";
 import { container, Eyebrow, PhotoHero, Reveal } from "@/components/advisory/PagePrimitives";
+import { useScrollScene } from "@/hooks/use-scroll-scene";
 import { images } from "@/lib/image-assets";
 import { philosophy, type Foundation } from "@/data/philosophy";
 import { cn } from "@/lib/utils";
 
-const icons: Record<string, LucideIcon> = {
-  BrainCog,
-  ChartNoAxesCombined,
-  Compass,
-  Diamond,
-  Earth,
-  HandHeart,
-  Landmark,
-  Lightbulb,
-  Users,
-  UsersRound,
-};
+type SceneSetup = Parameters<typeof useScrollScene>[1];
+
+/** Registers a scroll scene on a section; reduced motion leaves the settled layout untouched. */
+function useSectionScene(setup: SceneSetup) {
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  useScrollScene(ref, setup, reduce);
+  return ref;
+}
 
 function Hero() {
   const { hero, heroLine, sections } = philosophy;
@@ -81,364 +70,394 @@ function Hero() {
   );
 }
 
+/** Pale-teal bridge from the Idea into the model; bleeds to the right edge on large screens. */
+const BLEED_RIGHT =
+  "lg:-mr-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))] lg:pr-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))]";
+
 function Idea() {
   const { intro } = philosophy;
   const [first, second, conclusion] = intro.paragraphs;
+  // The pull sentence brightens word by word in reading order as it scrolls into view.
+  const setup = useCallback<SceneSetup>((gsap, _ScrollTrigger, element) => {
+    const statement = element.querySelector("[data-idea-statement]");
+    const words = element.querySelectorAll("[data-idea-word]");
+    if (!statement || words.length === 0) return;
+    gsap.fromTo(
+      words,
+      { opacity: 0.3 },
+      {
+        opacity: 1,
+        ease: "none",
+        stagger: 0.1,
+        scrollTrigger: { trigger: statement, start: "top 80%", end: "center 45%", scrub: 0.6 },
+      },
+    );
+  }, []);
+  const ref = useSectionScene(setup);
   return (
     <section
+      ref={ref}
       id="idea"
       aria-labelledby="idea-title"
-      className="scroll-mt-24 bg-paper py-24 md:py-32"
+      className="relative isolate scroll-mt-24 bg-paper pt-20 [overflow-x:clip] md:pt-32"
     >
-      <div className={cn(container, "grid gap-12 lg:grid-cols-12 lg:gap-16")}>
-        <div className="lg:col-span-4">
-          <Reveal className="lg:sticky lg:top-32">
+      <div className={container}>
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-x-6">
+          <div className="lg:col-span-5">
             <Eyebrow>{intro.eyebrow}</Eyebrow>
             <h2
               id="idea-title"
-              className="mt-6 font-display text-[clamp(1.875rem,3vw,2.5rem)] font-bold leading-[1.15] text-navy [text-wrap:balance]"
+              className="mt-6 font-display text-[clamp(2.25rem,4vw,3.375rem)] font-bold leading-[1.06] tracking-[-0.02em] text-navy [text-wrap:balance]"
             >
               {intro.title}
             </h2>
-          </Reveal>
+          </div>
+          <p className="max-w-[62ch] text-[17px] leading-[1.75] text-ink/85 md:text-[19px] lg:col-span-6 lg:col-start-7 lg:mt-[84px]">
+            {first}
+          </p>
         </div>
-        <div className="lg:col-span-8">
-          <Reveal>
-            <p className="font-display text-[clamp(1.5rem,2.7vw,2.25rem)] font-light leading-[1.35] text-navy [text-wrap:pretty]">
-              {intro.pullSentence}
+
+        {/* The turn in the argument, said once, at full size. */}
+        <div className="mt-16 md:mt-24 lg:grid lg:grid-cols-12 lg:gap-x-6">
+          <div className="lg:col-span-10 lg:col-start-2">
+            <span aria-hidden="true" className="block h-1 w-14 bg-gold md:w-[72px]" />
+            <p
+              data-idea-statement
+              className="mt-6 font-display text-[clamp(2rem,4.4vw,4rem)] font-light leading-[1.16] tracking-[-0.02em] text-navy md:mt-8 [text-wrap:pretty]"
+            >
+              {intro.pullSentence.split(" ").map((word, i) => (
+                <span key={i} data-idea-word>
+                  {word}{" "}
+                </span>
+              ))}
             </p>
-          </Reveal>
-          <Reveal className="mt-12 grid gap-8 border-t border-navy/10 pt-12 md:grid-cols-2 md:gap-12">
-            <p className="text-[17px] leading-[1.75] text-ink/85">{first}</p>
-            <p className="text-[17px] leading-[1.75] text-ink/85">{second}</p>
-          </Reveal>
-          <Reveal>
-            <p className="mt-12 border-l-2 border-gold pl-6 font-display text-[clamp(1.125rem,1.6vw,1.3125rem)] font-medium leading-[1.6] text-navy md:pl-8">
+          </div>
+        </div>
+
+        <div className="mt-16 grid md:mt-24 lg:grid-cols-12 lg:gap-x-6">
+          <p className="max-w-[62ch] pb-14 text-[17px] leading-[1.75] text-ink/85 md:text-[18px] lg:col-span-5 lg:col-start-2 lg:pb-32">
+            {second}
+          </p>
+          <div
+            className={cn(
+              "-mx-6 flex flex-col justify-between gap-8 bg-teal-wash px-6 pb-12 pt-10 md:-mx-10 md:px-10 lg:col-span-5 lg:col-start-8 lg:mx-0 lg:pb-[72px] lg:pl-14 lg:pt-14",
+              BLEED_RIGHT,
+            )}
+          >
+            <p className="font-display text-[20px] font-medium leading-[1.5] text-teal md:text-[24px]">
               {conclusion}
             </p>
-          </Reveal>
+            <a
+              href="#model"
+              className="group flex min-h-12 items-center gap-3 border-t border-teal/25 pt-4 font-display text-[15px] font-semibold text-navy md:text-[16px]"
+            >
+              {philosophy.sections.find((s) => s.id === "model")?.label}
+              <ArrowDown
+                aria-hidden="true"
+                className="ml-auto h-[18px] w-[18px] shrink-0 text-teal transition-transform group-hover:translate-y-0.5 motion-reduce:transition-none"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/** A foundation in the E-Plus Model. `tier` sets the top edge: navy for root beliefs, teal for the qualities they develop. */
-function FoundationPanel({
-  item,
-  tier,
-  className,
-}: {
-  item: Foundation;
-  tier: "root" | "developed";
-  className?: string;
-}) {
-  const Icon = icons[item.icon] ?? Compass;
+/** Amber arrow joining a root foundation to the one it feeds: down when stacked, right from lg. */
+function FeedArrow() {
   return (
-    <article
-      className={cn(
-        "flex flex-col border border-navy/10 border-t-[3px] bg-paper p-6 md:p-7",
-        tier === "root" ? "border-t-navy" : "border-t-teal",
-        className,
-      )}
-    >
-      <div className="flex items-center gap-3.5">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-wash text-navy">
-          <Icon aria-hidden="true" strokeWidth={1.6} className="h-[22px] w-[22px]" />
-        </span>
-        <h3 className="font-display text-[18px] font-semibold leading-snug text-navy">
-          {item.title}
-        </h3>
-      </div>
-      <p className="mb-5 mt-4 text-[15.5px] leading-[1.65] text-ink/80">{item.role}</p>
-      <ul
-        aria-label={`${item.title}: qualities`}
-        className="mt-auto flex flex-wrap gap-2 border-t border-navy/10 pt-5"
-      >
-        {item.bullets.map((b) => (
-          <li
-            key={b}
-            className="rounded-full border border-navy/15 px-3 py-1 text-[13.5px] leading-[1.4] text-navy"
-          >
-            {b}
-          </li>
-        ))}
-      </ul>
-      <p className="sr-only">
-        {philosophy.model.feedLabel} {item.feedsInto}
-      </p>
-    </article>
-  );
-}
-
-/** Gold connector: points down when stacked, right from the large breakpoint. */
-function Connector({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cn("flex items-center justify-center py-3 lg:py-0", className)}
-    >
-      <span className="flex flex-col items-center lg:w-full lg:flex-row">
-        <span className="h-6 w-px bg-gold lg:h-px lg:w-auto lg:flex-1" />
-        <ChevronRight
-          strokeWidth={2}
-          className="-mt-1.5 h-4 w-4 rotate-90 text-gold lg:-ml-2 lg:mt-0 lg:rotate-0"
-        />
+    <div aria-hidden="true" className="flex py-3 pl-1 lg:h-[52px] lg:items-center lg:px-3 lg:py-0">
+      <span className="flex flex-col items-start lg:w-full lg:flex-row lg:items-center">
+        <span className="h-7 w-[3px] bg-gold lg:h-[3px] lg:w-auto lg:flex-1" />
+        <svg
+          viewBox="0 0 14 14"
+          className="-ml-1 h-2.5 w-[11px] rotate-90 lg:ml-0 lg:h-3.5 lg:w-3.5 lg:rotate-0"
+        >
+          <path d="M0 0 L14 7 L0 14 Z" fill="var(--gold)" />
+        </svg>
       </span>
     </div>
   );
 }
 
+function FoundationName({ item, tier }: { item: Foundation; tier: "root" | "developed" }) {
+  return (
+    <div data-model-line className="flex flex-col gap-3">
+      <h3
+        className={cn(
+          "font-display text-[clamp(2rem,3.4vw,3rem)] leading-[1.08] tracking-[-0.015em]",
+          tier === "root" ? "font-light text-navy" : "font-semibold text-teal",
+        )}
+      >
+        {item.title}
+      </h3>
+      <ul
+        aria-label={`${item.title}: qualities`}
+        className="flex flex-wrap gap-x-5 gap-y-1 text-[14px] leading-[1.55] text-ink/70 md:text-[14.5px]"
+      >
+        {item.bullets.map((b) => (
+          <li key={b}>{b}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** One flow of the model: a root foundation, the arrow, and the foundation it feeds into. */
+function Flow({ root, developed }: { root: Foundation; developed: Foundation }) {
+  return (
+    <div className="lg:col-start-2 lg:grid lg:grid-cols-[minmax(0,5fr)_88px_minmax(0,6fr)] lg:items-start">
+      <FoundationName item={root} tier="root" />
+      <FeedArrow />
+      <FoundationName item={developed} tier="developed" />
+      <p className="sr-only">
+        {root.title}: {philosophy.model.feedLabel} {developed.title}.
+      </p>
+    </div>
+  );
+}
+
 function Model() {
-  const { model } = philosophy;
+  const { model, stages, tagline } = philosophy;
   const by = (id: string) => model.foundations.find((f) => f.id === id) as Foundation;
   const outcome = by("outcome");
-  const OutcomeIcon = icons[outcome.icon] ?? HandHeart;
-  const [foundationsCaption, outcomeCaption] = model.title.split(", ");
+  const leadsTo = model.outcomeLabel.replace(":", "");
+
+  const setup = useCallback<SceneSetup>((gsap, _ScrollTrigger, element) => {
+    // Each part of the sentence settles as the reader reaches it, the plus turns into place, and
+    // the outcome band rises. Nothing starts below a quarter opacity, so a fast scroll still reads.
+    element.querySelectorAll("[data-model-line]").forEach((line) => {
+      gsap.fromTo(
+        line,
+        { opacity: 0.25, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: line, start: "top 85%", toggleActions: "play none none none" },
+        },
+      );
+    });
+    const plus = element.querySelector("[data-model-plus]");
+    if (plus) {
+      gsap.fromTo(
+        plus,
+        { rotate: 90, scale: 0.6, opacity: 0.3 },
+        {
+          rotate: 0,
+          scale: 1,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: plus, start: "top 85%", toggleActions: "play none none none" },
+        },
+      );
+    }
+    const band = element.querySelector("[data-model-band]");
+    if (band) {
+      gsap.fromTo(
+        band,
+        { y: 48, opacity: 0.35 },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: { trigger: band, start: "top 95%", end: "top 55%", scrub: 0.6 },
+        },
+      );
+    }
+  }, []);
+  const ref = useSectionScene(setup);
+
   return (
     <section
+      ref={ref}
       id="model"
       aria-labelledby="model-title"
-      className="scroll-mt-24 bg-wash py-24 md:py-32"
+      className="relative isolate scroll-mt-24 bg-paper pt-24 md:pt-28"
     >
       <div className={container}>
-        <Reveal className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-16">
+        <header className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-x-6">
           <div className="lg:col-span-6">
             <Eyebrow>{model.eyebrow}</Eyebrow>
             <h2
               id="model-title"
-              className="mt-6 font-display text-[clamp(2rem,3.6vw,3rem)] font-bold leading-[1.1] text-navy"
+              className="mt-5 font-display text-[clamp(1.875rem,2.8vw,2.5rem)] font-bold leading-[1.1] text-navy"
             >
               {model.title}
             </h2>
           </div>
-          <p className="max-w-[46ch] text-[17px] leading-[1.7] text-ink/80 lg:col-span-5 lg:col-start-8">
+          <p className="max-w-[46ch] text-[16px] leading-[1.7] text-ink/80 md:text-[17px] lg:col-span-5 lg:col-start-8">
             {model.intro}
           </p>
-        </Reveal>
+        </header>
 
-        <Reveal className="mt-14 lg:mt-20">
-          {/* Column captions (large screens), taken from the section title. */}
-          <div
+        {/* The model set as one sentence: two flows joined by a plus, arriving at the outcome. */}
+        <div className="mt-12 border-t border-navy/15 pt-8 md:mt-16 md:pt-12 lg:grid lg:grid-cols-[96px_minmax(0,1fr)] lg:gap-y-2">
+          <Flow root={by("meaning")} developed={by("character")} />
+          <span
             aria-hidden="true"
-            className="mb-5 hidden font-display text-[12px] font-semibold uppercase tracking-[0.16em] text-ink/60 lg:grid lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)_88px_minmax(0,1.1fr)]"
+            data-model-plus
+            className="my-5 block w-fit font-display text-[84px] font-light leading-[0.8] text-gold lg:col-start-1 lg:my-0 lg:mt-1.5 lg:text-[112px] lg:leading-[0.9]"
           >
-            <span className="col-span-3 flex items-center gap-3">
-              {foundationsCaption}
-              <span className="h-px flex-1 bg-navy/15" />
-            </span>
-            <span className="col-start-5 flex items-center gap-3">
-              {outcomeCaption}
-              <span className="h-px flex-1 bg-navy/15" />
-            </span>
-          </div>
+            +
+          </span>
+          <div aria-hidden="true" className="hidden lg:col-start-2 lg:block lg:h-7" />
+          <Flow root={by("people")} developed={by("entrepreneurial")} />
+        </div>
+      </div>
 
-          {/* Two flows converge on one outcome, as in the Company Profile's model diagram. */}
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)_88px_minmax(0,1.1fr)] lg:grid-rows-[1fr_1fr] lg:gap-y-6">
-            <FoundationPanel
-              item={by("meaning")}
-              tier="root"
-              className="lg:col-start-1 lg:row-start-1"
-            />
-            <Connector className="lg:col-start-2 lg:row-start-1" />
-            <FoundationPanel
-              item={by("character")}
-              tier="developed"
-              className="lg:col-start-3 lg:row-start-1"
-            />
-            <FoundationPanel
-              item={by("people")}
-              tier="root"
-              className="mt-8 lg:col-start-1 lg:row-start-2 lg:mt-0"
-            />
-            <Connector className="lg:col-start-2 lg:row-start-2" />
-            <FoundationPanel
-              item={by("entrepreneurial")}
-              tier="developed"
-              className="lg:col-start-3 lg:row-start-2"
-            />
-
-            {/* Converging bracket between the two flows and the outcome (large screens). */}
-            <div
-              aria-hidden="true"
-              className="relative hidden lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:block"
+      {/* Arrival: the outcome, and the journey it leads to, in one block. */}
+      <div data-model-band className="mt-14 bg-navy-deep text-paper md:mt-16">
+        <article
+          aria-labelledby="outcome-title"
+          className={cn(
+            container,
+            "py-12 md:py-16 lg:grid lg:grid-cols-[96px_minmax(0,1fr)] lg:pb-[72px]",
+          )}
+        >
+          <span
+            aria-hidden="true"
+            className="block font-display text-[72px] font-light leading-[0.7] text-gold lg:text-[96px] lg:leading-[0.8]"
+          >
+            =
+          </span>
+          <div className="mt-6 lg:mt-0">
+            <h3
+              id="outcome-title"
+              className="font-display text-[clamp(2.625rem,5.6vw,5rem)] font-bold leading-[1.02] tracking-[-0.025em] [text-wrap:balance]"
             >
-              <svg
-                className="absolute inset-0 h-full w-full overflow-visible"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M0 25 H45 V75 H0 M45 50 H96"
-                  fill="none"
-                  stroke="var(--gold)"
-                  strokeWidth="1.5"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
-              <ChevronRight
-                strokeWidth={2}
-                className="absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-gold"
-              />
-            </div>
-            <Connector className="lg:hidden" />
+              {outcome.title}
+            </h3>
+            <p className="mt-5 max-w-[62ch] text-[15.5px] leading-[1.65] text-paper/90 md:text-[17px]">
+              {outcome.role}
+            </p>
+            <ul
+              aria-label={`${outcome.title}: where value is created`}
+              className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-paper/20 pt-5 text-[14px] leading-[1.45] text-paper/90 sm:grid-cols-3 md:text-[14.5px] lg:grid-cols-6"
+            >
+              {outcome.bullets.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
 
-            <article className="flex flex-col border-t-[3px] border-gold bg-navy p-7 text-paper md:p-9 lg:col-start-5 lg:row-span-2 lg:row-start-1">
-              <span className="grid h-12 w-12 place-items-center rounded-full bg-paper/10 text-gold">
-                <OutcomeIcon aria-hidden="true" strokeWidth={1.6} className="h-6 w-6" />
-              </span>
-              <h3 className="mt-5 font-display text-[24px] font-bold leading-snug">
-                {outcome.title}
-              </h3>
-              <p className="mt-4 text-[16px] leading-[1.7] text-paper/90">{outcome.role}</p>
-              <ul
-                aria-label={`${outcome.title}: where value is created`}
-                className="mt-6 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-1"
-              >
-                {outcome.bullets.map((b) => (
-                  <li key={b} className="flex gap-3 text-[15px] leading-[1.5] text-paper/90">
-                    <span aria-hidden="true" className="mt-[0.7em] h-px w-3 shrink-0 bg-gold" />
-                    {b}
+            {/* Where the outcome leads: the five stages, part of the outcome rather than a section. */}
+            <div id="journey" className="mt-12 scroll-mt-24 border-t border-paper/20 pt-8 md:mt-14">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-baseline lg:justify-between lg:gap-6">
+                <h4 className="flex flex-col gap-1.5 font-display text-[22px] font-semibold leading-[1.25] md:text-[24px] lg:block">
+                  <span className="text-[13px] font-medium text-gold md:text-[14px] lg:mr-3.5">
+                    {leadsTo}
+                  </span>
+                  {philosophy.journey.title}
+                </h4>
+                <p className="font-display text-[19px] font-light leading-[1.35] text-paper/90">
+                  {tagline}
+                </p>
+              </div>
+              <ol className="mt-6 grid gap-[18px] md:mt-7 md:grid-cols-5 md:gap-x-7">
+                {stages.map((s, i) => (
+                  <li
+                    key={s.number}
+                    className={cn(
+                      "flex flex-col gap-1.5 border-l-2 pl-4 md:gap-2 md:border-l-0 md:border-t-2 md:pl-0 md:pt-4",
+                      i === stages.length - 1 ? "border-gold" : "border-paper/35",
+                    )}
+                  >
+                    <h5 className="font-display text-[17px] font-semibold md:text-[18px]">
+                      {s.title}
+                    </h5>
+                    <p className="text-[14.5px] leading-[1.55] text-paper/85">{s.descriptor}</p>
                   </li>
                 ))}
-              </ul>
-              <a
-                href="#journey"
-                className="group mt-8 flex items-center gap-3 border-t border-paper/15 pt-6 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold lg:mt-auto"
-              >
-                <span className="shrink-0 whitespace-nowrap font-display text-[12px] font-semibold uppercase tracking-[0.16em] text-gold">
-                  {model.outcomeLabel.replace(":", "")}
-                </span>
-                <span className="font-display text-[16px] font-semibold text-paper">
-                  {outcome.feedsInto}
-                </span>
-                <ArrowDown
-                  aria-hidden="true"
-                  className="ml-auto h-4 w-4 shrink-0 text-gold transition-transform group-hover:translate-y-0.5 motion-reduce:transition-none"
-                />
-              </a>
-            </article>
+              </ol>
+            </div>
           </div>
-        </Reveal>
+        </article>
       </div>
     </section>
   );
 }
 
-function Journey() {
-  const { journey, stages, tagline } = philosophy;
+/** Words that join the two ideas in a belief's title ("Purpose Before Performance"). */
+const JOINERS = new Set(["Before", "Over", "with", "Through", "Beyond"]);
+
+/** Sets the joining word light so the two ideas carry the line; other titles stay as one weight. */
+function BeliefTitle({ title }: { title: string }) {
+  const words = title.split(" ");
+  const join = words.findIndex((w, i) => i > 0 && i < words.length - 1 && JOINERS.has(w));
+  if (join === -1) return <span className="font-semibold">{title}</span>;
+  const part = (from: number, to?: number): ReactNode => words.slice(from, to).join(" ");
   return (
-    <section
-      id="journey"
-      aria-labelledby="journey-title"
-      className="scroll-mt-24 bg-navy py-24 text-paper md:py-32"
-    >
-      <div className={container}>
-        <Reveal>
-          <Eyebrow tone="dark">{journey.eyebrow}</Eyebrow>
-          <h2
-            id="journey-title"
-            className="mt-6 max-w-[22ch] font-display text-[clamp(2rem,3.6vw,3rem)] font-bold leading-[1.1] text-paper"
-          >
-            {journey.title}
-          </h2>
-        </Reveal>
-        <Reveal className="relative mt-16">
-          {/* Connecting line: horizontal from md, vertical when stacked. */}
-          <span
-            aria-hidden="true"
-            className="absolute bottom-6 left-[27px] top-6 w-px bg-paper/25 md:bottom-auto md:left-0 md:right-0 md:top-[94px] md:h-px md:w-auto"
-          />
-          <ol className="relative grid gap-10 md:grid-cols-5 md:gap-6">
-            {stages.map((s, i) => {
-              const last = i === stages.length - 1;
-              return (
-                <li key={s.number} className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 md:block">
-                  <div className="flex flex-col items-center md:items-start">
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "font-display text-[44px] font-light leading-none text-gold md:text-[64px]",
-                      )}
-                    >
-                      {s.number}
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "mt-4 h-3.5 w-3.5 rounded-full ring-[6px] ring-navy md:mt-[18px]",
-                        last ? "bg-gold" : "border-2 border-gold bg-navy",
-                      )}
-                    />
-                  </div>
-                  <div className="md:mt-8">
-                    <h3 className="font-display text-[19px] font-semibold leading-snug text-paper">
-                      {s.title}
-                    </h3>
-                    <p className="mt-2 text-[15.5px] leading-[1.65] text-paper/85">
-                      {s.descriptor}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        </Reveal>
-        <Reveal className="mt-20 flex items-center gap-5 md:gap-8">
-          <span aria-hidden="true" className="h-px flex-1 bg-paper/25" />
-          <p className="text-center font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-light text-paper [text-wrap:balance]">
-            {tagline}
-          </p>
-          <span aria-hidden="true" className="h-px flex-1 bg-paper/25" />
-        </Reveal>
-      </div>
-    </section>
+    <>
+      <span className="font-semibold">{part(0, join)}</span>{" "}
+      <span className="font-light text-navy">{words[join]}</span>{" "}
+      <span className="font-semibold">{part(join + 1)}</span>
+    </>
   );
 }
 
 function Beliefs() {
   const { beliefsHeader, beliefs } = philosophy;
+  // Reading line: each belief comes up to full strength as it reaches the upper middle of the
+  // screen and stays there. Phones keep every line at full strength.
+  const setup = useCallback<SceneSetup>((gsap, _ScrollTrigger, element) => {
+    const rows = element.querySelectorAll("[data-belief]");
+    if (rows.length === 0) return;
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+      rows.forEach((row) => {
+        gsap.fromTo(
+          row,
+          { opacity: 0.4 },
+          {
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: { trigger: row, start: "top 85%", end: "top 55%", scrub: 0.5 },
+          },
+        );
+      });
+    });
+    return () => mm.revert();
+  }, []);
+  const ref = useSectionScene(setup);
   return (
     <section
+      ref={ref}
       id="beliefs"
       aria-labelledby="beliefs-title"
-      className="scroll-mt-24 bg-teal py-24 text-paper md:py-32"
+      className="relative isolate scroll-mt-24 bg-paper py-20 md:py-32"
     >
       <div className={container}>
-        <Reveal className="grid gap-8 lg:grid-cols-12">
+        <div className="lg:grid lg:grid-cols-12">
           <div className="lg:col-span-10">
-            <Eyebrow tone="teal">{beliefsHeader.eyebrow}</Eyebrow>
+            <Eyebrow>{beliefsHeader.eyebrow}</Eyebrow>
             <h2
               id="beliefs-title"
-              className="mt-6 font-display text-[clamp(1.75rem,3.4vw,2.875rem)] font-normal leading-[1.25] text-paper [text-wrap:balance]"
+              className="mt-6 font-display text-[clamp(1.9375rem,4.2vw,3.75rem)] font-light leading-[1.18] tracking-[-0.02em] text-navy md:mt-7 [text-wrap:pretty]"
             >
               {beliefsHeader.title}
             </h2>
           </div>
-        </Reveal>
-        <Reveal className="mt-16">
-          <ol className="grid border-t border-paper/20 md:grid-cols-2 md:gap-x-16">
-            {beliefs.map((b, i) => (
-              <li
-                key={b.title}
-                className="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-4 border-b border-paper/20 py-7"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pt-1 font-display text-sm font-semibold text-gold"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="font-display text-[19px] font-semibold leading-snug text-paper">
-                    {b.title}
-                  </h3>
-                  <p className="mt-2 text-[16px] leading-[1.65] text-paper/85">{b.sentence}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </Reveal>
+        </div>
+        {/* Unnumbered: the beliefs are not a sequence. */}
+        <ul className="mt-11 border-t border-navy/15 md:mt-20">
+          {beliefs.map((b) => (
+            <li
+              key={b.title}
+              data-belief
+              className="flex flex-col gap-2 border-b border-navy/10 py-[22px] md:grid md:grid-cols-12 md:items-baseline md:gap-x-6 md:py-[30px]"
+            >
+              <h3 className="font-display text-[28px] leading-[1.12] tracking-[-0.015em] text-teal md:col-span-7 md:text-[clamp(2rem,3.1vw,2.75rem)] md:leading-[1.1]">
+                <BeliefTitle title={b.title} />
+              </h3>
+              <p className="text-[15.5px] leading-[1.6] text-ink/80 md:col-span-4 md:col-start-9 md:text-[16.5px]">
+                {b.sentence}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -447,9 +466,12 @@ function Beliefs() {
 function Closing() {
   const { closing } = philosophy;
   return (
-    <section aria-label="Closing thought" className="bg-paper py-24 md:py-32">
+    <section
+      aria-label="Closing thought"
+      className="relative isolate bg-teal py-24 text-paper md:py-32"
+    >
       <Reveal className={cn(container, "max-w-[1040px] text-center")}>
-        <p className="mx-auto max-w-[46ch] text-[16px] leading-[1.6] text-ink/70">
+        <p className="mx-auto max-w-[46ch] text-[16px] leading-[1.6] text-paper/85">
           {closing.leadIn}
         </p>
         <span
@@ -459,14 +481,14 @@ function Closing() {
           “
         </span>
         <blockquote className="mt-4">
-          <p className="font-display text-[clamp(1.5rem,3vw,2.375rem)] font-light leading-[1.35] text-navy [text-wrap:balance]">
+          <p className="font-display text-[clamp(1.5rem,3vw,2.375rem)] font-light leading-[1.35] text-paper [text-wrap:balance]">
             {closing.first}
           </p>
-          <p className="mt-6 font-display text-[clamp(1.5rem,3vw,2.375rem)] font-semibold leading-[1.3] text-teal [text-wrap:balance]">
+          <p className="mt-6 font-display text-[clamp(1.5rem,3vw,2.375rem)] font-semibold leading-[1.3] text-paper [text-wrap:balance]">
             {closing.second}
           </p>
         </blockquote>
-        <p className="mt-10 flex items-center justify-center gap-4 font-display text-[13px] font-semibold uppercase tracking-[0.16em] text-ink/60">
+        <p className="mt-10 flex items-center justify-center gap-4 font-display text-[13px] font-semibold uppercase tracking-[0.16em] text-paper/80">
           <span aria-hidden="true" className="h-px w-10 bg-gold" />
           {closing.attribution}
           <span aria-hidden="true" className="h-px w-10 bg-gold" />
@@ -483,7 +505,6 @@ export function PhilosophyPage() {
       <Hero />
       <Idea />
       <Model />
-      <Journey />
       <Beliefs />
       <Closing />
       <FinalCta />
