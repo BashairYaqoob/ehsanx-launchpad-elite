@@ -39,6 +39,6 @@ export const philosophy = {
  {title:'Impact Beyond Organizations',sentence:'Success is measured by the positive difference we create in institutions, communities, and society.'}
  ],
  closing:{leadIn:'At EhsanX, we believe that transformation begins with a simple but powerful idea:',first:'People are not merely resources to be managed. They are sources of creativity, initiative, resilience, and innovation.',second:'When purpose, leadership, and entrepreneurial thinking come together, organizations can achieve extraordinary results.',attribution:'EhsanX'},
- // Page index shown in the hero (labels are the sections' own eyebrows).
- sections:[{id:'idea',label:'The Idea'},{id:'model',label:'The E-Plus Model'},{id:'journey',label:'The Journey'},{id:'beliefs',label:'What We Believe'}],
+ // Page index shown under the hero (labels are the sections' own eyebrows). The Journey is part of the model's outcome block, so it has no entry of its own.
+ sections:[{id:'idea',label:'The Idea'},{id:'model',label:'The E-Plus Model'},{id:'beliefs',label:'What We Believe'}],
 };

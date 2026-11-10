@@ -39,28 +39,31 @@ function Hero() {
         }}
         inset
       />
-      {/* Page index: a slim band under the hero rather than over the photograph. */}
+      {/* Page index: a slim band under the hero rather than over the photograph. Stacked rows on
+          phones; three equal columns from md, each padded clear of the dividers between them. */}
       <nav aria-label="On this page" className="border-b border-navy/10 bg-paper">
-        <ol className={cn(container, "grid grid-cols-2 md:grid-cols-4")}>
+        <ol className={cn(container, "grid md:grid-cols-3")}>
           {sections.map((s, i) => (
             <li
               key={s.id}
-              className="border-navy/10 max-md:[&:nth-child(-n+2)]:border-b md:border-l md:first:border-l-0"
+              className="border-navy/10 max-md:border-b max-md:last:border-b-0 md:border-l md:first:border-l-0 md:[&:first-child>a]:pl-0 md:[&:last-child>a]:pr-0"
             >
               <a
                 href={`#${s.id}`}
-                className="group flex min-h-16 items-center gap-3 py-4 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-gold md:min-h-20 md:gap-4 md:px-6 md:first:pl-0"
+                className="group relative flex min-h-16 items-center gap-4 py-4 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-300 hover:after:scale-x-100 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-gold motion-reduce:after:transition-none md:min-h-[88px] md:gap-3 md:px-5 lg:gap-5 lg:px-10"
               >
-                <span className="font-display text-sm font-semibold text-teal">
+                <span className="font-display text-[13px] font-semibold tabular-nums tracking-[0.08em] text-teal md:text-sm">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="font-display text-[15px] font-semibold text-navy md:text-[16px]">
+                <span className="whitespace-nowrap font-display text-[16px] font-semibold text-navy lg:text-[17px]">
                   {s.label}
                 </span>
-                <ArrowDown
+                <span
                   aria-hidden="true"
-                  className="ml-auto hidden h-4 w-4 shrink-0 text-navy/40 transition-transform group-hover:translate-y-0.5 group-hover:text-teal motion-reduce:transition-none md:block"
-                />
+                  className="ml-auto grid h-8 w-8 shrink-0 place-items-center rounded-full border border-navy/15 text-navy/60 transition-colors duration-200 group-hover:border-teal group-hover:bg-teal group-hover:text-paper motion-reduce:transition-none"
+                >
+                  <ArrowDown className="h-4 w-4" />
+                </span>
               </a>
             </li>
           ))}
