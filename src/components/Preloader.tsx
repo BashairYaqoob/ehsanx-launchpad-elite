@@ -99,9 +99,10 @@ export function Preloader() {
               window.setTimeout(() => setReady(true), 150);
             }}
           >
+            {/* Landscape screens fill the full width (cropping a little top and bottom) so no page-coloured bands show beside the video; portrait screens keep the whole frame. */}
             <video
               ref={videoRef}
-              className="h-auto max-h-full w-full object-contain [-webkit-mask-image:var(--preloader-mask)] [-webkit-mask-composite:source-in] [mask-image:var(--preloader-mask)] [mask-composite:intersect]"
+              className="h-auto max-h-full w-full object-contain [@media(min-aspect-ratio:4/3)]:h-full [@media(min-aspect-ratio:4/3)]:max-h-none [@media(min-aspect-ratio:4/3)]:object-cover [-webkit-mask-image:var(--preloader-mask)] [-webkit-mask-composite:source-in] [mask-image:var(--preloader-mask)] [mask-composite:intersect]"
               src={PRELOADER_VIDEO_SRC}
               muted
               playsInline
