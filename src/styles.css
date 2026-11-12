@@ -5,6 +5,8 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+/* Client Impact case studies in their pinned horizontal mode (set by HorizontalCase). */
+@custom-variant hz (&:where([data-hz="true"], [data-hz="true"] *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);

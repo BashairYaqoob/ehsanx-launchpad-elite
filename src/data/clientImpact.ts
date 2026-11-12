@@ -133,11 +133,24 @@ export const impactHero = {
 };
 
 export const engagementIndex = [
-  { id: "kfc", name: "KFC Pakistan", descriptor: "Entrepreneurial Leadership", logo: "kfc" },
-  { id: "pci", name: "PCI Automotive", descriptor: "Automotive Manufacturing", logo: "pci" },
+  {
+    id: "kfc",
+    name: "KFC Pakistan",
+    short: "KFC",
+    descriptor: "Entrepreneurial Leadership",
+    logo: "kfc",
+  },
+  {
+    id: "pci",
+    name: "PCI Automotive",
+    short: "PCI",
+    descriptor: "Automotive Manufacturing",
+    logo: "pci",
+  },
   {
     id: "ahmad-jamal",
     name: "Ahmad Jamal Textile Processing",
+    short: "Ahmad Jamal",
     descriptor: "Executive Leadership Dialogue",
     logo: "aj",
   },
@@ -155,6 +168,10 @@ export const kfcCase = {
     "KFC wanted to strengthen the entrepreneurial mindset, leadership capability and innovation capacity of its Restaurant General Managers (RGMs).",
     "These experienced leaders managed restaurant operations, customer experience, profitability and teams of approximately 50–100 people. The objective was to build sustained motivation, continuous improvement, ownership and innovation.",
   ],
+  /** The cohort cities, from the client record (the programme sentence names the same three). */
+  cities: kfcClient.cities ?? [],
+  /** Restates "teams of approximately 50–100 people" from the challenge as a figure. */
+  teamSize: { value: "50–100", label: "People in each RGM's team", note: "Approximately" },
   programme:
     "A customized Entrepreneurial Leadership and Innovation programme, rolled out nationally across three regional cohorts in Karachi, Lahore and Islamabad.",
   learningAreasLabel: "Eight Learning Areas",

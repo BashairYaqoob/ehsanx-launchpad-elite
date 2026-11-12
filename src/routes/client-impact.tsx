@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { images } from "@/lib/image-assets";
 import { EngagementIndex } from "@/components/impact/EngagementIndex";
+import { CaseRail } from "@/components/impact/CaseRail";
 import { CaseStudyAhmadJamal, CaseStudyKfc, CaseStudyPci } from "@/components/impact/CaseStudies";
 import { FinalCta } from "@/components/home/FounderAndCta";
 import { impactHero } from "@/data/clientImpact";
@@ -45,9 +46,12 @@ function ClientImpactPage() {
     <div className="overflow-x-clip">
       <Hero />
       <EngagementIndex />
-      <CaseStudyKfc />
-      <CaseStudyPci />
-      <CaseStudyAhmadJamal />
+      <div data-case-region>
+        <CaseStudyKfc />
+        <CaseStudyPci />
+        <CaseStudyAhmadJamal />
+      </div>
+      <CaseRail />
       <span aria-hidden="true" className="advisory-page hidden" />
       <FinalCta />
     </div>

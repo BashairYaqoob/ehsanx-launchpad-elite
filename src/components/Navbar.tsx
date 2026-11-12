@@ -1,10 +1,11 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import logoColor from "@/assets/logo-color.png";
 import logoWhite from "@/assets/logo-white.png";
+import { caseNav, useCaseNavHidden } from "@/lib/case-scroll";
 import { EASE, NAV_LINKS } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,11 @@ export function Navbar() {
   const { scrollY } = useScroll();
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
+  // Client Impact only: an opaque navy pill once scrolled, which gives way to the case study bar
+  // while the case studies are scrolled down (see CaseRail). Other pages are unchanged.
+  const impact = useLocation({ select: (location) => location.pathname === "/client-impact" });
+  const swapped = useCaseNavHidden() && impact && !open;
+  const dark = impact && solid;
 
   useMotionValueEvent(scrollY, "change", (y) => {
     setSolid(y > 40);
@@ -35,21 +41,25 @@ export function Navbar() {
       <motion.header
         className="eh-navbar-header [z-index:1000] z-[1000] fixed inset-x-0 top-4 px-4"
         initial={false}
-        animate={{ y: 0, opacity: 1 }}
+        animate={swapped ? { y: -120, opacity: 0 } : { y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 140, damping: 22 }}
+        // Focus inside the navigation brings it back in place of the case study bar.
+        onFocusCapture={() => caseNav.set(false)}
       >
         <nav
           aria-label="Main"
           className={cn(
             "eh-navbar [.eh-navbar-header_&]:[transition:height_.3s,background_.3s,box-shadow_.3s] mx-auto flex max-w-[1280px] items-center justify-between rounded-full border px-5 transition-all duration-[400ms] ease-out md:px-7",
-            solid
-              ? "h-[72px] border-navy/10 bg-paper/85 shadow-soft [box-shadow:var(--shadow-soft)] backdrop-blur-xl"
-              : "h-20 border-transparent bg-transparent",
+            dark
+              ? "h-16 border-transparent bg-navy-deep md:pl-8"
+              : solid
+                ? "h-[72px] border-navy/10 bg-paper/85 shadow-soft [box-shadow:var(--shadow-soft)] backdrop-blur-xl"
+                : "h-20 border-transparent bg-transparent",
           )}
         >
           <Link to="/" aria-label="EhsanX home" className="flex items-center">
             <img
-              src={solid ? logoColor : logoWhite}
+              src={solid && !impact ? logoColor : logoWhite}
               alt="EhsanX"
               width={457}
               height={77}
@@ -63,7 +73,7 @@ export function Navbar() {
                   to={l.to}
                   className={cn(
                     "link-underline [&::after]:[content:''] [&::after]:[position:absolute] [&::after]:[left:0] [&::after]:[right:0] [&::after]:[bottom:-6px] [&::after]:[height:2px] [&::after]:[background:var(--gold)] [&::after]:[transform:scaleX(0)] [&::after]:[transform-origin:left] [&::after]:[transition:transform_0.4s_cubic-bezier(0.22,_1,_0.36,_1)] [&:hover::after]:[transform:scaleX(1)] [&[data-status='active']::after]:[transform:scaleX(1)] [position:relative] font-display text-sm font-semibold transition-colors",
-                    solid ? "text-navy" : "text-paper",
+                    solid && !impact ? "text-navy" : "text-paper",
                   )}
                 >
                   {l.label}
@@ -90,7 +100,7 @@ export function Navbar() {
                 aria-label="Open menu"
                 className={cn(
                   "flex h-11 w-11 items-center justify-center rounded-full lg:hidden hover:bg-transparent hover:text-inherit",
-                  solid ? "text-navy" : "text-paper",
+                  solid && !impact ? "text-navy" : "text-paper",
                 )}
               >
                 <Menu className="h-6 w-6" />
