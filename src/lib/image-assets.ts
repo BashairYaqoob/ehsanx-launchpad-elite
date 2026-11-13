@@ -25,6 +25,10 @@ import approach_implement_640 from "@/assets/approach/stage-implement-640.webp";
 import approach_implement_1200 from "@/assets/approach/stage-implement-1200.webp";
 import approach_reflect_640 from "@/assets/approach/stage-reflect-640.webp";
 import approach_reflect_1200 from "@/assets/approach/stage-reflect-1200.webp";
+import solutions_dialogue_640 from "@/assets/solutions/dialogue-group-640.webp";
+import solutions_dialogue_1280 from "@/assets/solutions/dialogue-group-1280.webp";
+import solutions_partnership_640 from "@/assets/solutions/partnership-session-640.webp";
+import solutions_partnership_1280 from "@/assets/solutions/partnership-session-1280.webp";
 import impact_cohort_640 from "@/assets/impact/hero-cohort-640.webp";
 import impact_cohort_1280 from "@/assets/impact/hero-cohort-1280.webp";
 import approach_hero_640 from "@/assets/approach-hero-640.webp";
@@ -56,6 +60,8 @@ approach_diagnose: {src: approach_diagnose_1200, width:1200, height:798, srcSet:
 approach_design: {src: approach_design_1200, width:1200, height:798, srcSet: `${approach_design_640} 640w, ${approach_design_1200} 1200w`},
 approach_implement: {src: approach_implement_1200, width:1200, height:798, srcSet: `${approach_implement_640} 640w, ${approach_implement_1200} 1200w`},
 approach_reflect: {src: approach_reflect_1200, width:1200, height:798, srcSet: `${approach_reflect_640} 640w, ${approach_reflect_1200} 1200w`},
+solutions_dialogue: {src: solutions_dialogue_1280, width:1280, height:853, srcSet: `${solutions_dialogue_640} 640w, ${solutions_dialogue_1280} 1280w`},
+solutions_partnership: {src: solutions_partnership_1280, width:1280, height:1280, srcSet: `${solutions_partnership_640} 640w, ${solutions_partnership_1280} 1280w`},
 impact_cohort: {src: impact_cohort_1280, width:1280, height:853, srcSet: `${impact_cohort_640} 640w, ${impact_cohort_1280} 1280w`},
 eplus_leadership: {src: eplus_leadership_1280, width:1280, height:891, srcSet: `${eplus_leadership_640} 640w, ${eplus_leadership_1280} 1280w`},
 eplus_innovation: {src: eplus_innovation_1280, width:1280, height:774, srcSet: `${eplus_innovation_640} 640w, ${eplus_innovation_1280} 1280w`},

@@ -1,18 +1,23 @@
-import type { LearningCycleStage } from "@/components/solutions/LearningCycle";
+// Content for the Solutions page. The three solutions are a real progression: a dialogue can be the
+// starting point, the programmes run over months, and partnerships often build on a programme.
 
 export const solutionsHero = {
   eyebrow: "OUR SOLUTIONS",
   title: "Developing Leaders. Transforming Organizations.",
-  paragraphs: [
-    "Unlike traditional training providers, EhsanX combines leadership development, entrepreneurial thinking, organizational transformation, and practical implementation into an integrated approach.",
-    "Our solutions are designed around the challenges organizations face and the capabilities they need to build for sustainable growth.",
-  ],
+  // Shortened from two paragraphs: "Unlike traditional training providers, EhsanX combines leadership
+  // development, entrepreneurial thinking, organizational transformation, and practical implementation
+  // into an integrated approach. Our solutions are designed around the challenges organizations face
+  // and the capabilities they need to build for sustainable growth." The contrast with traditional
+  // training is carried by the "More Than Traditional Training" section.
+  intro:
+    "One integrated approach to leadership development, entrepreneurial thinking, organizational transformation and practical implementation, built around your challenges and the capabilities you need for sustainable growth.",
   alt: "A presenter in a navy abaya explains a strategic approach on a wall screen to three colleagues seated at a boardroom table",
 };
 
 export const solution01 = {
+  id: "executive-leadership-dialogues",
   number: "01",
-  eyebrow: "EXECUTIVE LEADERSHIP DIALOGUES",
+  name: "Executive Leadership Dialogues",
   title: "Inspiring Entrepreneurial Leaders.",
   description: [
     "Designed for owners, CEOs, boards, and senior executives, these high-impact executive sessions help leadership teams rethink the future of their organizations, challenge conventional assumptions, and explore new approaches to leadership, innovation, AI, and institutional transformation.",
@@ -32,12 +37,15 @@ export const solution01 = {
     "Each Executive Leadership Dialogue is designed specifically around the organization's context, challenges, and strategic priorities.",
     "EhsanX works closely with owners and senior decision-makers to design and facilitate the intervention, which may take the form of a focused leadership dialogue, executive workshop, strategy session, or leadership retreat.",
   ],
-  alt: "A speaker addresses senior participants seated on sofas and chairs in a small meeting room",
+  alt: "Senior leaders and executives standing together for a group photograph outside a glass-fronted building entrance",
 };
 
 export const solution02 = {
+  id: "leadership-programmes",
   number: "02",
-  eyebrow: "LEADERSHIP DEVELOPMENT & TRANSFORMATION PROGRAMMES",
+  name: "Leadership Development & Transformation Programmes",
+  /** Restates "bi-weekly over two to four months" from "How it works" as a figure. */
+  duration: { value: "2–4", label: "months of bi-weekly workshops" },
   title: "Developing Entrepreneurial Leaders and High-Performance Teams.",
   description: [
     "These customized organizational learning journeys are designed for senior and middle management to develop entrepreneurial thinking, strengthen leadership capabilities, and build high-performing teams capable of driving innovation, transformation, and sustainable growth.",
@@ -65,16 +73,10 @@ export const solution02 = {
   alt: "A facilitator walks between rows of seated participants in a lecture hall during an interactive workshop",
 };
 
-export const learningCycleStages: LearningCycleStage[] = [
-  { label: "Learn" },
-  { label: "Apply" },
-  { label: "Reflect" },
-  { label: "Improve" },
-];
-
 export const solution03 = {
+  id: "transformation-partnerships",
   number: "03",
-  eyebrow: "ORGANIZATIONAL TRANSFORMATION PARTNERSHIPS",
+  name: "Organizational Transformation Partnerships",
   title: "Building Entrepreneurial Organizations.",
   description: [
     "Sustainable transformation requires more than training. It requires leadership commitment, continued application, coaching, and sustained implementation.",
@@ -99,17 +101,29 @@ export const solution03 = {
     "Following the structured workshops, participants may continue through individual and team coaching as they apply their learning to real organizational challenges, opportunities, and transformation initiatives.",
     "Through continued coaching, reflection, experimentation, and implementation, EhsanX helps leaders solve real business challenges, embed new ways of working, and build a lasting culture of purpose, entrepreneurial thinking, innovation, collaboration, and service.",
   ],
-  alt: "Leaders seated around curved white desks listen to a facilitator beside a presentation screen in a bright seminar room",
+  alt: "A facilitator in a grey waistcoat addresses participants seated at curved white desks in a bright lecture room",
 };
 
 export const whyPartner = {
   title: "More Than Traditional Training.",
   rows: [
-    { title: "Customized to Your Context", text: "Designed around your organization's industry, priorities, and challenges." },
-    { title: "Grounded in Real Challenges", text: "Built around the issues your people face in their everyday work." },
+    {
+      title: "Customized to Your Context",
+      text: "Designed around your organization's industry, priorities, and challenges.",
+    },
+    {
+      title: "Grounded in Real Challenges",
+      text: "Built around the issues your people face in their everyday work.",
+    },
     { title: "Designed for Application", text: "Focused on putting learning into practice." },
-    { title: "Supported Beyond the Workshop", text: "Reinforced through coaching, mentoring, and follow-up." },
-    { title: "Focused on Lasting Impact", text: "Developing people, strengthening institutions, and creating measurable impact." },
+    {
+      title: "Supported Beyond the Workshop",
+      text: "Reinforced through coaching, mentoring, and follow-up.",
+    },
+    {
+      title: "Focused on Lasting Impact",
+      text: "Developing people, strengthening institutions, and creating measurable impact.",
+    },
   ],
 };
 
