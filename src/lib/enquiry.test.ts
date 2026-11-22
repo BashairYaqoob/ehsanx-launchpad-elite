@@ -1,46 +1,101 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
-  buildEnquiryDraft,
-  buildEnquiryMailto,
-  enquiryDraftText,
+  emptyEnquiry,
+  firstInvalidField,
+  sendEnquiry,
   validateEnquiry,
+  type Enquiry,
 } from "./enquiry";
 
-const ok = { name: "Sara Khan", organization: "Acme", email: "sara@acme.com", message: "Hello" };
+const ok: Enquiry = {
+  name: "Sara Khan",
+  email: "sara@acme.com",
+  organization: "",
+  topic: "leadership-programmes",
+  message: "We would like to discuss a programme for our managers.",
+};
 
-describe("enquiry", () => {
-  it("requires all four fields", () => {
-    expect(
-      Object.keys(validateEnquiry({ name: "", organization: "", email: "", message: "" })).sort(),
-    ).toEqual(["email", "message", "name", "organization"]);
+const reply = (status: number, body: unknown) =>
+  vi.fn().mockResolvedValue(new Response(JSON.stringify(body), { status }));
+
+describe("enquiry validation", () => {
+  it("requires name, email, topic and message, but not organization", () => {
+    expect(Object.keys(validateEnquiry(emptyEnquiry)).sort()).toEqual([
+      "email",
+      "message",
+      "name",
+      "topic",
+    ]);
   });
-  it("rejects an invalid email", () => {
-    expect(validateEnquiry({ ...ok, email: "sara@acme" }).email).toBeDefined();
-  });
-  it("accepts a complete enquiry", () => {
+  it("accepts a complete enquiry without an organization", () => {
     expect(validateEnquiry(ok)).toEqual({});
   });
-  it("addresses the mail draft to the EhsanX inbox with all details", () => {
-    const url = buildEnquiryMailto(ok);
-    expect(url.startsWith("mailto:ehsanx.transform@gmail.com?")).toBe(true);
-    const body = decodeURIComponent(url.split("body=")[1] ?? "");
-    expect(body).toContain("Organization: Acme");
-    expect(body).toContain("Email: sara@acme.com");
+  it("rejects invalid email addresses, including header-injection attempts", () => {
+    expect(validateEnquiry({ ...ok, email: "sara@acme" }).email).toBeDefined();
+    expect(validateEnquiry({ ...ok, email: "sara@acme.com\nBcc: x@y.com" }).email).toBeDefined();
+    expect(validateEnquiry({ ...ok, email: "a@b.com, c@d.com" }).email).toBeDefined();
+  });
+  it("accepts only the offered topics", () => {
+    expect(validateEnquiry({ ...ok, topic: "anything" }).topic).toBeDefined();
+  });
+  it("enforces message length", () => {
+    expect(validateEnquiry({ ...ok, message: "Hi" }).message).toBeDefined();
+    expect(validateEnquiry({ ...ok, message: "x".repeat(2001) }).message).toBeDefined();
+  });
+  it("points at the first invalid field in form order", () => {
+    expect(firstInvalidField({ message: "x", email: "y" })).toBe("email");
   });
 });
 
-describe("enquiry draft", () => {
-  it("uses one draft for the mailto link and the copied text", () => {
-    const draft = buildEnquiryDraft(ok);
-    const url = buildEnquiryMailto(ok);
-    expect(decodeURIComponent(url.split("subject=")[1]?.split("&")[0] ?? "")).toBe(draft.subject);
-    expect(decodeURIComponent(url.split("body=")[1] ?? "")).toBe(draft.body);
+describe("sending", () => {
+  it("reports sent only when the server confirms acceptance", async () => {
+    const fetcher = reply(200, { ok: true, reference: "AB12CD34" });
+    expect(await sendEnquiry(ok, { elapsed: 9000, fetcher })).toEqual({
+      kind: "sent",
+      reference: "AB12CD34",
+    });
+    const [, init] = fetcher.mock.calls[0] as [string, RequestInit];
+    expect((init.headers as Record<string, string>)["X-EhsanX-Enquiry"]).toBe("1");
+    expect(JSON.parse(init.body as string)).toMatchObject({
+      topic: "leadership-programmes",
+      website: "",
+      elapsed: 9000,
+    });
   });
-  it("copies a complete, addressed message", () => {
-    const text = enquiryDraftText(ok);
+  it("never treats a 200 without ok:true as sent", async () => {
     expect(
-      text.startsWith("To: ehsanx.transform@gmail.com\nSubject: Enquiry from Sara Khan — Acme\n\n"),
-    ).toBe(true);
-    expect(text).toContain("Hello");
+      (await sendEnquiry(ok, { elapsed: 9000, fetcher: reply(200, { ok: false }) })).kind,
+    ).toBe("failed");
+    expect((await sendEnquiry(ok, { elapsed: 9000, fetcher: reply(200, "<html>") })).kind).toBe(
+      "failed",
+    );
+  });
+  it("returns the server's field errors", async () => {
+    const result = await sendEnquiry(ok, {
+      elapsed: 9000,
+      fetcher: reply(422, { ok: false, message: "Check", errors: { email: "Bad email" } }),
+    });
+    expect(result).toEqual({ kind: "invalid", errors: { email: "Bad email" }, message: "Check" });
+  });
+  it("turns SMTP failures, rate limits and network errors into a retryable failure", async () => {
+    expect(
+      await sendEnquiry(ok, {
+        elapsed: 9000,
+        fetcher: reply(502, { ok: false, message: "SMTP down" }),
+      }),
+    ).toEqual({
+      kind: "failed",
+      message: "SMTP down",
+    });
+    expect(
+      (
+        await sendEnquiry(ok, {
+          elapsed: 9000,
+          fetcher: reply(429, { ok: false, message: "Slow down" }),
+        })
+      ).kind,
+    ).toBe("failed");
+    const offline = vi.fn().mockRejectedValue(new TypeError("Failed to fetch"));
+    expect((await sendEnquiry(ok, { elapsed: 9000, fetcher: offline })).kind).toBe("failed");
   });
 });

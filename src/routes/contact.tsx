@@ -1,31 +1,64 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ContactMethods } from "@/components/contact/ContactMethods";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { pageHead } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
-  head: () => pageHead("Contact | EhsanX", "Contact EhsanX for leadership development and organizational solutions by WhatsApp, email or enquiry form.", "/contact"),
+  head: () =>
+    pageHead(
+      "Contact | EhsanX",
+      "Contact EhsanX about leadership development and organizational transformation: send an enquiry, email us or message us on WhatsApp.",
+      "/contact",
+    ),
   component: ContactPage,
 });
 
-// Uses the normal root footer; no FinalCta here. A navy panel carries the invitation and the
-// direct contact methods; the enquiry form sits on white beside it (below it on small screens).
+// Uses the normal root footer; no FinalCta here. The same editorial masthead as the other inner
+// pages (navy band behind the navigation, page name on a rule, a large navy headline), with the
+// enquiry form beside the invitation so it is in reach on the first screen.
 function ContactPage() {
   return (
     <div className="overflow-x-clip bg-paper">
-      <div aria-hidden="true" className="hidden h-20 bg-navy-deep lg:block" />
-      <section>
-        <div className="mx-auto grid w-full max-w-[1280px] lg:grid-cols-12">
-          <div className="relative isolate bg-navy-deep px-6 pb-14 pt-[calc(5rem+48px)] text-paper md:px-10 md:pb-16 lg:col-span-5 lg:bg-transparent lg:py-24 lg:pr-14 before:absolute before:inset-y-0 before:right-0 before:-z-10 before:hidden before:w-[100vw] before:bg-navy-deep lg:before:block">
-            <span aria-hidden="true" className="block h-px w-16 bg-gold" />
-            <h1 className="mt-8 font-[Montserrat] text-[clamp(2.4rem,4.4vw,3.75rem)] font-bold leading-[1.08] text-paper [text-wrap:balance]">Let's Start a Conversation.</h1>
-            <p className="mt-8 max-w-[44ch] font-[Inter] text-[18px] leading-[1.7] text-paper/90">
-              Whether you're looking to strengthen leadership, develop your people, or explore new possibilities for your organization, we'd be glad to hear from you.
+      <div aria-hidden="true" className="h-[calc(5rem+32px)] bg-navy-deep" />
+      <section
+        aria-labelledby="page-title"
+        className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-10 md:px-10 md:pb-28 md:pt-14"
+      >
+        <div className="flex items-center justify-between gap-6 border-b border-navy/15 pb-4">
+          <p className="flex items-center gap-3 font-display text-[12px] font-semibold uppercase tracking-[0.16em] text-teal md:text-[13px]">
+            <span aria-hidden="true" className="h-px w-8 shrink-0 bg-gold" />
+            Contact
+          </p>
+          <p className="hidden font-display text-[13px] font-semibold text-navy/60 md:block">
+            {CONTACT_EMAIL}
+          </p>
+        </div>
+        {/* Phones: invitation, form, then the direct lines. From lg: invitation and direct lines on
+            the left, the form spanning both rows on the right. */}
+        <div className="mt-10 grid gap-12 md:mt-14 lg:grid-cols-12 lg:grid-rows-[auto_1fr] lg:gap-x-14 lg:gap-y-12">
+          <div className="lg:col-span-5">
+            <h1
+              id="page-title"
+              className="max-w-[12ch] font-display text-[clamp(2.4rem,4.2vw,3.75rem)] font-bold leading-[1.02] tracking-[-0.03em] text-navy [text-wrap:balance]"
+            >
+              Let's Start a Conversation.
+            </h1>
+            <p className="mt-8 max-w-[44ch] border-l-[3px] border-gold pl-6 font-[Inter] text-[18px] leading-[1.65] text-ink">
+              Whether you're looking to strengthen leadership, develop your people, or explore new
+              possibilities for your organization, we'd be glad to hear from you.
             </p>
-            <div className="mt-12"><ContactMethods /></div>
           </div>
-          <div className="min-w-0 px-6 py-14 md:px-10 md:py-16 lg:col-span-7 lg:py-24 lg:pl-16 xl:pl-20">
+          <div className="min-w-0 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
             <EnquiryForm />
+          </div>
+          <div className="lg:col-span-5">
+            <h2 className="font-[Montserrat] text-[15px] font-semibold text-navy">
+              Or reach us directly
+            </h2>
+            <div className="mt-4">
+              <ContactMethods />
+            </div>
           </div>
         </div>
       </section>

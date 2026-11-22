@@ -50,7 +50,7 @@ function CopyEmail() {
       <button
         type="button"
         onClick={onCopy}
-        className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-paper/35 px-4 font-[Inter] text-[14px] font-semibold text-paper transition-colors hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+        className="inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border border-navy/20 px-4 font-[Inter] text-[14px] font-semibold text-navy transition-colors hover:border-teal hover:text-teal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
       >
         {state === "copied" ? (
           <Check aria-hidden="true" className="h-4 w-4" />
@@ -71,25 +71,25 @@ function CopyEmail() {
   );
 }
 
-/** Contact methods, styled for the navy panel of the Contact page. */
+/** Direct contact methods on the light side of the Contact page. */
 export function ContactMethods() {
   return (
-    <ul className="border-t border-paper/20">
+    <ul className="border-t border-navy/15">
       {methods.map(({ icon: Icon, label, value, href, external, copy }) => (
-        <li key={label} className="flex items-center gap-3 border-b border-paper/20">
+        <li key={label} className="flex items-center gap-3 border-b border-navy/15">
           <a
             href={href}
             {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             className="group flex min-h-[64px] min-w-0 flex-1 items-center gap-4 py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-paper/35 text-gold transition-colors group-hover:border-gold group-hover:bg-gold group-hover:text-navy-deep">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-teal-wash text-teal transition-colors group-hover:bg-teal group-hover:text-paper">
               <Icon aria-hidden="true" className="h-5 w-5" />
             </span>
             <span className="min-w-0">
-              <span className="block font-[Inter] text-[12px] font-semibold uppercase tracking-[0.14em] text-gold">
+              <span className="block font-[Inter] text-[13px] font-medium text-ink/65">
                 {label}
               </span>
-              <span className="mt-0.5 block [overflow-wrap:anywhere] font-[Montserrat] text-[17px] font-semibold text-paper group-hover:underline group-hover:decoration-gold group-hover:underline-offset-4">
+              <span className="mt-0.5 block [overflow-wrap:anywhere] font-[Montserrat] text-[17px] font-semibold text-navy group-hover:underline group-hover:decoration-gold group-hover:underline-offset-4">
                 {value}
               </span>
             </span>
@@ -97,12 +97,12 @@ export function ContactMethods() {
               (external ? (
                 <ArrowUpRight
                   aria-hidden="true"
-                  className="ml-auto h-5 w-5 shrink-0 text-gold transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none"
+                  className="ml-auto h-5 w-5 shrink-0 text-teal transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 motion-reduce:transition-none"
                 />
               ) : (
                 <ArrowRight
                   aria-hidden="true"
-                  className="ml-auto h-5 w-5 shrink-0 text-gold transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
+                  className="ml-auto h-5 w-5 shrink-0 text-teal transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
                 />
               ))}
             {external && <span className="sr-only">(opens in a new tab)</span>}

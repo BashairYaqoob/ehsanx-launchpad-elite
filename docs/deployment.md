@@ -44,6 +44,7 @@ public_html/
 ├── client-impact/index.html  /client-impact
 ├── meet-the-team/index.html  /meet-the-team
 ├── contact/index.html        /contact
+├── contact.php               enquiry endpoint (PHP → SMTP → info@ehsanx.com)
 ├── 404.html                  not-found page (served with status 404)
 ├── assets/                   hashed JS, CSS, images (~93 files, ~8 MB)
 │   └── .htaccess             one-year caching for hashed files
@@ -94,7 +95,7 @@ The policy allows inline scripts and styles because each page carries inline
 `<script>` data that TanStack Start hydrates from, plus inline style attributes,
 and a static host cannot add per-request nonces. Everything else is limited to
 this origin and Google Fonts. `connect-src 'self'` and `form-action 'self'`
-already allow the future PHP contact endpoint on the same domain. If a new
+already allow the PHP contact endpoint on the same domain. If a new
 external service is added (analytics, maps, a captcha), extend the policy or it
 will be blocked.
 
@@ -135,43 +136,11 @@ After go-live:
 
 - [ ] HSTS enabled in `.htaccess` once HTTPS has been stable for a few days.
 
-## Contact form (prepared, not active)
+## Contact form
 
-The enquiry form currently validates in the browser and then opens the
-visitor's email app (`mailto:`). It stays that way until the `info@ehsanx.com`
-mailbox exists and sending and receiving have been tested. The planned
-replacement, which needs no change to the page design:
+The Contact page posts enquiries to `/contact.php`, a PHP endpoint that delivers them to
+`info@ehsanx.com` through Hostinger's authenticated SMTP. `build:hostinger` copies it into
+`.output/public/contact.php`, so it is part of every upload. Its SMTP password lives only in a
+private config file next to `public_html` (never inside it, never in Git).
 
-```
-public_html/
-├── api/contact.php        POST endpoint, JSON in and out
-└── (outside public_html)  config file with SMTP host, port, username and
-                           password, readable only by the account; never in Git
-```
-
-- **Request checks:** POST only; `Content-Type: application/json`; `Origin`
-  must be `https://ehsanx.com`; a custom request header the browser sends from
-  the site; body size limit.
-- **Validation (server side, mirroring `src/lib/enquiry.ts`):** name ≤ 100,
-  organization ≤ 150, valid email ≤ 255, message ≤ 2000 characters; trimmed;
-  control characters and line breaks removed from anything used in a header.
-- **Spam protection:** a hidden honeypot field, a minimum time between page
-  load and submit, and per-IP rate limiting (file or MySQL based). A captcha
-  (e.g. Cloudflare Turnstile) is optional and would need the CSP extended.
-- **Sending:** authenticated SMTP via PHPMailer. From and To are
-  `info@ehsanx.com`; the visitor's address goes only in Reply-To, after
-  validation. Never use the visitor's address as From (it would fail SPF/DMARC).
-- **Responses:** `200 {"ok":true}` only after the SMTP server accepts the
-  message; `422` with per-field errors; `429` when rate-limited; `500` with a
-  generic message (details only in the server log). The form shows success or
-  failure inside its existing design and keeps the WhatsApp and email
-  alternatives that are already on the page.
-
-Waiting for the mailbox and hPanel:
-
-- SMTP host, port and encryption for the Hostinger mailbox (read from hPanel,
-  not assumed), and the mailbox password stored only in the server-side config.
-- SPF, DKIM and DMARC records for ehsanx.com (part of the DNS decision).
-- A real test: messages from the endpoint arrive at `info@ehsanx.com`, with
-  SPF/DKIM/DMARC passing, before the form is switched over.
-- Changing `CONTACT_EMAIL` in `src/lib/contact.ts` from the Gmail address.
+Setup, staging tests and troubleshooting: see [contact-form.md](contact-form.md).

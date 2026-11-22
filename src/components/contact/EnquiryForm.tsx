@@ -1,140 +1,431 @@
-import { useState, type FormEvent } from "react";
-import { Check, Copy, Mail, MessageCircle } from "lucide-react";
-import { copyText } from "@/lib/clipboard";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import {
+  AlertCircle,
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Loader2,
+  MessageCircle,
+  RotateCcw,
+} from "lucide-react";
 import { CONTACT_EMAIL, MAILTO_URL, WHATSAPP_CONVERSATION_URL } from "@/lib/contact";
-import { ENQUIRY_ENDPOINT, buildEnquiryMailto, enquiryDraftText, sendEnquiry, validateEnquiry, type Enquiry, type EnquiryErrors } from "@/lib/enquiry";
+import {
+  ENQUIRY_TOPICS,
+  MESSAGE_MAX,
+  emptyEnquiry,
+  firstInvalidField,
+  sendEnquiry,
+  validateEnquiry,
+  type Enquiry,
+  type EnquiryErrors,
+  type EnquiryField,
+} from "@/lib/enquiry";
 
-const fields: { name: keyof Enquiry; label: string; type: string; placeholder: string; autoComplete: string }[] = [
-  { name: "name", label: "Full Name", type: "text", placeholder: "Your full name", autoComplete: "name" },
-  { name: "organization", label: "Organization", type: "text", placeholder: "Your organization", autoComplete: "organization" },
-  { name: "email", label: "Email Address", type: "email", placeholder: "name@organization.com", autoComplete: "email" },
-];
+type Status = "idle" | "sending" | "sent" | "failed";
 
-const input =
-  "w-full rounded-lg border border-navy/25 bg-white px-4 font-[Inter] text-[16px] text-ink placeholder:text-ink/45 focus:border-teal focus:outline-2 focus:outline-offset-1 focus:outline-gold aria-[invalid=true]:border-destructive";
+const id = (f: EnquiryField | "website") => `enquiry-${f}`;
+const control =
+  "w-full rounded-xl border border-navy/20 bg-paper px-4 font-[Inter] text-[16px] text-ink transition-colors placeholder:text-ink/45 hover:border-navy/40 focus:border-teal focus:outline-2 focus:outline-offset-1 focus:outline-gold aria-[invalid=true]:border-destructive aria-[invalid=true]:bg-destructive/[0.03]";
 
-export function EnquiryForm() {
-  const [values, setValues] = useState<Enquiry>({ name: "", organization: "", email: "", message: "" });
-  const [errors, setErrors] = useState<EnquiryErrors>({});
-  const [drafted, setDrafted] = useState(false);
-  const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
-  // Only used once ENQUIRY_ENDPOINT is set (server delivery); the mailto flow ignores them.
-  const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [sendError, setSendError] = useState("");
-  const [website, setWebsite] = useState("");
+const FIELD_LABELS: Record<EnquiryField, string> = {
+  name: "Full name",
+  email: "Email address",
+  organization: "Organization",
+  topic: "What is your enquiry about?",
+  message: "Message",
+};
 
-  const set = (k: keyof Enquiry, v: string) => {
-    setValues((s) => ({ ...s, [k]: v }));
-    setCopied("idle");
-    if (errors[k]) setErrors((e) => ({ ...e, [k]: undefined }));
-  };
-
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const found = validateEnquiry(values);
-    setErrors(found);
-    const first = Object.keys(found)[0];
-    if (first) {
-      document.getElementById(`enquiry-${first}`)?.focus();
-      return;
-    }
-    if (ENQUIRY_ENDPOINT) {
-      setSending(true);
-      setSendError("");
-      const result = await sendEnquiry(ENQUIRY_ENDPOINT, values, website);
-      setSending(false);
-      if (result.ok) setSent(true);
-      else setSendError(result.message);
-      return;
-    }
-    // No submission service is active: open a prefilled draft in the visitor's email app.
-    window.location.href = buildEnquiryMailto(values);
-    setDrafted(true);
-  };
-
-  // Fallback for visitors whose device has no email app: paste the prepared message anywhere.
-  const onCopyDraft = async () => {
-    setCopied((await copyText(enquiryDraftText(values))) ? "copied" : "failed");
-  };
-
-  const err = (k: keyof Enquiry) => errors[k] && (
-    <p id={`enquiry-${k}-error`} className="mt-2 font-[Inter] text-[14px] text-destructive">{errors[k]}</p>
-  );
-
-  const field = (f: (typeof fields)[number]) => (
-    <div key={f.name}>
-      <label htmlFor={`enquiry-${f.name}`} className="mb-2 block font-[Inter] text-[14px] font-semibold text-navy">
-        {f.label} <span aria-hidden="true" className="text-teal">*</span>
-      </label>
-      <input
-        id={`enquiry-${f.name}`}
-        name={f.name}
-        type={f.type}
-        required
-        autoComplete={f.autoComplete}
-        placeholder={f.placeholder}
-        value={values[f.name]}
-        onChange={(e) => set(f.name, e.target.value)}
-        aria-invalid={!!errors[f.name]}
-        aria-describedby={errors[f.name] ? `enquiry-${f.name}-error` : undefined}
-        className={`${input} h-12`}
-      />
-      {err(f.name)}
-    </div>
-  );
-
+function Field({
+  field,
+  required = false,
+  hint,
+  error,
+  children,
+}: {
+  field: EnquiryField;
+  required?: boolean;
+  hint?: ReactNode;
+  error?: string | undefined;
+  children: ReactNode;
+}) {
   return (
-    <form noValidate onSubmit={onSubmit} className="relative" aria-labelledby="enquiry-title">
-      <h2 id="enquiry-title" className="font-[Montserrat] text-[28px] font-bold leading-[1.2] text-navy md:text-[32px]">Send an Enquiry</h2>
-      {ENQUIRY_ENDPOINT ? (
-        <p id="enquiry-how" className="mt-3 max-w-[60ch] font-[Inter] text-[15px] leading-[1.6] text-ink/80">
-          Your enquiry is sent directly to the EhsanX team.
+    <div>
+      <label
+        htmlFor={id(field)}
+        className="mb-2 flex items-baseline gap-2 font-[Montserrat] text-[14px] font-semibold text-navy"
+      >
+        {FIELD_LABELS[field]}
+        {required ? (
+          <span aria-hidden="true" className="text-teal">
+            *
+          </span>
+        ) : (
+          <span className="font-[Inter] text-[13px] font-normal text-ink/60">(optional)</span>
+        )}
+      </label>
+      {children}
+      {error ? (
+        <p
+          id={`${id(field)}-error`}
+          className="mt-2 flex items-start gap-1.5 font-[Inter] text-[14px] leading-[1.45] text-destructive"
+        >
+          <AlertCircle aria-hidden="true" className="mt-[2px] h-4 w-4 shrink-0" />
+          {error}
         </p>
       ) : (
-        <p id="enquiry-how" className="mt-3 max-w-[60ch] font-[Inter] text-[15px] leading-[1.6] text-ink/80">
-          This form does not send your enquiry by itself. It opens a draft in your email application, addressed to{" "}
-          <span className="font-semibold text-navy">{CONTACT_EMAIL}</span>, ready for you to review and send.
-        </p>
+        hint && <div className="mt-2 font-[Inter] text-[13px] text-ink/60">{hint}</div>
       )}
-      <div className="mt-8 space-y-6">
-        {ENQUIRY_ENDPOINT && (
-          // Honeypot: hidden from people and assistive technology; bots that fill it are dropped server-side.
-          <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-            <label htmlFor="enquiry-website">Website</label>
-            <input id="enquiry-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+    </div>
+  );
+}
+
+export function EnquiryForm() {
+  const [values, setValues] = useState<Enquiry>(emptyEnquiry);
+  const [errors, setErrors] = useState<EnquiryErrors>({});
+  const [summary, setSummary] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [failure, setFailure] = useState("");
+  const [website, setWebsite] = useState("");
+  const openedAt = useRef(0);
+  const inFlight = useRef(false);
+  const successRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    openedAt.current = performance.now();
+  }, []);
+  useEffect(() => {
+    if (status === "sent") successRef.current?.focus();
+  }, [status]);
+
+  const set = (field: EnquiryField, value: string) => {
+    setValues((v) => ({ ...v, [field]: value }));
+    if (errors[field]) setErrors((e) => ({ ...e, [field]: undefined }));
+  };
+
+  const showErrors = (found: EnquiryErrors, message: string) => {
+    setErrors(found);
+    setSummary(message);
+    const first = firstInvalidField(found);
+    if (first) document.getElementById(id(first))?.focus();
+  };
+
+  const submit = async (e?: FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
+    if (inFlight.current) return; // one request at a time, however fast the clicks
+    const found = validateEnquiry(values);
+    if (Object.keys(found).length) {
+      const count = Object.keys(found).length;
+      showErrors(
+        found,
+        count === 1 ? "One field needs your attention." : `${count} fields need your attention.`,
+      );
+      return;
+    }
+    setErrors({});
+    setSummary("");
+    setFailure("");
+    inFlight.current = true;
+    setStatus("sending");
+    const result = await sendEnquiry(values, {
+      website,
+      elapsed: performance.now() - openedAt.current,
+    });
+    inFlight.current = false;
+    if (result.kind === "sent") {
+      setStatus("sent");
+    } else if (result.kind === "invalid") {
+      setStatus("idle");
+      showErrors(result.errors, result.message);
+    } else {
+      setFailure(result.message);
+      setStatus("failed");
+    }
+  };
+
+  const startOver = () => {
+    setValues(emptyEnquiry);
+    setErrors({});
+    setStatus("idle");
+    openedAt.current = performance.now();
+    requestAnimationFrame(() => document.getElementById(id("name"))?.focus());
+  };
+
+  const describe = (field: EnquiryField, hint?: string) =>
+    [errors[field] ? `${id(field)}-error` : undefined, hint].filter(Boolean).join(" ") || undefined;
+  const sending = status === "sending";
+  const firstName = values.name.trim().split(/\s+/)[0] ?? "";
+
+  // Sent: a short confirmation in place of the form. Shown only after the server confirmed acceptance.
+  if (status === "sent") {
+    return (
+      <div className="rounded-[24px] bg-teal-wash p-6 sm:p-8 md:p-10" role="status">
+        <div className="flex items-start gap-4">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-teal text-paper">
+            <Check aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
+          </span>
+          <div>
+            <h2
+              ref={successRef}
+              tabIndex={-1}
+              className="font-[Montserrat] text-[22px] font-bold leading-[1.25] text-navy outline-none md:text-[24px]"
+            >
+              Thank you{firstName ? `, ${firstName}` : ""}. We've received your enquiry.
+            </h2>
+            <p className="mt-2 font-[Inter] text-[15px] leading-[1.6] text-ink/80">
+              A member of our team will be in touch soon.
+            </p>
+            <button
+              type="button"
+              onClick={startOver}
+              className="mt-5 inline-flex min-h-11 cursor-pointer items-center font-[Montserrat] text-[15px] font-semibold text-teal underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              Send another enquiry
+            </button>
           </div>
-        )}
-        <div className="grid gap-6 md:grid-cols-2">{fields.slice(0, 2).map((f) => field(f))}</div>
-        {fields.slice(2).map((f) => field(f))}
-        <div>
-          <label htmlFor="enquiry-message" className="mb-2 block font-[Inter] text-[14px] font-semibold text-navy">
-            Message <span aria-hidden="true" className="text-teal">*</span>
-          </label>
-          <textarea
-            id="enquiry-message"
-            name="message"
-            required
-            rows={6}
-            placeholder="Tell us about your organization and what you would like to explore."
-            value={values.message}
-            onChange={(e) => set("message", e.target.value)}
-            aria-invalid={!!errors.message}
-            aria-describedby={errors.message ? "enquiry-message-error" : undefined}
-            className={`${input} min-h-[160px] resize-y py-3 leading-[1.6]`}
-          />
-          {err("message")}
         </div>
       </div>
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+    );
+  }
+
+  return (
+    <form
+      noValidate
+      onSubmit={submit}
+      aria-labelledby="enquiry-title"
+      aria-describedby="enquiry-intro"
+      aria-busy={sending}
+      className="relative rounded-[24px] bg-teal-wash p-6 sm:p-8 md:p-10"
+    >
+      <h2
+        id="enquiry-title"
+        className="font-[Montserrat] text-[clamp(1.6rem,2.6vw,2rem)] font-bold leading-[1.2] text-navy"
+      >
+        Send us an enquiry
+      </h2>
+      <p
+        id="enquiry-intro"
+        className="mt-3 max-w-[56ch] font-[Inter] text-[15px] leading-[1.6] text-ink/80"
+      >
+        Your message goes straight to our team. Fields marked{" "}
+        <span aria-hidden="true" className="font-semibold text-teal">
+          *
+        </span>
+        <span className="sr-only">with an asterisk</span> are required.
+      </p>
+
+      {/* Error summary for validation problems: announced, and each item moves focus to its field. */}
+      <div role="alert" aria-live="assertive">
+        {summary && (
+          <div className="mt-6 rounded-xl border border-destructive/40 bg-paper p-4">
+            <p className="flex items-center gap-2 font-[Montserrat] text-[15px] font-semibold text-destructive">
+              <AlertCircle aria-hidden="true" className="h-[18px] w-[18px]" />
+              {summary}
+            </p>
+            <ul className="mt-2 space-y-1 pl-[26px]">
+              {(Object.keys(errors) as EnquiryField[])
+                .filter((f) => errors[f])
+                .map((f) => (
+                  <li key={f}>
+                    <a
+                      href={`#${id(f)}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById(id(f))?.focus();
+                      }}
+                      className="font-[Inter] text-[14px] text-ink underline decoration-destructive/50 underline-offset-4 hover:decoration-destructive"
+                    >
+                      {FIELD_LABELS[f]}: {errors[f]}
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Honeypot: invisible to people and assistive technology; a bot that fills it is dropped. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] top-0 h-px w-px overflow-hidden">
+        <label htmlFor={id("website")}>Leave this field empty</label>
+        <input
+          id={id("website")}
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
+
+      <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <Field field="name" required error={errors.name}>
+          <input
+            id={id("name")}
+            name="name"
+            type="text"
+            autoComplete="name"
+            maxLength={120}
+            required
+            aria-required="true"
+            aria-invalid={!!errors.name}
+            aria-describedby={describe("name")}
+            value={values.name}
+            onChange={(e) => set("name", e.target.value)}
+            className={`${control} h-12`}
+          />
+        </Field>
+        <Field field="email" required error={errors.email}>
+          <input
+            id={id("email")}
+            name="email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            spellCheck={false}
+            maxLength={254}
+            required
+            aria-required="true"
+            aria-invalid={!!errors.email}
+            aria-describedby={describe("email")}
+            value={values.email}
+            onChange={(e) => set("email", e.target.value)}
+            className={`${control} h-12`}
+          />
+        </Field>
+        <Field field="organization" error={errors.organization}>
+          <input
+            id={id("organization")}
+            name="organization"
+            type="text"
+            autoComplete="organization"
+            maxLength={150}
+            aria-invalid={!!errors.organization}
+            aria-describedby={describe("organization")}
+            value={values.organization}
+            onChange={(e) => set("organization", e.target.value)}
+            className={`${control} h-12`}
+          />
+        </Field>
+        <Field field="topic" required error={errors.topic}>
+          <div className="relative">
+            <select
+              id={id("topic")}
+              name="topic"
+              required
+              aria-required="true"
+              aria-invalid={!!errors.topic}
+              aria-describedby={describe("topic")}
+              value={values.topic}
+              onChange={(e) => set("topic", e.target.value)}
+              className={`${control} h-12 cursor-pointer appearance-none pr-11 ${values.topic ? "" : "text-ink/55"}`}
+            >
+              <option value="" disabled>
+                Choose a topic
+              </option>
+              {ENQUIRY_TOPICS.map((t) => (
+                <option key={t.value} value={t.value} className="text-ink">
+                  {t.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown
+              aria-hidden="true"
+              className="pointer-events-none absolute right-4 top-1/2 h-5 w-5 -translate-y-1/2 text-navy/60"
+            />
+          </div>
+        </Field>
+      </div>
+
+      <div className="mt-6">
+        <Field
+          field="message"
+          required
+          error={errors.message}
+          hint={
+            <span id="enquiry-message-count" className="flex justify-between gap-4">
+              <span>Tell us about your organization and what you would like to explore.</span>
+              <span className="shrink-0 tabular-nums">
+                {values.message.length.toLocaleString("en-US")} /{" "}
+                {MESSAGE_MAX.toLocaleString("en-US")}
+              </span>
+            </span>
+          }
+        >
+          <textarea
+            id={id("message")}
+            name="message"
+            rows={6}
+            maxLength={MESSAGE_MAX}
+            required
+            aria-required="true"
+            aria-invalid={!!errors.message}
+            aria-describedby={describe(
+              "message",
+              errors.message ? undefined : "enquiry-message-count",
+            )}
+            value={values.message}
+            onChange={(e) => set("message", e.target.value)}
+            className={`${control} min-h-[168px] resize-y py-3 leading-[1.6]`}
+          />
+        </Field>
+      </div>
+
+      {/* Delivery failure: keeps every field as typed and offers a retry plus direct alternatives. */}
+      <div role="alert" aria-live="assertive">
+        {status === "failed" && failure && (
+          <div className="mt-6 rounded-xl border-l-[3px] border-destructive bg-paper p-4 md:p-5">
+            <p className="font-[Montserrat] text-[15px] font-semibold text-navy">
+              Your enquiry was not sent.
+            </p>
+            <p className="mt-1.5 font-[Inter] text-[15px] leading-[1.6] text-ink">{failure}</p>
+            <p className="mt-2 font-[Inter] text-[14px] leading-[1.6] text-ink/75">
+              You can also email{" "}
+              <a href={MAILTO_URL} className="font-semibold text-teal underline underline-offset-4">
+                {CONTACT_EMAIL}
+              </a>{" "}
+              or{" "}
+              <a
+                href={WHATSAPP_CONVERSATION_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-teal underline underline-offset-4"
+              >
+                message us on WhatsApp<span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              .
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="submit"
-          disabled={sending || sent}
-          aria-describedby="enquiry-how"
-          className="inline-flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-full bg-navy px-8 font-[Montserrat] text-[15px] font-semibold text-white transition-colors hover:bg-teal disabled:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold sm:w-auto"
+          aria-disabled={sending}
+          className="group inline-flex min-h-[52px] w-full cursor-pointer items-center justify-center gap-2.5 rounded-full bg-navy px-8 font-[Montserrat] text-[15px] font-semibold text-paper transition-colors hover:bg-navy-deep focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold aria-disabled:cursor-progress aria-disabled:opacity-80 sm:w-auto"
         >
-          <Mail aria-hidden="true" className="h-[18px] w-[18px]" />
-          {ENQUIRY_ENDPOINT ? (sending ? "Sending…" : sent ? "Enquiry sent" : "Send Enquiry") : "Open Email Draft"}
+          {sending ? (
+            <>
+              <Loader2
+                aria-hidden="true"
+                className="h-[18px] w-[18px] animate-spin motion-reduce:animate-none"
+              />
+              Sending your enquiry…
+            </>
+          ) : status === "failed" ? (
+            <>
+              <RotateCcw aria-hidden="true" className="h-[18px] w-[18px]" />
+              Try again
+            </>
+          ) : (
+            <>
+              Send enquiry
+              <ArrowRight
+                aria-hidden="true"
+                className="h-[18px] w-[18px] transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none"
+              />
+            </>
+          )}
         </button>
         <a
           href={WHATSAPP_CONVERSATION_URL}
@@ -143,42 +434,13 @@ export function EnquiryForm() {
           className="inline-flex min-h-11 items-center justify-center gap-2 font-[Inter] text-[15px] font-semibold text-teal underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
         >
           <MessageCircle aria-hidden="true" className="h-[18px] w-[18px]" />
-          Or message us on WhatsApp
+          Prefer WhatsApp?
           <span className="sr-only">(opens in a new tab)</span>
         </a>
       </div>
-      <div role="status" aria-live="polite">
-        {sent && (
-          <p className="mt-6 border-l-2 border-gold pl-4 font-[Inter] text-[15px] leading-[1.6] text-ink">
-            Thank you. Your enquiry has been sent to the EhsanX team.
-          </p>
-        )}
-        {sendError && (
-          <p className="mt-6 border-l-2 border-destructive pl-4 font-[Inter] text-[15px] leading-[1.6] text-ink">
-            {sendError}{" "}
-            <a href={MAILTO_URL} className="font-semibold text-teal underline underline-offset-4">{CONTACT_EMAIL}</a>
-          </p>
-        )}
-        {drafted && (
-          <div className="mt-6 border-l-2 border-gold pl-4">
-            <p className="font-[Inter] text-[15px] leading-[1.6] text-ink">
-              Your email application should now open with your enquiry. Please press send there to complete it. If nothing opened, your details are still here — copy the enquiry below, or email us directly at{" "}
-              <a href={MAILTO_URL} className="font-semibold text-teal underline underline-offset-4">{CONTACT_EMAIL}</a>.
-            </p>
-            <button
-              type="button"
-              onClick={onCopyDraft}
-              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border border-navy/20 px-5 font-[Inter] text-[14px] font-semibold text-navy transition-colors hover:border-teal hover:text-teal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-            >
-              {copied === "copied" ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
-              {copied === "copied" ? "Enquiry copied" : "Copy enquiry"}
-            </button>
-            {copied === "failed" && (
-              <p className="mt-2 font-[Inter] text-[14px] text-destructive">Copy did not work in this browser. Please email us directly at {CONTACT_EMAIL}.</p>
-            )}
-          </div>
-        )}
-      </div>
+      <p role="status" className="sr-only">
+        {sending ? "Sending your enquiry." : ""}
+      </p>
     </form>
   );
 }

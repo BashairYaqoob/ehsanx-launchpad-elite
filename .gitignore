@@ -35,3 +35,7 @@ dist-ssr
 .agents/
 .claude/skills/
 skills-lock.json
+
+# Contact form secrets: the real SMTP config lives only on the server, outside public_html.
+contact-config.php
+ehsanx-private/
