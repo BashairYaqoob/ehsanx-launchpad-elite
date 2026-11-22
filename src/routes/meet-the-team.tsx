@@ -1,12 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import shahid from "@/assets/team/shahid-portrait.webp";
 import ambreen from "@/assets/team/ambreen-portrait.webp";
-import hero640 from "@/assets/team/meet-the-team-hero-640.webp";
-import hero1280 from "@/assets/team/meet-the-team-hero-1280.webp";
-import hero1672 from "@/assets/team/meet-the-team-hero-1672.webp";
 import { DirectorProfile } from "@/components/team/DirectorProfile";
 import { FounderProfile } from "@/components/team/FounderProfile";
 import { FinalCta } from "@/components/home/FounderAndCta";
+import { TransformationHero } from "@/components/TransformationHero";
 import { director, founder, teamHero } from "@/data/team";
 import { pageHead } from "@/lib/site";
 
@@ -17,33 +15,12 @@ export const Route = createFileRoute("/meet-the-team")({
 
 function TeamHero() {
   return (
-    <section className="relative bg-navy-deep min-[900px]:flex min-[900px]:min-h-[max(85vh,600px)] min-[900px]:items-center">
-      <div className="pt-[calc(5rem+8px)] min-[900px]:absolute min-[900px]:inset-0 min-[900px]:pt-0">
-        <img
-          src={hero1672}
-          srcSet={`${hero640} 640w, ${hero1280} 1280w, ${hero1672} 1672w`}
-          sizes="100vw"
-          alt={teamHero.alt}
-          width={1672}
-          height={941}
-          fetchPriority="high"
-          className="aspect-[4/3] w-full object-cover object-[68%_50%] min-[900px]:aspect-auto min-[900px]:h-full min-[900px]:object-[50%_50%]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 hidden min-[900px]:block"
-          style={{ background: "linear-gradient(90deg, color-mix(in srgb, var(--navy-deep) 96%, transparent) 0%, color-mix(in srgb, var(--navy-deep) 82%, transparent) 36%, color-mix(in srgb, var(--navy-deep) 28%, transparent) 63%, transparent 80%)" }}
-        />
-      </div>
-      <div className="relative mx-auto w-full max-w-[1280px] px-6 py-10 md:px-10 md:max-[899.98px]:py-12 min-[900px]:pb-20 min-[900px]:pt-[calc(5rem+48px)]">
-        <div className="max-w-[620px]">
-          <p className="font-[Inter] text-[13px] font-semibold uppercase tracking-[0.14em] text-gold">{teamHero.eyebrow}</p>
-          <h1 className="mt-5 font-[Montserrat] text-[clamp(2.2rem,4.4vw,3.75rem)] font-bold leading-[1.1] text-paper [text-wrap:balance]">{teamHero.title}</h1>
-          <div aria-hidden="true" className="mt-7 h-px w-16 bg-gold" />
-          <p className="mt-7 max-w-[62ch] font-[Inter] text-[17px] leading-[1.7] text-paper/90">{teamHero.intro}</p>
-        </div>
-      </div>
-    </section>
+    <TransformationHero
+      eyebrow={teamHero.eyebrow}
+      meta={teamHero.meta}
+      title={teamHero.title}
+      subtitle={teamHero.intro}
+    />
   );
 }
 

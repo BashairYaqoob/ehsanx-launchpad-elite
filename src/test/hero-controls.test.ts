@@ -39,7 +39,7 @@ describe("hero interaction rules", () => {
     expect(slideshowPaused({ ...playing, reduced: true })).toBe(true);
   });
   it("uses the requested WhatsApp number", () => {
-    expect(new URL(WHATSAPP_CONVERSATION_URL).pathname).toBe("/923018226596");
+    expect(new URL(WHATSAPP_CONVERSATION_URL).pathname).toBe("/923374067982");
   });
   it("prefills the requested conversation", () => {
     expect(new URL(WHATSAPP_CONVERSATION_URL).searchParams.get("text")).toBe(

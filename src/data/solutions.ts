@@ -2,16 +2,17 @@
 // starting point, the programmes run over months, and partnerships often build on a programme.
 
 export const solutionsHero = {
-  eyebrow: "OUR SOLUTIONS",
-  title: "Developing Leaders. Transforming Organizations.",
+  eyebrow: "Our Solutions",
+  meta: "Three ways to work with EhsanX",
+  // The previous headline nearly repeated the homepage's "Building Leaders. Transforming Organizations."
+  title: "Built Around Your Challenges.",
   // Shortened from two paragraphs: "Unlike traditional training providers, EhsanX combines leadership
   // development, entrepreneurial thinking, organizational transformation, and practical implementation
   // into an integrated approach. Our solutions are designed around the challenges organizations face
   // and the capabilities they need to build for sustainable growth." The contrast with traditional
   // training is carried by the "More Than Traditional Training" section.
   intro:
-    "One integrated approach to leadership development, entrepreneurial thinking, organizational transformation and practical implementation, built around your challenges and the capabilities you need for sustainable growth.",
-  alt: "A presenter in a navy abaya explains a strategic approach on a wall screen to three colleagues seated at a boardroom table",
+    "Executive dialogues, leadership programmes and transformation partnerships, designed around the capabilities your organization needs for sustainable growth.",
 };
 
 export const solution01 = {

@@ -1,6 +1,6 @@
-import heroImg from "@/assets/solutions/hero.jpg";
 import img02 from "@/assets/solutions/solution-02.jpg";
 import { FinalCta } from "@/components/home/FounderAndCta";
+import { TransformationHero } from "@/components/TransformationHero";
 import { images } from "@/lib/image-assets";
 import {
   outcomes,
@@ -117,51 +117,14 @@ function Photo({
   );
 }
 
-// The original hero, unchanged in size and composition: the photo fills the section on desktop and
-// the copy sits on it over the same overlay. Only the supporting text is shorter.
 function Hero() {
   return (
-    <section
-      aria-labelledby="solutions-title"
-      className="relative bg-navy-deep min-[900px]:flex min-[900px]:min-h-[max(85vh,600px)] min-[900px]:items-center"
-    >
-      <div className="pt-[calc(5rem+8px)] min-[900px]:absolute min-[900px]:inset-0 min-[900px]:pt-0">
-        <img
-          src={heroImg}
-          alt={solutionsHero.alt}
-          width={1536}
-          height={1024}
-          fetchPriority="high"
-          className="aspect-[4/3] w-full object-cover object-[72%_50%] min-[900px]:aspect-auto min-[900px]:h-full min-[900px]:object-[70%_40%]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 hidden min-[900px]:block"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(8,22,40,0.88) 0%, rgba(8,22,40,0.6) 40%, rgba(8,22,40,0) 70%)",
-          }}
-        />
-      </div>
-      <div
-        className={`${container} relative py-12 min-[900px]:pb-20 min-[900px]:pt-[calc(5rem+48px)]`}
-      >
-        <div className="max-w-[620px]">
-          <p className="font-[Inter] text-[13px] font-semibold uppercase tracking-[0.14em] text-gold">
-            {solutionsHero.eyebrow}
-          </p>
-          <h1
-            id="solutions-title"
-            className="mt-5 font-[Montserrat] text-[clamp(2.2rem,4.4vw,3.75rem)] font-bold leading-[1.1] text-white"
-          >
-            {solutionsHero.title}
-          </h1>
-          <p className="mt-6 max-w-[48ch] font-[Inter] text-[17px] leading-[1.7] text-white/90 md:text-[18px]">
-            {solutionsHero.intro}
-          </p>
-        </div>
-      </div>
-    </section>
+    <TransformationHero
+      eyebrow={solutionsHero.eyebrow}
+      meta={solutionsHero.meta}
+      title={solutionsHero.title}
+      subtitle={solutionsHero.intro}
+    />
   );
 }
 

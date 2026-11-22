@@ -166,17 +166,11 @@ export const approach = {
   },
   hero: {
     eyebrow: "Our Approach",
-    title: "How We Work",
-    line: "At EhsanX, transformation begins with understanding.",
+    meta: "How we work",
+    // The page's own opening line, promoted to the headline.
+    title: "Transformation Begins with Understanding.",
     // p.9 "a practical, collaborative, and reflective process"
-    qualities: ["Practical", "Collaborative", "Reflective"],
-    // Colour-graded (softer saturation, slight navy cast) to sit with the brand palette.
-    image: {
-      ...images.approach_auditorium,
-      alt: "Dr Shahid Qureshi addressing participants seated in a lecture theatre during an EhsanX session.",
-      mobilePosition: "74% 50%",
-      desktopPosition: "62% 42%",
-    },
+    line: "A practical, collaborative and reflective process that starts by listening to your organization.",
   },
   intro: {
     eyebrow: "The Approach",

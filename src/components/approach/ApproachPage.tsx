@@ -6,7 +6,8 @@ import { ArrowDown, ArrowRight, RefreshCw } from "lucide-react";
 import kfcPhoto from "@/assets/impact/kfc-colour.webp";
 import pciPhoto from "@/assets/impact/pci-colour.webp";
 import { FinalCta } from "@/components/home/FounderAndCta";
-import { container, Eyebrow, PhotoHero, Reveal } from "@/components/advisory/PagePrimitives";
+import { container, Eyebrow, Reveal } from "@/components/advisory/PagePrimitives";
+import { TransformationHero } from "@/components/TransformationHero";
 import { approach, type ApproachPhase, type ApproachStep } from "@/data/approach";
 import { kfcCase, pciCase } from "@/data/clientImpact";
 import { cn } from "@/lib/utils";
@@ -26,16 +27,12 @@ const textLink =
 function Hero() {
   const { hero } = approach;
   return (
-    <PhotoHero eyebrow={hero.eyebrow} title={hero.title} line={hero.line} image={hero.image}>
-      <ul className="mt-9 flex items-center gap-x-2.5 whitespace-nowrap font-display text-[12px] font-semibold uppercase tracking-[0.08em] text-paper/90 sm:gap-x-4 sm:text-[13px] sm:tracking-[0.16em]">
-        {hero.qualities.map((q, i) => (
-          <li key={q} className="flex items-center gap-2.5 sm:gap-4">
-            {i > 0 && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-gold" />}
-            {q}
-          </li>
-        ))}
-      </ul>
-    </PhotoHero>
+    <TransformationHero
+      eyebrow={hero.eyebrow}
+      meta={hero.meta}
+      title={hero.title}
+      subtitle={hero.line}
+    />
   );
 }
 

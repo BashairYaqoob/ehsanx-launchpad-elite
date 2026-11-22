@@ -68,11 +68,11 @@ export type Director = BaseLeader & {
 };
 
 export const teamHero = {
-  eyebrow: "TEAM EHSANX",
-  title: "Leadership shaped by experience. Transformation grounded in people.",
+  eyebrow: "Team EhsanX",
+  meta: "Leadership",
+  title: "Led by Experience. Grounded in People.",
   intro:
     "EhsanX is led by Dr Muhammad Shahid Qureshi and Dr Ambreen Rasheed Khan, who bring together industry, academic and corporate training experience in leadership, entrepreneurship and learning design.",
-  alt: "Dr Muhammad Shahid Qureshi and Dr Ambreen Rasheed Khan, the leadership team of EhsanX",
 };
 
 export const founder: Founder = {

@@ -7,9 +7,9 @@ import { useCallback, useRef, type ReactNode } from "react";
 import { useReducedMotion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { FinalCta } from "@/components/home/FounderAndCta";
-import { container, Eyebrow, PhotoHero, Reveal } from "@/components/advisory/PagePrimitives";
+import { container, Eyebrow, Reveal } from "@/components/advisory/PagePrimitives";
+import { TransformationHero } from "@/components/TransformationHero";
 import { useScrollScene } from "@/hooks/use-scroll-scene";
-import { images } from "@/lib/image-assets";
 import { philosophy, type Foundation } from "@/data/philosophy";
 import { cn } from "@/lib/utils";
 
@@ -27,17 +27,11 @@ function Hero() {
   const { hero, heroLine, sections } = philosophy;
   return (
     <>
-      <PhotoHero
+      <TransformationHero
         eyebrow={hero.eyebrow}
+        meta={hero.meta}
         title={hero.title}
-        line={heroLine}
-        image={{
-          ...images.philosophy_workshop,
-          alt: "Dr Shahid Qureshi facilitating group work with participants seated at tables during an EhsanX workshop.",
-          mobilePosition: "70% 50%",
-          desktopPosition: "50% 35%",
-        }}
-        inset
+        subtitle={heroLine}
       />
       {/* Page index: a slim band under the hero rather than over the photograph. Stacked rows on
           phones; three equal columns from md, each padded clear of the dividers between them. */}

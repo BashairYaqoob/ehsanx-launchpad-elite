@@ -125,11 +125,11 @@ export function combinedImpact(clients: readonly ImpactClient[] = clientImpact) 
 // ---- /client-impact case studies ----
 
 export const impactHero = {
-  eyebrow: "CLIENT IMPACT",
-  title: "Real Organizations. Real Challenges. Meaningful Change.",
+  eyebrow: "Client Impact",
+  meta: "Three client engagements",
+  title: "Real Challenges. Meaningful Change.",
   intro:
-    "Every organization has its own challenges, ambitions, and opportunities. Through leadership development, entrepreneurial thinking, and practical application, EhsanX works with organizations to develop people, strengthen capabilities, and create meaningful impact.",
-  alt: "EhsanX programme participants gathered with Dr Shahid Qureshi for a group photograph at a venue entrance",
+    "How KFC Pakistan, PCI Automotive and Ahmad Jamal Textile Processing worked with EhsanX to develop people, strengthen capabilities and create meaningful impact.",
 };
 
 export const engagementIndex = [

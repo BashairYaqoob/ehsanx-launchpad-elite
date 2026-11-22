@@ -3,8 +3,8 @@ export type Foundation = { id: string; title: string; icon: string; bullets: str
 export type Stage = { number: string; title: string; descriptor: string; icon: string; detail?: string };
 export const philosophy = {
  meta: {title:'Our Philosophy | The E-Plus Model | EhsanX', description:'The E-Plus Model: how meaning, character and entrepreneurial capability create purposeful value, from leadership to human flourishing.'},
- hero: {eyebrow:'PHILOSOPHY',title:'The EhsanX Philosophy'},
- heroLine:'A model for developing people who create value, strengthen institutions, and contribute beyond themselves.',
+ hero: {eyebrow:'Our Philosophy',title:'Value Beyond Self.',meta:'The E-Plus Model'},
+ heroLine:'The E-Plus Model develops people who create value, strengthen institutions and contribute beyond themselves.',
  intro: {eyebrow:'THE IDEA',title:'Purpose first. Value that outlasts any single project.',pullSentence:'E-Plus defines value creation more broadly than economic or shareholder value alone.', paragraphs:[
  "The E-Plus Model lies at the heart of the EhsanX philosophy. It begins with meaning and purpose in life, which provide direction and shape an individual's character and values. Together with an entrepreneurial mindset and capabilities, these foundations develop people who act with courage, resourcefulness, humility, and responsibility, seeing possibilities where others see constraints and creating value from the resources, relationships, knowledge, and capabilities already available to them.",
  // The opening clause ("E-Plus, however, defines value creation more broadly…") is the pull sentence, shown once between paragraphs 1 and 2.

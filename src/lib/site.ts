@@ -17,7 +17,7 @@ export type SitePath =
   | "/meet-the-team"
   | "/contact";
 
-export const WHATSAPP_URL = "https://wa.me/923018226596";
+export const WHATSAPP_URL = "https://wa.me/923374067982";
 
 // Production origin. Canonical URLs, Open Graph URLs and the share image use it,
 // as do public/robots.txt and public/sitemap.xml (kept in sync by a test).
