@@ -20,8 +20,8 @@ const cards: StackCard[] = [
     tone: "navy",
     photo: {
       asset: images.eplus_leadership,
-      alt: "A participant adds notes to a wall of ideas during a training session on innovation, leadership and entrepreneurship",
-      position: "30% center",
+      alt: "A facilitator leads a discussion with KFC managers during an entrepreneurial leadership programme",
+      position: "42% 40%",
       layout: "panel",
     },
     aside: { statement: belief("Excellence Through Service"), tone: "paper" },
@@ -32,8 +32,8 @@ const cards: StackCard[] = [
     tone: "teal",
     photo: {
       asset: images.eplus_innovation,
-      alt: "Students present a windmill they built from newspaper during an entrepreneurial development workshop",
-      position: "40% center",
+      alt: "Participants build prototypes from modelling clay and spaghetti during a design workshop",
+      position: "62% 50%",
       layout: "panel",
     },
     aside: { statement: entrepreneurial, tone: "gold" },
@@ -44,8 +44,8 @@ const cards: StackCard[] = [
     tone: "paper",
     photo: {
       asset: images.eplus_value,
-      alt: "A participant presents an idea to a seated cohort during an entrepreneurship bootcamp",
-      position: "60% center",
+      alt: "Dr Shahid Qureshi presents the results of a KFC leadership programme to a room of managers",
+      position: "38% 45%",
       layout: "panel",
     },
     aside: { statement: philosophy.intro.pullSentence, tone: "navy" },
@@ -56,8 +56,8 @@ const cards: StackCard[] = [
     tone: "teal",
     photo: {
       asset: images.eplus_institutions,
-      alt: "The EhsanX team with a Pakistani university delegation outside Yeditepe University in Istanbul",
-      position: "100% 65%",
+      alt: "KFC restaurant managers work through an improvement plan together on coloured flip-chart sheets",
+      position: "50% 45%",
       layout: "bleed",
     },
     aside: { statement: belief("People Before Processes"), tone: "gold" },

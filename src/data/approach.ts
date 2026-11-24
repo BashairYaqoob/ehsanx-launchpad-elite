@@ -43,7 +43,7 @@ const steps: ApproachStep[] = [
     },
     image: {
       ...images.approach_listen,
-      alt: "Dr Shahid Qureshi stands at a table of participants, listening as they talk through their work during an EhsanX workshop.",
+      alt: "Dr Shahid Qureshi listens as participants seated on the floor talk through an exercise in a room lined with national flags.",
     },
   },
   {
@@ -75,7 +75,7 @@ const steps: ApproachStep[] = [
     },
     image: {
       ...images.approach_diagnose,
-      alt: "Participants seated around a table write on large sheets of paper during an EhsanX workshop.",
+      alt: "Dr Shahid Qureshi works with participants as they map ideas on large sheets of paper in a library.",
     },
   },
   {
@@ -107,7 +107,7 @@ const steps: ApproachStep[] = [
     },
     image: {
       ...images.approach_design,
-      alt: "Dr Shahid Qureshi works with a table group as participants note ideas on paper, with a presentation screen behind them.",
+      alt: "A facilitator presents to managers seated in a lecture room during an EhsanX session.",
     },
   },
   {
@@ -131,7 +131,7 @@ const steps: ApproachStep[] = [
     },
     image: {
       ...images.approach_implement,
-      alt: "Participants work together with markers and sticky notes on flip-chart paper during an EhsanX workshop.",
+      alt: "Participants build prototypes from modelling clay and spaghetti around a table during a design workshop.",
     },
   },
   {

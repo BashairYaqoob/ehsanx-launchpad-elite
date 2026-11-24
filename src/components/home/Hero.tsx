@@ -50,7 +50,7 @@ const SLIDES = [
     srcSet: images.home_slide_4.srcSet,
     pos: "60% 40%",
     objectPosition: "50% 45%",
-    alt: "A large group of programme participants standing together for a photo in a modern venue",
+    alt: "A large group of programme participants with Dr Shahid Qureshi standing together for a photo in a modern venue",
   },
 ] as const;
 

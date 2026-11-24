@@ -6,7 +6,7 @@ import home_slide_3_1280 from "@/assets/home-slide-3-1280.webp";
 import home_slide_3_1600 from "@/assets/home-slide-3-1600.webp";
 import home_slide_4_640 from "@/assets/home-slide-4-640.webp";
 import home_slide_4_1280 from "@/assets/home-slide-4-1280.webp";
-import home_slide_4_1920 from "@/assets/home-slide-4-1920.webp";
+import home_slide_4_1600 from "@/assets/home-slide-4-1600.webp";
 import philosophy_hero_640 from "@/assets/philosophy-hero-640.webp";
 import philosophy_hero_1280 from "@/assets/philosophy-hero-1280.webp";
 import philosophy_hero_1376 from "@/assets/philosophy-hero-1376.webp";
@@ -43,20 +43,20 @@ import eplus_flourishing_1065 from "@/assets/eplus-flourishing-1065.webp";
 export const images = {
 home_slide_2: {src: home_slide_2_1920, width:1920, height:1087, srcSet: `${home_slide_2_640} 640w, ${home_slide_2_1280} 1280w, ${home_slide_2_1920} 1920w`},
 home_slide_3: {src: home_slide_3_1600, width:1600, height:900, srcSet: `${home_slide_3_640} 640w, ${home_slide_3_1280} 1280w, ${home_slide_3_1600} 1600w`},
-home_slide_4: {src: home_slide_4_1920, width:1920, height:1089, srcSet: `${home_slide_4_640} 640w, ${home_slide_4_1280} 1280w, ${home_slide_4_1920} 1920w`},
+home_slide_4: {src: home_slide_4_1600, width:1600, height:907, srcSet: `${home_slide_4_640} 640w, ${home_slide_4_1280} 1280w, ${home_slide_4_1600} 1600w`},
 philosophy_hero: {src: philosophy_hero_1376, width:1376, height:768, srcSet: `${philosophy_hero_640} 640w, ${philosophy_hero_1280} 1280w, ${philosophy_hero_1376} 1376w`},
 approach_hero: {src: approach_hero_1376, width:1376, height:768, srcSet: `${approach_hero_640} 640w, ${approach_hero_1280} 1280w, ${approach_hero_1376} 1376w`},
-approach_listen: {src: approach_listen_1200, width:1200, height:798, srcSet: `${approach_listen_640} 640w, ${approach_listen_1200} 1200w`},
-approach_diagnose: {src: approach_diagnose_1200, width:1200, height:798, srcSet: `${approach_diagnose_640} 640w, ${approach_diagnose_1200} 1200w`},
-approach_design: {src: approach_design_1200, width:1200, height:798, srcSet: `${approach_design_640} 640w, ${approach_design_1200} 1200w`},
-approach_implement: {src: approach_implement_1200, width:1200, height:798, srcSet: `${approach_implement_640} 640w, ${approach_implement_1200} 1200w`},
+approach_listen: {src: approach_listen_1200, width:1200, height:900, srcSet: `${approach_listen_640} 640w, ${approach_listen_1200} 1200w`},
+approach_diagnose: {src: approach_diagnose_1200, width:1200, height:900, srcSet: `${approach_diagnose_640} 640w, ${approach_diagnose_1200} 1200w`},
+approach_design: {src: approach_design_1200, width:1200, height:900, srcSet: `${approach_design_640} 640w, ${approach_design_1200} 1200w`},
+approach_implement: {src: approach_implement_1200, width:1200, height:900, srcSet: `${approach_implement_640} 640w, ${approach_implement_1200} 1200w`},
 approach_reflect: {src: approach_reflect_1200, width:1200, height:798, srcSet: `${approach_reflect_640} 640w, ${approach_reflect_1200} 1200w`},
 solutions_dialogue: {src: solutions_dialogue_897, width:897, height:602, srcSet: `${solutions_dialogue_640} 640w, ${solutions_dialogue_897} 897w`},
 solutions_partnership: {src: solutions_partnership_1280, width:1280, height:1280, srcSet: `${solutions_partnership_640} 640w, ${solutions_partnership_1280} 1280w`},
-eplus_leadership: {src: eplus_leadership_1280, width:1280, height:891, srcSet: `${eplus_leadership_640} 640w, ${eplus_leadership_1280} 1280w`},
-eplus_innovation: {src: eplus_innovation_1280, width:1280, height:774, srcSet: `${eplus_innovation_640} 640w, ${eplus_innovation_1280} 1280w`},
-eplus_institutions: {src: eplus_institutions_1280, width:1280, height:670, srcSet: `${eplus_institutions_640} 640w, ${eplus_institutions_1280} 1280w`},
-eplus_value: {src: eplus_value_1280, width:1280, height:853, srcSet: `${eplus_value_640} 640w, ${eplus_value_1280} 1280w`},
+eplus_leadership: {src: eplus_leadership_1280, width:1280, height:960, srcSet: `${eplus_leadership_640} 640w, ${eplus_leadership_1280} 1280w`},
+eplus_innovation: {src: eplus_innovation_1280, width:1280, height:960, srcSet: `${eplus_innovation_640} 640w, ${eplus_innovation_1280} 1280w`},
+eplus_institutions: {src: eplus_institutions_1280, width:1280, height:960, srcSet: `${eplus_institutions_640} 640w, ${eplus_institutions_1280} 1280w`},
+eplus_value: {src: eplus_value_1280, width:1280, height:960, srcSet: `${eplus_value_640} 640w, ${eplus_value_1280} 1280w`},
 eplus_flourishing: {src: eplus_flourishing_1065, width:1065, height:710, srcSet: `${eplus_flourishing_640} 640w, ${eplus_flourishing_1065} 1065w`},
 hero_blocks: {src: hero_blocks_1920, width:1920, height:1088, srcSet: `${hero_blocks_640} 640w, ${hero_blocks_1280} 1280w, ${hero_blocks_1920} 1920w`}
 };
