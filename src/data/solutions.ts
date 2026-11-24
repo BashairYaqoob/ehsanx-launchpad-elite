@@ -38,7 +38,7 @@ export const solution01 = {
     "Each Executive Leadership Dialogue is designed specifically around the organization's context, challenges, and strategic priorities.",
     "EhsanX works closely with owners and senior decision-makers to design and facilitate the intervention, which may take the form of a focused leadership dialogue, executive workshop, strategy session, or leadership retreat.",
   ],
-  alt: "Senior leaders and executives standing together for a group photograph outside a glass-fronted building entrance",
+  alt: "A facilitator presents to managers seated in a lecture room during an EhsanX session",
 };
 
 export const solution02 = {
