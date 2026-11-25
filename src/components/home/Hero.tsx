@@ -32,7 +32,7 @@ const SLIDES = [
     srcSet: images.home_slide_2.srcSet,
     pos: "50% 40%",
     objectPosition: "40% 50%",
-    alt: "A speaker addressing participants seated in a large auditorium in front of a row of national flags",
+    alt: "A speaker addressing participants in a NUST auditorium, the EhsanX logo on the screen behind him",
   },
   {
     title: "From Individual Growth to Organizational Impact.",
